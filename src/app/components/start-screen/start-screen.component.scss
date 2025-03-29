@@ -1,0 +1,21 @@
+.content .left {
+    width: 172px;
+    height: 100%;
+    display: block;
+}
+
+.content .right {
+    width: calc(100% - 172px);
+    overflow: clip;
+}
+
+.page.start-page > div {
+    width: max-content;
+    height: max-content;
+    margin: auto;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    position: absolute;
+    right: 0;
+}

@@ -1,0 +1,23 @@
+<div class="top vertbtn-container" *ngIf="isTypeVertical">
+   <div class="{{ btn.id === activeId.replace(screenId.toLowerCase(),'') ? 'app-btn active' : 'app-btn ' + activeId}}" *ngFor="let btn of buttons">
+      <app-button [btnSetting]="btn" [screenId]="screenId"></app-button>
+   </div>
+</div>
+
+<!-- to be made into a component -->
+<div class="bottom cirbtn-container" *ngIf="!isTypeVertical">
+   <div class="arc-container">
+         <div 
+            class="{{ btn.main ? 'app-btn hide' : (btn.id === activeId.replace(screenId.toLowerCase(),''))  ? 'app-btn active' : 'app-btn ' + activeId}}" 
+            *ngFor="let btn of arcButtons; let i = index"
+            [ngStyle]="getButtonPosition(i, arcButtons.length)">
+               <app-button *ngIf="!btn.main" [btnSetting]="btn" [screenId]="screenId"></app-button>
+         </div>
+   </div>
+   <div class="base-container">
+      <div class="{{ btn.id === activeId.replace(screenId.toLowerCase(),'') ? 'app-btn active' : 'app-btn ' + activeId}}" *ngFor="let btn of baseButtons">
+         <app-button *ngIf="assignMain(btn) === btn.id" [btnSetting]="btn" [screenId]="screenId"></app-button>
+      </div>
+   </div>
+</div>
+

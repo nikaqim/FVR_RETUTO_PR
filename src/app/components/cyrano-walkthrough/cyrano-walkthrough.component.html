@@ -1,0 +1,33 @@
+<div #tutorWrapper class="tutorial-container">
+    <ng-container *ngFor="let step of steps">
+        <!-- If has both prev and next step -->
+        <ng-walkthrough
+            [id]="step.id"
+            [focusElementSelector]="step.focusElementId"
+            [contentTemplate]="step1Template">
+        </ng-walkthrough>
+
+        <ng-template #step1Template>
+            <!-- <lib-icon-btn class="closebtn" (click)="close()">
+                <img src="/assets/imgs/closebtn.png" />
+             </lib-icon-btn> -->
+            <p 
+                [id]="'descr-' + step.id" 
+                *ngFor="let descr of step.descr" 
+                [innerHTML]="descr.text"
+                [ngStyle]="descr.style ? descr.style : {}">
+            </p>
+        </ng-template>
+
+    </ng-container>
+</div>
+
+<div class="swiper-nav" (click)="navigateWalkThru()">
+    <div class="nav-container">
+        <ul>
+            <li [ngClass]="{ 'active': panel === activeScreenId }" #navigations *ngFor="let panel of panels" [id]="panel">
+                {{ panel }}
+            </li>
+        </ul>
+    </div>
+</div>

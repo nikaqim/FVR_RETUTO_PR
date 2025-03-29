@@ -1,0 +1,93 @@
+
+
+.vertbtn-container {
+    display: flex;
+    flex-direction: column;
+    // gap: 4px;
+    gap: 16px;
+    align-items: flex-end;
+
+}
+
+.cirbtn-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    right: 100px;
+    
+    .arc-container {
+        z-index: 10;
+        display: flex;
+        gap: 4px;
+        flex-direction: column;
+    }
+
+    .arc-container {
+        position: relative;
+        width: 50px;
+        height: 250px;
+        left: 200%;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+
+        .app-btn.hide {
+            display:  none !important;
+        }
+        
+        .app-btn {
+            position: absolute;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: all 0.3s ease-in-out;
+        }
+        // > div:nth-child(1) {
+        //     transform: translateX(100px) translateY(0);
+
+        // }
+
+        // > div:nth-child(2) {
+        //     transform: translateX(52px) translateY(-4px);
+        //     // transform: translateX(40px) translateY(-10px);
+        // }
+
+        // > div:nth-child(3) {
+        //     transform: translateX(12px) translateY(0px);
+        // }
+
+        // > div:nth-child(4) {
+        //     transform: translateX(52px) translateY(-4px);
+        //     // transform: translateX(40px) translateY(-10px);
+        // }
+
+        // > div:nth-child(5) {
+        //     transform: translateX(100px) translateY(-10px);
+        // }
+    }
+
+    .base-container { 
+        position: absolute;
+        left: 80px;
+        padding-right: 0px;
+        margin-top: -32px;
+        width: 70px;
+        height: 70px;
+        border-radius: 50%;
+        --lib-icon-button-width: 70px;
+        --lib-icon-button-height: 70px;
+        --lib-bubble-btn-diameter: 70px;
+    }
+
+
+        
+
+    .main {
+        width: 120px;
+    }
+
+
+}

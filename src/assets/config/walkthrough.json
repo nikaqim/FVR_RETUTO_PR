@@ -1,0 +1,79 @@
+{
+    "Intro": [
+        {
+            "id":"walk1",
+            "nextStepId": "walk2",
+            "focusElementId": "#forfeit",
+            "focusBackdrop": false,
+            "contentAlign": "left",
+            "contentVertAlign": "top",
+            "showArrow": true,
+            "closeAnywhere": false,
+            "showFinishBtn": true,
+            "descr": [{
+                "text": "Lorem ipsum dolor sit amet, consectetur adipisizzle elit, sed do eiusmod tempor incididunt ut labore et dolore ##magna aliqua##. Ut enim ad minim veniam, quis nostrud exerc",
+                "style":{}
+            }, {
+                "text":"Note: All your data from this tool will be deleted after it is closed and will not be shared with anyone else for any reason.",
+                "style":{
+                    "fontSize": "10px",
+                    "lineHeight": "160%",
+                    "textShadow": "0px 0px 5.74px rgba(255, 255, 255, 1)"
+                }
+            }]
+        }
+    ],
+    "Timer": [
+    {
+        "id":"walk2",
+        "prevStepId":"walk1",
+        "nextStepId": "walk3",
+        "focusElementId": "#help",
+        "focusBackdrop": true,
+        "contentAlign": "left",
+        "contentVertAlign": "below",
+        "showArrow": true,
+        "closeAnywhere": false,
+        "showFinishBtn": true,
+        "descr": [{
+            "text": "Lorem ipsum dolor sit amet, consectetur adipisizzle elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercit"
+        }]
+    }], 
+    "Alert": [
+    {
+        "id":"walk3",
+        "prevStepId":"walk2",
+        "nextStepId": "walk4",
+        "focusElementId": "#selfie",
+        "focusBackdrop": true,
+        "contentAlign": "left",
+        "contentVertAlign": "above",
+        "showArrow": true,
+        "closeAnywhere": false,
+        "showFinishBtn": true,
+        "descr": [{
+            "text":"Lorem ipsum dolor sit amet, consectetur adipisizzle elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercit"
+        }]
+    }],
+    "Selfie": [
+    {
+        "id":"walk4",
+        "prevStepId":"walk3",
+        "focusElementId": "#face",
+        "focusBackdrop": true,
+        "contentAlign": "center",
+        "contentVertAlign": "above",
+        "showArrow": true,
+        "closeAnywhere": false,
+        "showFinishBtn": true,
+        "descr": [{
+            "text": "Lorem ipsum dolor sit amet, consectetur adipisizzle elit, sed do"
+        }]
+    }],
+    "Video": [],
+    "Outfit": [],
+    "Chat": [],
+    "Meetup Started": [],
+    "Prep": [],
+    "Tutorial": []
+}

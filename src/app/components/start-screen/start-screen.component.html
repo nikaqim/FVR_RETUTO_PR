@@ -1,0 +1,42 @@
+<div class="page start-page">
+    <div class="content">
+        <div class="row">
+            <div class="left">
+            </div>
+            <div class="right">
+                <div class="btn-wrapper">
+                    <a class="btn white" [routerLink]="['/main']">Start Tutorial</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="left">
+            </div>
+            <div class="right">
+                <div class="btn-wrapper">
+                    <button class="btn white" type="button">{{ "title" | translate }}</button>
+                </div>
+            </div>
+        </div>
+
+        <div>
+            <div class="row" *ngFor="let step of steps | keyvalue">
+                <div class="left">
+                    {{ step.key }}
+                </div>
+                <div class="right">
+                    <input 
+                        #inputDescr 
+                        type="text" 
+                        [name]="step.key" 
+                        [(ngModel)]="step.value" 
+                        (input)="onInputChange(step.key, $event)"/>
+                </div>
+            </div>
+        </div>
+        
+        
+    </div>
+
+</div>

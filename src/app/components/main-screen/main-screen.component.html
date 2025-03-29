@@ -1,0 +1,56 @@
+<div class="page main-page">
+    <div class="content">
+        <div class="langSelect-Container">
+            <app-language-selector></app-language-selector>
+        </div>
+
+        <div #allScreenView class="desktop screen-panel">
+            <div class="screen-container {{isActiveScreen(panel) ? 'onwalk': ''}}" *ngFor="let panel of panels" [id]="panel">
+                <lib-icon-btn class="closebtn" (click)="closeWalkthrough()">
+                    <img src="/assets/imgs/closebtn.png" />
+                 </lib-icon-btn>
+
+                <div class="btn-container {{walkthroughActive !== '' ? 'onwalk': ''}} {{ highlightAll(isActiveScreen(panel)) ? 'highlightall' : ''}}">
+                    <!-- to be made into a component -->
+                     <div *ngFor="let btngrp of buttonGroup">
+                        <app-btn-group 
+                            [id]="panel + btngrp.id" 
+                            [screenId]="panel"
+                            [activeId]="walkthroughActive"
+                            [type]="btngrp.layout" 
+                            [buttons]="btngrp.buttons"
+                            (ButtonGroupReady)="setBtnGroupReady($event)">
+                        </app-btn-group>
+                     </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="mobile screen-panel">
+            <div class="screen-container {{walkthroughActive !== '' ? 'onwalk': ''}}" [id]="'mob'">
+                <lib-icon-btn class="closebtn" (click)="closeWalkthrough()">
+                    <img src="/assets/imgs/closebtn.png" />
+                 </lib-icon-btn>
+                 
+                <div class="btn-container {{walkthroughActive !== '' ? 'onwalk': ''}}" >
+                    <!-- to be made into a component -->
+                     <div *ngFor="let btngrp of buttonGroup">
+                        <app-btn-group 
+                            [id]="'mob' + btngrp.id" 
+                            [screenId]="'mob'"
+                            [activeId]="walkthroughActive"
+                            [type]="btngrp.layout" 
+                            [buttons]="btngrp.buttons"
+                            (ButtonGroupReady)="setBtnGroupReady($event)">
+                        </app-btn-group>
+                     </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- <app-tuto-walkthrough></app-tuto-walkthrough> -->
+        <app-cyrano-walkthrough [data]="tutoData" (isOpen)="setActiveBtn($event)"></app-cyrano-walkthrough>
+        
+    </div>
+    
+</div>

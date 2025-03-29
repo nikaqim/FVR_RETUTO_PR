@@ -1,0 +1,10 @@
+<div class="language-selector">
+    <label *ngFor="let lang of i18nService.availableLanguages">
+        <input type="radio"
+               name="language"
+               [value]="lang.code"
+               [(ngModel)]="selectedLanguage"
+               (change)="onLanguageChange(lang.code)">
+        {{ lang.label }}
+    </label>
+</div>

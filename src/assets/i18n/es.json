@@ -1,0 +1,22 @@
+{
+    "title": "test espanyol",
+    "app": {
+        "title": "Componente de tutorial",
+        "button": {
+            "Forfeit":"Rendirse",
+            "Help":"Ayudavarci",
+            "Prep":"Preparar",
+            "Location":"Ubicación",
+            "Chat":"Chat",
+            "More":"Más",
+            "Begin":"Comenzar",
+            "Outfit":"Conjunto",
+            "Video":"Vídeo",
+            "Face":"Rostro",
+            "Selfie & Video":"Selfie y Vídeo"
+        }
+    },
+    "general": {
+        "hello": "Hola Mundo"
+    }
+}

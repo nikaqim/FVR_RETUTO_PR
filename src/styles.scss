@@ -1,0 +1,204 @@
+@use '@angular/material' as mat;
+@import 'assets/styles/typography.scss';
+
+body {
+    margin: 0;
+    color: white;
+    background: #161419;
+}
+
+.lib-button-component button, 
+.lib-button-component button .btn-text {
+    border-radius: 50% !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    flex-direction: column !important;
+    padding: 0px;
+}
+
+lib-bubble-btn button .mat-icon {
+    font-size: 20px;
+    // margin-right: 4px;
+    margin-top: 0.1em;
+
+}
+
+
+:root {
+    --lib-icon-button-width: 2vw;
+    --lib-icon-button-height: 4vh;
+}
+
+.btn-container.onwalk:not(.highlightall) .app-btn:not(.active){
+    filter: brightness(0.3);
+}
+
+.btn-container.onwalk .app-btn.active {
+    // box-shadow: 7px -7px 8px -3px #fff;
+    box-shadow: 0px 0px 48px -10px #fff;
+    border-radius: 50%;
+}
+
+.wkt-container .wkt-zone.backdrop {
+    box-shadow: none !important;
+}
+
+b {
+    color: #FE3C72;
+    font-weight: bold;
+}
+
+div, p, span, input, textarea {
+    box-sizing: border-box;
+    font-family: 'Gilroy Regular';
+}
+
+body::-webkit-scrollbar,
+.page::-webkit-scrollbar {
+    display: none;
+}
+
+.page {
+    min-width: 100%;
+    width: fit-content;
+    height: 100vh;
+    padding: 64px;
+}
+
+.page > div {
+    width: 100%;
+    // max-width: 400px;
+    // margin: 0 auto;
+    
+    height: 100%;
+    // padding: 32px 32px;
+    // border-radius: 5%;
+    // justify-content: center;
+    // flex-direction: column;
+}
+
+.content .row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    margin-bottom: 16px;
+}
+
+.btn-wrapper {
+    width: fit-content;
+    height: fit-content;
+}
+
+.btn.white, input {
+    background-color: white;
+    color: black;
+    padding: 8px 32px;
+    font-family: 'Gilroy-Regular';
+}
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+
+// walkthrough component overwrite
+walkthrough-container {
+    overflow: hidden;
+    z-index: -1 !important;
+}
+
+.wkt-zone.backdrop {
+    box-shadow:  none !important;
+}
+
+.wkt-content p:first-child {
+    font-size: 16px;
+    line-height: 160%;
+    text-shadow: 0px 0px 5.74px rgba(255, 255, 255, 1);
+    margin-bottom: 32px;
+    padding-top: 32px;
+}
+
+.wkt-content-block {
+    // transition: left 0.5s ease-in-out;
+}
+@media only screen and (min-width:551px){
+    .wkt-content-block {
+        width: 20%;
+        max-width: 200px;
+        // margin-left: 3em !important;
+        // margin-left: 5% !important;
+        // top: 80px !important;
+        min-width: unset !important;
+        // padding-top: 44px !important;
+        // padding-bottom: 32px !important;
+        // margin-left: 8em !important;
+    }
+
+    main {
+        // z-index: 10;
+        // position: absolute;
+        // width: 100%;
+        // height: 100vh;
+    }
+}
+
+.wkt-content {
+    text-align: left;
+}
+
+.wkt-navigate .wkt-finish-link,
+.wkt-navigate .wkt-next-link,
+.wkt-navigate .wkt-previous-link {
+    display: none;
+}
+
+.lib-button-container {
+    --lib-button-container-background: transparent;
+}
+
+.closebtn {
+    position: absolute;
+    left: 8px;
+    top: -48px;
+}
+
+.wlk-paragraph {
+    padding-top: 28px;
+    padding-bottom: 20px;
+}
+
+.wkt-content-block.darken {
+    background-color: transparent !important;
+}
+
+@media only screen and (max-width:550px){
+    .page {
+        padding: 12px !important;
+    }
+
+    .screen-panel {
+        width: 100% !important;
+    }
+
+    .screen-container {
+        width: 100% !important;
+        height: 100% !important;
+    }
+
+    walkthrough-container {
+        height: 100vh !important;
+        z-index: -1 !important;
+    }
+
+    .wkt-content-block {
+        max-width: 50%;
+        // max-width: 200px;
+        min-width: unset !important;
+        // top: 80px !important;
+        // min-width: unset !important;
+        // padding-top: 44px !important;
+        // padding-bottom: 32px !important;
+        // margin-left: 8em !important;
+    }
+    
+}

@@ -1,0 +1,14 @@
+<div [ngClass]="'custom-btn ' + btnSetting.size" (click)="buttonClicked(btnSetting.action)">
+    <!-- <lib-icon-btn [id]="screenId !== 'mob' ? (screenId + btnSetting.id).toLowerCase() : btnSetting.id">
+        <img [src]="btnSetting.icon" />
+     </lib-icon-btn> -->
+     <lib-bubble-btn 
+        [id]="screenId !== 'mob' ? (screenId + btnSetting.id).toLowerCase() : btnSetting.id" 
+        variant='primary'
+        [title]="btnSetting.title ? btnSetting.title : ''">
+            <img [src]="btnSetting.icon" alt="icon" />
+            <!-- <mat-icon>{{btnSetting.icon}}</mat-icon> -->
+     </lib-bubble-btn>
+     <span>{{ getTranslatedLabel(btnSetting.label) }}</span>
+</div>
+

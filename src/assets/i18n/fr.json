@@ -1,0 +1,22 @@
+{
+    "title": "test perancis",
+    "app": {
+        "title": "Composant de tutoriel",
+        "button": {
+            "Forfeit":"Abandonner",
+            "Help":"Aide",
+            "Prep":"Préparation",
+            "Location":"Emplacement",
+            "Chat":"Discussion",
+            "More":"Plus",
+            "Begin":"Commencer",
+            "Outfit":"Tenue",
+            "Video":"Vidéo",
+            "Face":"Visage",
+            "Selfie & Video":"Selfie & Vidéo"
+        }
+    },
+    "general": {
+        "hello": "Bonjour le monde"
+    }
+}

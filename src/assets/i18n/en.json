@@ -1,0 +1,22 @@
+{
+    "title": "test",
+    "app": {
+        "title": "TutorComponent",
+        "button": {
+            "Forfeit":"Forfeit",
+            "Help":"Help",
+            "Prep":"Prep",
+            "Location":"Location",
+            "Chat":"Chat",
+            "More":"More",
+            "Begin":"Begin",
+            "Outfit":"Outfit",
+            "Video":"Video",
+            "Face":"Face",
+            "Selfie & Video":"Selfie & Video"
+        }
+    },
+    "general": {
+        "hello": "hello world"
+    }
+}

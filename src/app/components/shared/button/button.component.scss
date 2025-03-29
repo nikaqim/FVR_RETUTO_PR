@@ -1,0 +1,101 @@
+.custom-btn {
+    // display: flex;
+    // width: 60px;
+    // gap: 2px;
+    // flex-wrap: wrap;
+    // flex-direction: column;
+    // text-align: center;
+    // align-items: self-end;
+
+    display: flex;
+    width: 38px;
+    gap: 4px;
+    flex-wrap: nowrap;
+    flex-direction: column;
+    overflow: visible;
+    text-align: center;
+    align-items: center;
+    height: 38px;
+    border-radius: 19px;
+}
+
+.custom-btn > span {
+    display: block;
+    font-size: 9px;
+    line-height: 12px;
+    width: 100%;
+    text-align: center
+}
+
+.custom-btn.xl > span {
+    width: 80% !important;
+}
+
+.custom-btn.xs {
+    width: 16px;
+    height: 15px;
+    --lib-icon-button-width: 16px;
+    --lib-icon-button-container-width: 16px;
+    --lib-bubble-btn-diameter: 16px;
+
+    --lib-icon-button-height: 15px;
+    --lib-icon-button-container-height: 15px;
+    
+}
+
+.custom-btn.sm {
+    width: 32px;
+    height: 32px;
+    --lib-icon-button-width: 32px;
+    --lib-icon-button-container-width: 32px;
+    --lib-bubble-btn-diameter: 32px;
+
+    --lib-icon-button-height: 32px;
+    --lib-icon-button-container-height: 32px;
+}
+
+.custom-btn.md {
+    width: 36px;
+    height: 36px;
+    --lib-icon-button-width: 36px;
+    --lib-icon-button-container-width:36px;
+    --lib-bubble-btn-diameter: 36px;
+
+    --lib-icon-button-height: 36px;
+    --lib-icon-button-container-height:36px;
+}
+
+.custom-btn.lg {
+    width: 56px;
+    height: 56px;
+    --lib-icon-button-width: 56px;
+    --lib-icon-button-container-width:56px;
+    --lib-bubble-btn-diameter: 56px;
+
+    --lib-icon-button-height: 55px;
+    --lib-icon-button-container-height:55px;
+}
+
+.custom-btn.xl {
+    width: 70px;
+    height: 70px;
+    --lib-icon-button-width: 70px;
+    --lib-icon-button-container-width:70px;
+    --lib-bubble-btn-diameter: 70px;
+
+    --lib-icon-button-height: 70px;
+    --lib-icon-button-container-height:70px;    
+}
+
+.lib-button-component button {
+    width: 100% ;
+}
+.lib-button-component button span.text,
+.lib-button-component button .btn-text {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    height: 100% !important;
+    width: 100% !important;
+}
