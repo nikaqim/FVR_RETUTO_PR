@@ -11,8 +11,10 @@ import { CyranoWalkthroughModule } from './components/cyrano-walkthrough/cyrano-
 import { StartScreenModule } from './components/start-screen/start-screen.module';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 
+import { SocketIoConfigEnum } from './enums/socketIo';
+
 const config:SocketIoConfig = {
-  url: 'http://localhost:3000', options: {}
+  url: SocketIoConfigEnum.host, options: {}
 }
 
 @NgModule({
