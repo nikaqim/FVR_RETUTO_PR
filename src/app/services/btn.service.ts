@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { ButtonGroup } from '../components/shared/btn-group/btn-group.model';
-import { BtnGroupConfig } from '../components/shared/btn-group/btn-group-config.model';
+import { IBtnGroupConfig } from '../components/shared/btn-group/btn-group-config.model';
 
 @Injectable({
     providedIn: 'root',
@@ -10,7 +10,7 @@ import { BtnGroupConfig } from '../components/shared/btn-group/btn-group-config.
   export class BtnGroupService {
     buttonIds:string[] = [];
 
-    private btnConfigSubject = new BehaviorSubject<BtnGroupConfig>({
+    private btnConfigSubject = new BehaviorSubject<IBtnGroupConfig>({
       btngroup: []
     });
 
@@ -20,12 +20,12 @@ import { BtnGroupConfig } from '../components/shared/btn-group/btn-group-config.
       this.loadButtonConfig()
     }
   
-    public getButtonConfig(): Observable<BtnGroupConfig> {
-        return this.httpClient.get<BtnGroupConfig>('/assets/config/btn-group.json');
+    public getButtonConfig(): Observable<IBtnGroupConfig> {
+        return this.httpClient.get<IBtnGroupConfig>('/assets/config/btn-group.json');
     }
 
     private loadButtonConfig(): void{
-      this.getButtonConfig().subscribe((data:BtnGroupConfig) => {
+      this.getButtonConfig().subscribe((data:IBtnGroupConfig) => {
         this.btnConfigSubject.next(data);
         if(data["btngroup"]){
         }
@@ -33,7 +33,7 @@ import { BtnGroupConfig } from '../components/shared/btn-group/btn-group-config.
       })
     }
 
-    private updateConfig(newConfig:BtnGroupConfig): void{
+    private updateConfig(newConfig:IBtnGroupConfig): void{
       this.btnConfigSubject.next(newConfig);
     }
 

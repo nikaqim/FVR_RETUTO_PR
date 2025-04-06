@@ -14,11 +14,8 @@ import {
 import { Subscription } from 'rxjs';
 
 import { BtnGroupService } from '../../../services/btn.service';
-import { mainAssigned, ButtonGroup } from './btn-group.model';
-import { BtnGroupConfig } from './btn-group-config.model';
 import { Button } from '../button/button.model';
 import { WalkthroughConfigService } from '../../../services/tuto.service';
-import { retry } from 'rxjs/operators';
 
 @Component({
   selector: 'app-btn-group',

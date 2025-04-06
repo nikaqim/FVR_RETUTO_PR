@@ -9,7 +9,7 @@ import { Subscription } from 'rxjs';
 
 import { ButtonGroup } from '../shared/btn-group/btn-group.model';
 import { BtnGroupService } from '../../services/btn.service';
-import { BtnGroupConfig } from '../shared/btn-group/btn-group-config.model';
+import { IBtnGroupConfig } from '../shared/btn-group/btn-group-config.model';
 
 import { WsService } from '../../services/ws.service';
 
@@ -37,7 +37,7 @@ export class MainScreenComponent implements OnInit, OnDestroy {
     private btnGroupService: BtnGroupService,
     private walkService: WalkthroughConfigService,
   ){
-    this.btnGroupService.getButtonConfig().subscribe((data:BtnGroupConfig) => {
+    this.btnGroupService.getButtonConfig().subscribe((data:IBtnGroupConfig) => {
       this.buttonGroup = data['btngroup'];
     });
   }
@@ -49,7 +49,7 @@ export class MainScreenComponent implements OnInit, OnDestroy {
   private initSubs(): void{
     // for testing realtime update using websocket
     this.subs.add(
-      this.wsService.listen('btnJsonUpdate').subscribe((msg:BtnGroupConfig) => {
+      this.wsService.listen('btnJsonUpdate').subscribe((msg:IBtnGroupConfig) => {
         
         this.buttonGroup = typeof msg === 'string' ? JSON.parse(msg)['btngroup'] : msg['btngroup'];
       })

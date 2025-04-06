@@ -1,5 +1,5 @@
 import { ButtonGroup } from "./btn-group.model";
 
-export interface BtnGroupConfig {
+export interface IBtnGroupConfig {
     btngroup: ButtonGroup[];
 }
