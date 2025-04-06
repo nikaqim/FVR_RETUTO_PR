@@ -1,4 +1,5 @@
 import { 
+  ChangeDetectionStrategy,
   Component, 
   EventEmitter, 
   Input,
@@ -22,7 +23,8 @@ import { retry } from 'rxjs/operators';
 @Component({
   selector: 'app-btn-group',
   templateUrl: './btn-group.component.html',
-  styleUrl: './btn-group.component.scss'
+  styleUrl: './btn-group.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 
 export class BtnGroupComponent implements OnChanges, AfterViewInit, OnInit, OnDestroy {
