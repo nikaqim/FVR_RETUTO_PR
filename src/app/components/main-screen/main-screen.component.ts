@@ -67,11 +67,11 @@ export class MainScreenComponent implements OnInit, OnDestroy {
     );
   }
 
-  setBtnGroupReady(data: string): void{
+  public setBtnGroupReady(data: string): void{
     this.btnGroupService.notifyButtonGrpReady(data);
   }
 
-  setActiveBtn(id: string): void{
+  public setActiveBtn(id: string): void{
     if(id !== ''){
       this.walkthroughActive = id;
       this.btnGroupService.notifyButtonGrpReady(id);
@@ -81,7 +81,7 @@ export class MainScreenComponent implements OnInit, OnDestroy {
     
   }
 
-  isActiveScreen(panelId:string): boolean{
+  public isActiveScreen(panelId:string): boolean{
     if(this.walkthroughActive !== ''){
       let screenId = this.walkService.getScreenById(this.walkService.getActiveId());
       return panelId === screenId
@@ -90,7 +90,7 @@ export class MainScreenComponent implements OnInit, OnDestroy {
     return false;
   }
 
-  highlightAll(screenIsActive:boolean): boolean{
+  public highlightAll(screenIsActive:boolean): boolean{
     
     return screenIsActive && !this.walkService.getById(this.walkService.getActiveId())?.focusBackdrop;
   }
@@ -98,7 +98,7 @@ export class MainScreenComponent implements OnInit, OnDestroy {
   /**
    * Close walkthrough
    */
-  closeWalkthrough(): void {
+  public closeWalkthrough(): void {
     const container = document.querySelector('.wkt-finish-link');
     if (container) {
         (container as HTMLElement).click();
