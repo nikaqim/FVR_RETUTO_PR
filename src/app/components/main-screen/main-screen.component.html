@@ -9,8 +9,8 @@
                 <lib-icon-btn class="closebtn" (click)="closeWalkthrough()">
                     <img src="/assets/imgs/closebtn.png" />
                  </lib-icon-btn>
-
-                <div class="btn-container {{walkthroughActive !== '' ? 'onwalk': ''}} {{ highlightAll(isActiveScreen(panel)) ? 'highlightall' : ''}}">
+                 {{walkthroughActive !== '' ? 'onwalk': ''}}
+                <div class="btn-container {{ highlightAll(isActiveScreen(panel)) ? 'highlightall' : ''}}" [class.onwalk]="!!walkthroughActive">
                     <!-- to be made into a component -->
                      <div *ngFor="let btngrp of buttonGroup">
                         <app-btn-group 
@@ -27,12 +27,12 @@
         </div>
 
         <div class="mobile screen-panel">
-            <div class="screen-container {{walkthroughActive !== '' ? 'onwalk': ''}}" [id]="'mob'">
+            <div class="screen-container" [class.onwalk]="!!walkthroughActive" [id]="'mob'">
                 <lib-icon-btn class="closebtn" (click)="closeWalkthrough()">
                     <img src="/assets/imgs/closebtn.png" />
                  </lib-icon-btn>
                  
-                <div class="btn-container {{walkthroughActive !== '' ? 'onwalk': ''}}" >
+                <div class="btn-container" [class.onwalk]="!!walkthroughActive" >
                     <!-- to be made into a component -->
                      <div *ngFor="let btngrp of buttonGroup">
                         <app-btn-group 
