@@ -1,4 +1,5 @@
 import { 
+  ChangeDetectionStrategy,
   Component, 
   Input,
   OnInit,
@@ -16,7 +17,8 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-button',
   templateUrl: './button.component.html',
-  styleUrl: './button.component.scss'
+  styleUrl: './button.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ButtonComponent implements OnInit, OnChanges, AfterViewInit {
   @Input() btnSetting:Button;
