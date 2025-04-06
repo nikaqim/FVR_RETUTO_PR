@@ -50,15 +50,18 @@ export class BtnGroupComponent implements OnChanges, AfterViewInit, OnInit, OnDe
     private btnService: BtnGroupService,
     private walkService: WalkthroughConfigService
   ){
+    this.initSubs();
+ }
 
-    // on walkthru navigate next focus nextElement/btn 
-    this.walkService.onTutoNavigation().subscribe((btnId:string)=>{
-      if(btnId){
-        const parentId = this.btnService.getScreenContainerId(btnId)
-        this.walkService.scrollIntoView(parentId)
-        
-      }
-    });
+ private initSubs(): void {
+  // on walkthru navigate next focus nextElement/btn 
+  this.walkService.onTutoNavigation().subscribe((btnId:string)=>{
+    if(btnId){
+      const parentId = this.btnService.getScreenContainerId(btnId)
+      this.walkService.scrollIntoView(parentId)
+      
+    }
+  });
  }
 
  ngOnInit():void {
@@ -90,7 +93,7 @@ export class BtnGroupComponent implements OnChanges, AfterViewInit, OnInit, OnDe
   this.ButtonGroupReady.emit(this.buttonIds.join())
   }
 
-  getButtonPosition(index: number, total: number): Object {
+  public getButtonPosition(index: number, total: number): Object {
 
     const radius = 50 + (total * 5); // Dynamically increase arc size
     const startAngle = Math.PI / 2; // Start at 180 degrees (semi-circle)
@@ -109,7 +112,7 @@ export class BtnGroupComponent implements OnChanges, AfterViewInit, OnInit, OnDe
     };
   }
 
-  assignMain(btn:Button): string{
+  public assignMain(btn:Button): string{
     if(btn.main && this.mainAssigned === ''){
       this.mainAssigned = btn.id;
     } 
