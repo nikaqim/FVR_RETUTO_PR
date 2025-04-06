@@ -1,7 +1,5 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { StartScreenComponent } from './components/start-screen/start-screen.component';
-import { MainScreenComponent } from './components/main-screen/main-screen.component';
 
 export const routes: Routes = [
   {
@@ -11,11 +9,15 @@ export const routes: Routes = [
   },
   {
       path: 'start',
-      component: StartScreenComponent
+      loadChildren: ()=> import('./components/start-screen/start-screen.module').then(
+        m => m.StartScreenModule
+      )
   },
   {
     path: 'main',
-    component: MainScreenComponent
+    loadChildren: ()=> import('./components/main-screen/main-screen.module').then(
+      m => m.MainScreenModule
+    )
 },
 
 ];
