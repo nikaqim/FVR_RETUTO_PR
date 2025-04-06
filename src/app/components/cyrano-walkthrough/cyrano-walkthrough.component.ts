@@ -64,7 +64,10 @@ export class CyranoWalkthroughComponent implements
     ){}
 
     ngOnInit(): void {
+      this.initSubs();
+    }
 
+    private initSubs(): void {
       // rxjs observable
       this.subs.add(
         this.wsService.listen('walkJsonUpdate').subscribe((msg:CyranoTutorialConfig) => {
