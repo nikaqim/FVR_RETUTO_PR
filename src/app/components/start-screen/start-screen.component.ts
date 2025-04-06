@@ -1,22 +1,19 @@
 import { 
-  AfterViewInit,
   Component,
   ElementRef,
-  OnDestroy,
   OnInit,
   QueryList,
   ViewChildren
 } from '@angular/core';
 
 import { WalkthroughConfigService } from '../../services/tuto.service';
-import { CyranoTutorialConfig } from '../../model/cyrano-walkthrough-cfg.model';
 import { WalkDescrMap } from '../../model/cyrano-walkthrough-screenmap.model';
 @Component({
   selector: 'app-start-screen',
   templateUrl: './start-screen.component.html',
   styleUrl: './start-screen.component.scss'
 })
-export class StartScreenComponent implements OnInit, AfterViewInit, OnDestroy {
+export class StartScreenComponent implements OnInit {
   steps:WalkDescrMap = {};
   @ViewChildren('inputDescr') inputElements!: QueryList<ElementRef>;
 
@@ -37,9 +34,6 @@ export class StartScreenComponent implements OnInit, AfterViewInit, OnDestroy {
       this.steps = JSON.parse(JSON.stringify(tmp));
   }
 
-  ngAfterViewInit(): void {
-  }
-
   public onInputChange(key:string, event:Event): void{
     const inputElement = event.target as HTMLInputElement;
  
@@ -53,7 +47,5 @@ export class StartScreenComponent implements OnInit, AfterViewInit, OnDestroy {
     return this.walkService.reverseMarkUp(descr);
   }
 
-  ngOnDestroy(): void {
-  }
 
 }
