@@ -1,4 +1,5 @@
 import { 
+  ChangeDetectionStrategy,
   Component,
   Input,
   OnDestroy,
@@ -24,7 +25,6 @@ import { CyranoTutorialConfig } from '../../model/cyrano-walkthrough-cfg.model';
 
 import { 
   WalkthroughComponent,
-  WalkthroughEvent,
   WalkthroughNavigate,
 } from 'angular-walkthrough';
 
@@ -34,7 +34,8 @@ import { ArrowService } from 'src/app/services/arrow.service';
 @Component({
   selector: 'app-cyrano-walkthrough',
   templateUrl: './cyrano-walkthrough.component.html',
-  styleUrl: './cyrano-walkthrough.component.scss'
+  styleUrl: './cyrano-walkthrough.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CyranoWalkthroughComponent implements 
   OnInit, OnChanges, AfterViewInit, OnDestroy {
