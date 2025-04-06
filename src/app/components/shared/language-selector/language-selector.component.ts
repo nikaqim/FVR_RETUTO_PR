@@ -1,10 +1,15 @@
-import { Component, OnInit } from '@angular/core';
+import { 
+  ChangeDetectionStrategy,
+  Component, 
+  OnInit 
+} from '@angular/core';
 import { I18nService } from "../../../services/i18n.servise"
 
 @Component({
   selector: 'app-language-selector',
   templateUrl: './language-selector.component.html',
-  styleUrl: './language-selector.component.scss'
+  styleUrl: './language-selector.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class LanguageSelectorComponent implements OnInit {
   selectedLanguage = 'en';
