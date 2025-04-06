@@ -47,7 +47,10 @@ export class MainScreenComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.initSubs();
+  }
 
+  private initSubs(): void{
     // for testing realtime update using websocket
     this.subs.add(
       this.wsService.listen('btnJsonUpdate').subscribe((msg:BtnGroupConfig) => {
@@ -64,11 +67,11 @@ export class MainScreenComponent implements OnInit, OnDestroy {
     );
   }
 
-  setBtnGroupReady(data: string){
+  setBtnGroupReady(data: string): void{
     this.btnGroupService.notifyButtonGrpReady(data);
   }
 
-  setActiveBtn(id: string){
+  setActiveBtn(id: string): void{
     if(id !== ''){
       this.walkthroughActive = id;
       this.btnGroupService.notifyButtonGrpReady(id);
@@ -78,7 +81,7 @@ export class MainScreenComponent implements OnInit, OnDestroy {
     
   }
 
-  isActiveScreen(panelId:string):boolean{
+  isActiveScreen(panelId:string): boolean{
     if(this.walkthroughActive !== ''){
       let screenId = this.walkService.getScreenById(this.walkService.getActiveId());
       return panelId === screenId
@@ -87,7 +90,7 @@ export class MainScreenComponent implements OnInit, OnDestroy {
     return false;
   }
 
-  highlightAll(screenIsActive:boolean){
+  highlightAll(screenIsActive:boolean): boolean{
     
     return screenIsActive && !this.walkService.getById(this.walkService.getActiveId())?.focusBackdrop;
   }
@@ -95,7 +98,7 @@ export class MainScreenComponent implements OnInit, OnDestroy {
   /**
    * Close walkthrough
    */
-  closeWalkthrough(){
+  closeWalkthrough(): void {
     const container = document.querySelector('.wkt-finish-link');
     if (container) {
         (container as HTMLElement).click();
