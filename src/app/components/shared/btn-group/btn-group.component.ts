@@ -90,7 +90,7 @@ export class BtnGroupComponent implements OnChanges, AfterViewInit, OnInit, OnDe
   this.ButtonGroupReady.emit(this.buttonIds.join())
   }
 
-  getButtonPosition(index: number, total: number) {
+  getButtonPosition(index: number, total: number): Object {
 
     const radius = 50 + (total * 5); // Dynamically increase arc size
     const startAngle = Math.PI / 2; // Start at 180 degrees (semi-circle)
@@ -109,7 +109,7 @@ export class BtnGroupComponent implements OnChanges, AfterViewInit, OnInit, OnDe
     };
   }
 
-  assignMain(btn:Button){
+  assignMain(btn:Button): string{
     if(btn.main && this.mainAssigned === ''){
       this.mainAssigned = btn.id;
     } 
