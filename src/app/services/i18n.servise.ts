@@ -14,11 +14,11 @@ export class I18nService {
         this.translateService.setDefaultLang('en');
     }
 
-    changeLanguage(lang: string): void {
+    public changeLanguage(lang: string): void {
         this.translateService.use(lang);
     }
 
-    getCurrentLanguage(): string {
+    public getCurrentLanguage(): string {
         return this.translateService.currentLang || 'en';
     }
 }
