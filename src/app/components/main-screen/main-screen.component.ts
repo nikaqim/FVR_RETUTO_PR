@@ -1,13 +1,7 @@
 import { 
   Component,
-  Input,
-  OnChanges,
   OnDestroy,
   OnInit,
-  ElementRef,
-  AfterViewInit,
-  ViewChild,
-  SimpleChanges
 } from '@angular/core';
 
 import { Subscription } from 'rxjs';
@@ -15,11 +9,9 @@ import { Subscription } from 'rxjs';
 import { ButtonGroup } from '../shared/btn-group/btn-group.model';
 import { BtnGroupService } from '../../services/btn.service';
 import { BtnGroupConfig } from '../shared/btn-group/btn-group-config.model';
-import { TranslateService } from '@ngx-translate/core';
 
 import { WsService } from '../../services/ws.service';
 
-import { CyranoTutorial } from '../../model/cyrano-walkthrough.model';
 import { CyranoTutorialConfig } from '../../model/cyrano-walkthrough-cfg.model';
 import { WalkthroughConfigService } from '../../services/tuto.service';
 

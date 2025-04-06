@@ -1,22 +1,22 @@
 <div #tutorWrapper class="tutorial-container">
-    <ng-container *ngFor="let step of steps">
-        <!-- If has both prev and next step -->
+    <ng-template ngFor let-step [ngForOf]="steps">
         <ng-walkthrough
-            [id]="step.id"
-            [focusElementSelector]="step.focusElementId"
-            [contentTemplate]="step1Template">
+          [id]="step.id"
+          [focusElementSelector]="step.focusElementId"
+          [contentTemplate]="step1Template">
         </ng-walkthrough>
-
+    
         <ng-template #step1Template>
+          <ng-template ngFor let-descr [ngForOf]="step.descr">
             <p 
-                [id]="'descr-' + step.id" 
-                *ngFor="let descr of step.descr" 
-                [innerHTML]="descr.text"
-                [ngStyle]="descr.style ? descr.style : {}">
+              [id]="'descr-' + step.id" 
+              [innerHTML]="descr.text"
+              [ngStyle]="descr.style ? descr.style : {}">
             </p>
+          </ng-template>
         </ng-template>
-
-    </ng-container>
+    </ng-template>
+    
 </div>
 
 <div class="swiper-nav" (click)="navigateWalkThru()">
