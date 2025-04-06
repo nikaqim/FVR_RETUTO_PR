@@ -128,7 +128,7 @@ export class CyranoWalkthroughComponent implements
       );
     }
 
-    reset(config:CyranoTutorialConfig=this.data){
+    private reset(config:CyranoTutorialConfig=this.data): void{
       this.close(); // close walkthrough
       this.tutoService.resetTabulatedId(); // clear walkthrough data
       this.destroy(); // destroy walkthrough existing components
@@ -154,7 +154,7 @@ export class CyranoWalkthroughComponent implements
       this.construct_walk();
     }
 
-    drawArrow(event:WalkthroughComponent, arrowId: string){
+    private drawArrow(event:WalkthroughComponent, arrowId: string){
       console.log('drawArrow:',event);
       const comp = event
 
@@ -213,7 +213,7 @@ export class CyranoWalkthroughComponent implements
     /**
    * Assigning walkthrough attributes setting value
    */
-  construct_walk(): void {
+  private construct_walk(): void {
 
     setTimeout(()=> {
     
@@ -280,7 +280,7 @@ export class CyranoWalkthroughComponent implements
     },100)    
   }
 
-  navigateWalkThru(){    
+  navigateWalkThru(): void{    
     const current = this.tutoService.getById(this.activeId);
 
     if(current && current.nextStep){
@@ -292,7 +292,7 @@ export class CyranoWalkthroughComponent implements
   /**
    * Open walkthrough by stepId
    */
-  open(stepId: string): void {
+  private open(stepId: string): void {
     if(this.walkthroughComponents){
       const targetWalkthrough = this.walkthroughComponents.find(wt => wt.id === stepId);
       if (targetWalkthrough) {
@@ -319,7 +319,7 @@ export class CyranoWalkthroughComponent implements
   /**
    * Close walkthrough
    */
-  close(){
+  private close(): void{
     const container = document.querySelector('.wkt-finish-link');
     if (container) {
         (container as HTMLElement).click();
@@ -335,7 +335,7 @@ export class CyranoWalkthroughComponent implements
     }
   }
 
-  destroy():void {
+  private destroy():void {
     WalkthroughComponent.walkthroughStop();  
     this.steps.forEach(step => this.tutoService.unregister(step.id));
   }
