@@ -1,6 +1,6 @@
 import { Button } from "../button/button.model";
 
-export interface mainAssigned {
+export interface ImainAssigned {
     [key:string] : string
 }
 export class ButtonGroup {

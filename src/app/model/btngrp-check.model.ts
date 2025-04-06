@@ -1,3 +1,3 @@
-export interface mainAssigned {
+export interface ImainAssigned {
     [key:string] : string
 }
