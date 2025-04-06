@@ -41,40 +41,12 @@ import { WalkthroughComponent } from 'angular-walkthrough';
       this.loadWalkthrough();
   }
 
-  register(id:string, walkthrough:WalkthroughComponent){
+  public register(id:string, walkthrough:WalkthroughComponent): void{
     this.walkthroughs.set(id,walkthrough);
   }
 
-  unregister(id:string){
+  public unregister(id:string): void{
     this.walkthroughs.delete(id);
-  }
-
-  getParentPosition(child: HTMLElement, targetClass:string){
-    let parent = child.parentElement;
-
-    while (parent && !parent.classList.contains(targetClass)) {
-      parent = parent.parentElement;
-    }
-  
-    if (parent) {
-      // 1. CSS position (e.g., relative, absolute)
-      const computedStyle = window.getComputedStyle(parent);
-      const cssPosition = computedStyle.position;
-  
-      // 2. Offset position (x, y)
-      const rect = parent.getBoundingClientRect();
-      const x = rect.left + window.scrollX;
-      const y = rect.top + window.scrollY;
-  
-      return {
-        cssPosition,
-        x,
-        y,
-        element: parent
-      };
-    }
-  
-    return null;
   }
 
   getWalkhroughData(): Observable<CyranoTutorialConfig> {
@@ -84,7 +56,7 @@ import { WalkthroughComponent } from 'angular-walkthrough';
   /**
    * Loading Walkthrough Configuration Object
    */
-  loadWalkthrough(){
+  private loadWalkthrough(): void{
     let walkthruInStorage = this.localStorage.getData(StorageId.WalkConfig);
     let isInStorage = (typeof walkthruInStorage === 'string' && walkthruInStorage !== '') || 
       (typeof walkthruInStorage === 'object' && Object.keys(JSON.parse(walkthruInStorage)).length > 0);
@@ -108,11 +80,11 @@ import { WalkthroughComponent } from 'angular-walkthrough';
     }
   }
 
-  getConfig(){
+  public getConfig(): CyranoTutorialConfig{
     return this.walkconfig;
   }
 
-  implementArrMarkup(descr:WalkDescr[]): WalkDescr[]{
+  private implementArrMarkup(descr:WalkDescr[]): WalkDescr[]{
     const rtnMarkups:WalkDescr[] = [];
 
     descr.forEach(data => {
@@ -123,11 +95,11 @@ import { WalkthroughComponent } from 'angular-walkthrough';
     return rtnMarkups;
   }
 
-  implementMarkUp(descr:string){
+  private implementMarkUp(descr:string): string{
     return descr.replace(/##\s*(.*?)\s*##/g, '<b>$1</b>');
   }
 
-  reverseArrMarkup(descr:WalkDescr[]): WalkDescr[]{
+  private reverseArrMarkup(descr:WalkDescr[]): WalkDescr[]{
     let rtnMarkups:WalkDescr[] = [];
 
     descr.forEach(data => {
@@ -138,78 +110,78 @@ import { WalkthroughComponent } from 'angular-walkthrough';
     return rtnMarkups;
   }
 
-  reverseMarkUp(descr:string){
+  private reverseMarkUp(descr:string): string{
     return descr.replace(/<b>\s*(.*?)\s*<\/b>/g, '## $1 ##');
   }
 
-  resetWalkthrough(){
+  private resetWalkthrough(): void {
     this.localStorage.setData(StorageId.WalkConfig, '');
   }
 
-  onFinishLoadWalkThru(){
+  public onFinishLoadWalkThru(): Observable<CyranoTutorialConfig>{
     return this.walkConfigSubject.asObservable();
   }
 
-  notifyTutoNavigation(nextId:WalkthroughComponent){
+  public notifyTutoNavigation(nextId:WalkthroughComponent): void {
 
     this.tutorNavigateSubject.next(nextId.focusElementSelector);
     this.swiperNavSubject.next(this.getScreenById(nextId.id));
   }
 
-  activateSwipeNav(id:string){
+  public activateSwipeNav(id:string): void {
     this.swiperNavSubject.next(this.getScreenById(id));
   }
 
-  onTutoNavigation(){
+  public onTutoNavigation(): Observable<string>{
     return this.tutorNavigateSubject.asObservable();
   }
 
-  closeTuto(){
+  public closeTuto(): void{
     this.closeTutoSubject.next(true);
   }
 
-  onTutoClose(){
+  public onTutoClose(): Observable<boolean>{
     return this.closeTutoSubject.asObservable();
   }
 
-  onSwiperChanged(){
+  public onSwiperChanged(): Observable<string>{
     return this.swiperNavSubject.asObservable();
   }
 
-  startTuto(id:string){
+  public startTuto(id:string): void {
     this.startTutoSubject.next(id);
   }
 
-  onStartTuto(){
+  public onStartTuto(): Observable<string>{
     return this.startTutoSubject.asObservable();
   }
 
-  setActiveId(id:string){
+  public setActiveId(id:string): void{
     this.activeId = id;
   }
 
-  getActiveId():string {
+  public getActiveId():string {
     return this.activeId;
   }
 
-  getById(id: string): WalkthroughComponent | undefined {
+  public getById(id: string): WalkthroughComponent | undefined {
     return this.walkthroughs.get(id);
   }
 
-  openWalk(id:string){
+  public openWalk(id:string): void{
     this.walkthroughs.get(id)?.open();
   }
 
-  getSteps(){
+  public getSteps(): CyranoTutorial[]{
     return this.steps;
   }
 
-  resetTabulatedId(){
+  public resetTabulatedId(): void {
     this.restartTabulatedIds = true;
   }
 
 
-  tabulateStep(confData:CyranoTutorialConfig){
+  public tabulateStep(confData:CyranoTutorialConfig): CyranoTutorial[]{
     if(this.restartTabulatedIds){
       this.tabulatedId = [];
       this.steps = [];
@@ -251,7 +223,7 @@ import { WalkthroughComponent } from 'angular-walkthrough';
     return this.steps; 
   }
 
-  tabulateDescr(steps:CyranoTutorial[]){
+  private tabulateDescr(steps:CyranoTutorial[]): WalkDescrMap{
     let alldescr:WalkDescrMap = {}; 
     steps.forEach((step, idx) =>{
       step.descr.forEach((descr,idx)=>{
@@ -263,11 +235,11 @@ import { WalkthroughComponent } from 'angular-walkthrough';
     return alldescr;
   }
 
-  getAllDescr(){
+  public getAllDescr(): WalkDescrMap{
     return this.descrList;
   }
 
-  updateText(id:string, text:string){
+  public updateText(id:string, text:string): void {
     // get walkthrough id screen
     let stepId = id.split('_')[0];
     let descrIdx = parseInt(id.split('_')[1]);
@@ -291,18 +263,18 @@ import { WalkthroughComponent } from 'angular-walkthrough';
 
   }
 
-  notifyTextChange(updatedData: CyranoTutorialConfig){
+  public notifyTextChange(updatedData: CyranoTutorialConfig): void{
     this.descrList = this.tabulateDescr(this.steps);
 
     this.walkthroughTextSubject.next(updatedData);
   }
 
-  onNotifyTextChange(){
+  public onNotifyTextChange(): Observable<CyranoTutorialConfig>{
     return this.walkthroughTextSubject.asObservable();
   }
 
 
-  getStepById(id:string){
+  public getStepById(id:string): Object | null {
     let dWalk = null;
     
     for(const stepData of this.steps){
@@ -315,15 +287,15 @@ import { WalkthroughComponent } from 'angular-walkthrough';
     return dWalk;
   }
 
-  getScreens(){
+  public getScreens(): string[] {
     return Object.keys(this.walkconfig);
   }
 
-  getScreenById(id:string){
+  public getScreenById(id:string): string {
     return this.step2screen[id];
   }
 
-  scrollIntoView(elementId:string){
+  public scrollIntoView(elementId:string): void {
     const parentEl = document.getElementById(elementId);
       if(parentEl){
         parentEl.scrollIntoView({
@@ -333,8 +305,5 @@ import { WalkthroughComponent } from 'angular-walkthrough';
         });
       }
   }
-
-
-
   
 }
