@@ -24,7 +24,7 @@ import { BtnGroupConfig } from '../components/shared/btn-group/btn-group-config.
         return this.httpClient.get<BtnGroupConfig>('/assets/config/btn-group.json');
     }
 
-    loadButtonConfig(){
+    loadButtonConfig(): void{
       this.getButtonConfig().subscribe((data:BtnGroupConfig) => {
         this.btnConfigSubject.next(data);
         if(data["btngroup"]){
@@ -33,15 +33,15 @@ import { BtnGroupConfig } from '../components/shared/btn-group/btn-group-config.
       })
     }
 
-    updateConfig(newConfig:BtnGroupConfig){
+    updateConfig(newConfig:BtnGroupConfig): void{
       this.btnConfigSubject.next(newConfig);
     }
 
-    notifyButtonGrpReady(btnIds:string){
+    notifyButtonGrpReady(btnIds:string): void{
       this.btnGroupReadySubject.next(btnIds);
     }
 
-    onNotifyButtonReady(){
+    onNotifyButtonReady(): Observable<string>{
       return this.btnGroupReadySubject.asObservable();
     }
 
@@ -54,7 +54,7 @@ import { BtnGroupConfig } from '../components/shared/btn-group/btn-group-config.
       return ids;
     }
 
-    getScreenContainerId(elementId:string){
+    getScreenContainerId(elementId:string): string{
       const child = document.getElementById(elementId.replace('#',''));
       const screenContainer = child?.closest('.screen-container');
       const screenId = (screenContainer as HTMLElement).id;
