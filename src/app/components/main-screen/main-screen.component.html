@@ -9,7 +9,6 @@
                 <lib-icon-btn class="closebtn" (click)="closeWalkthrough()">
                     <img src="/assets/imgs/closebtn.png" />
                  </lib-icon-btn>
-                 {{walkthroughActive !== '' ? 'onwalk': ''}}
                 <div class="btn-container {{ highlightAll(isActiveScreen(panel)) ? 'highlightall' : ''}}" [class.onwalk]="!!walkthroughActive">
                     <!-- to be made into a component -->
                      <div *ngFor="let btngrp of buttonGroup">
