@@ -32,12 +32,6 @@ export class MainScreenComponent implements OnInit, OnDestroy {
 
   walkthroughActive:string = '';
 
-  availableLanguages = [
-    { code: 'en', label: 'English' },
-    { code: 'fr', label: 'Français' },
-    { code: 'es', label: 'Español' }
-  ];
-
   constructor(
     private wsService: WsService,
     private btnGroupService: BtnGroupService,
