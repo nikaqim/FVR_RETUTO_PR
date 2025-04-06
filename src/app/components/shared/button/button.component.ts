@@ -50,7 +50,7 @@ export class ButtonComponent implements OnInit, OnChanges, AfterViewInit {
   ngAfterViewInit(): void {
   }
 
-  buttonClicked(type: string) {
+  public buttonClicked(type: string): void{
     const action = this.buttonActions[type];
     
     if (action) {
@@ -58,19 +58,19 @@ export class ButtonComponent implements OnInit, OnChanges, AfterViewInit {
     }
   }
 
-  getTranslatedLabel(label: string): string {
+  public getTranslatedLabel(label: string): string {
     const key = `app.button.${label}`;
     const translation = this.translate.instant(key);
     return translation === key ? label : translation; // ✅ Fallback to `label`
   }
 
-  openTutorial():void {
+  private openTutorial(): void {
     console.log("open tutorial...");
     this.walkService.scrollIntoView(this.walkService.getScreenById('walk1'));
     this.walkService.startTuto('walk1');
   }
 
-  exitTutorial():void {
+  private  exitTutorial(): void {
     this.router.navigate(['/']);
   }
 }
