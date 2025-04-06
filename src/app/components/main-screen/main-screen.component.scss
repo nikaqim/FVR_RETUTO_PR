@@ -10,10 +10,7 @@
     position: relative;
     display: flex;
     justify-content: center;
-    // justify-content: space-between;
-    // overflow-x: scroll;
     width: 100%;
-    // width: max-content;
 
     .langSelect-Container {
         position: fixed;
@@ -66,7 +63,6 @@
         top: 16px;
         display: flex;
         flex-direction: column;
-        // gap: 16px;
         gap: 0px;
         z-index: 0;
     }

@@ -67,9 +67,7 @@ export class CyranoWalkthroughComponent implements
       // rxjs observable
       this.subs.add(
         this.wsService.listen('walkJsonUpdate').subscribe((msg:CyranoTutorialConfig) => {
-          // console.log("walkJsonUpdate");
-            this.reset(msg)
-
+          this.reset(msg)
         })
       );
 
@@ -127,29 +125,23 @@ export class CyranoWalkthroughComponent implements
     }
 
     reset(config:CyranoTutorialConfig=this.data){
-      // console.log("resetting walkthrough")
       this.close(); // close walkthrough
       this.tutoService.resetTabulatedId(); // clear walkthrough data
       this.destroy(); // destroy walkthrough existing components
 
       this.steps = this.tutoService.tabulateStep(config); // get new steps
       this.construct_walk();
-      // this.tutoService.loadWalkthrough();
     }
 
     ngOnChanges(changes: SimpleChanges): void {
       if(changes['data']){
-        // console.log("in walk - data changes ->", this.data);
         this.steps = this.tutoService.tabulateStep(this.data);
         this.panels = this.tutoService.getScreens();
-        // console.log("this.panels ->",this.panels);
       }
     }
 
     @HostListener('window:resize', ['$event'])
     onResize(event: Event) {
-        // console.log("screen on resize...");
-        // this.construct_walk();
         this.reset();
         this.close();
     }
@@ -220,13 +212,11 @@ export class CyranoWalkthroughComponent implements
   construct_walk(): void {
 
     setTimeout(()=> {
-      // console.log("this.walkthroughComponents:",this.walkthroughComponents);
-
+    
       if(this.walkthroughComponents){
 
         this.walkthroughComponents.forEach((walkthru, idx, arr) => {  
           const step = this.steps.find(s=>s.id === walkthru.id);
-          // console.log("register walk");
 
           if(step?.id){
             this.tutoService.register(step.id, walkthru);
@@ -245,7 +235,6 @@ export class CyranoWalkthroughComponent implements
             step.contentVertAlign === "center" ? 'center' : step.contentVertAlign === "top" ? 'top':
             step.contentVertAlign === "bottom" ? 'bottom' : 'below';
 
-            // current.showArrow = step.showArrow ? step.showArrow : false;
             current.showArrow = false;
             current.closeAnywhere = step.closeAnywhere ? step.closeAnywhere : false;
             current.finishButton = step.showFinishBtn ? step.showFinishBtn : false;
@@ -253,14 +242,12 @@ export class CyranoWalkthroughComponent implements
             current.focusBackdrop = step.focusBackdrop;
             current.verticalContentSpacing= 50;
             current.focusGlow = false;
-            // current.rootElement = ".screen-container";
+
             current.rootElement = '#' + this.tutoService.getScreenById(step.id);
             current.focusElementSelector = window.innerWidth < 551 ?
               step.focusElementId :
               ('#' + this.tutoService.getScreenById(step.id) + step.focusElementId.replace('#','')).toLowerCase();
             
-            // console.log(window.innerWidth, "|| current.focusElementSelector:",current.focusElementSelector);
-            // current.focusHighlightAnimation = true
           }
           
           if (step.nextStepId) {
@@ -292,10 +279,7 @@ export class CyranoWalkthroughComponent implements
   navigateWalkThru(){    
     const current = this.tutoService.getById(this.activeId);
 
-    // console.log("current:",current);
-
     if(current && current.nextStep){
-      // console.log("click on container", this.tutoService.getScreenById(current.nextStep.id));
       this.tutoService.scrollIntoView(this.tutoService.getScreenById(current.nextStep.id));
       WalkthroughComponent.walkthroughNext();  
     }

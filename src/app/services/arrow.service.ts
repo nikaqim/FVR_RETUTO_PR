@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-// import LeaderLine from 'LeaderLine';
 
 declare const LeaderLine:any;
 
@@ -12,10 +11,7 @@ export class ArrowService {
     // ✅ Function to draw an arrow between two elements by ID
     async drawArrow(fromId: string, toId: string, arrowId: string = 'defaultArrow') {
         const fromElement = document.getElementById(fromId);
-        // const fromElement = document.querySelector(fromId);
-
         const toElement = document.getElementById(toId);
-        // const toElement = document.querySelector(toId);
 
         if (!fromElement || !toElement) {
             if(!fromElement){
@@ -26,7 +22,6 @@ export class ArrowService {
                 console.warn(`to element not found ${toId}`);
             }
 
-            // console.warn(`⚠️ ArrowService: Elements not found: ${fromId}, ${toId}`);
             return;
         }
 

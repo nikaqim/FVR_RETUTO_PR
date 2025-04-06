@@ -49,7 +49,6 @@ export class MainScreenComponent implements OnInit, OnDestroy {
     private btnGroupService: BtnGroupService,
     private walkService: WalkthroughConfigService,
   ){
-    // this.walkService.loadWalkthrough();
     this.btnGroupService.getButtonConfig().subscribe((data:BtnGroupConfig) => {
       this.buttonGroup = data['btngroup'];
     });

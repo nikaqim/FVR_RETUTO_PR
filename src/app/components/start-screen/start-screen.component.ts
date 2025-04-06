@@ -38,19 +38,15 @@ export class StartScreenComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngAfterViewInit(): void {
-      // console.log('Afterview init');
   }
 
   onInputChange(key:string, event:Event){
-    // console.log("this.onInputChange",event);
     const inputElement = event.target as HTMLInputElement;
  
     const cursorPosition = inputElement.selectionStart; // ✅ Get cursor position
     const text = inputElement.value;
 
     this.walkService.updateText(key, text);
-
-    // console.log("onInputChnge:this.steps",this.steps)
   }
 
   reverseMarkup(descr:string){
@@ -58,8 +54,6 @@ export class StartScreenComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-      // console.log('Component destroyed');
-      
   }
 
 }

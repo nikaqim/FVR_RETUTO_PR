@@ -14,7 +14,6 @@ import { ButtonsModule } from 'nextsapien-component-lib';
 import { BtnGroupComponent } from './btn-group/btn-group.component';
 import { ButtonComponent } from './button/button.component';
 import { LanguageSelectorComponent } from './language-selector/language-selector.component';
-// import { CyranoTutorialModule } from 'cyranoTutorial';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {

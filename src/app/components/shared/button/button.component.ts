@@ -10,7 +10,6 @@ import {
 import { TranslateService } from '@ngx-translate/core';
 import { Button } from './button.model';
 import { WalkthroughConfigService } from '../../../services/tuto.service';
-// import { CyranoTutorialService } from 'cyranoTutorial';
 import { BtnGroupService } from '../../../services/btn.service';
 import { Router } from '@angular/router';
 

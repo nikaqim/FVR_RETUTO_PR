@@ -22,7 +22,6 @@ import { WalkthroughComponent } from 'angular-walkthrough';
   private closeTutoSubject = new BehaviorSubject<boolean>(false);
 
   private walkConfigSubject = new BehaviorSubject<CyranoTutorialConfig>({});
-  // private walkConfigSubject = new Subject<CyranoTutorialConfig>();
 
   private walkthroughTextSubject = new BehaviorSubject<CyranoTutorialConfig>({
   });
@@ -39,7 +38,6 @@ import { WalkthroughComponent } from 'angular-walkthrough';
   constructor(
     private httpClient:HttpClient,
     private localStorage:LocalStorageService) {
-      // console.log("in tuto construct")
       this.loadWalkthrough();
   }
 
@@ -68,9 +66,6 @@ import { WalkthroughComponent } from 'angular-walkthrough';
       const x = rect.left + window.scrollX;
       const y = rect.top + window.scrollY;
   
-      // console.log('CSS Position:', cssPosition);
-      // console.log('Offset X:', x, 'Y:', y);
-  
       return {
         cssPosition,
         x,
@@ -90,15 +85,9 @@ import { WalkthroughComponent } from 'angular-walkthrough';
    * Loading Walkthrough Configuration Object
    */
   loadWalkthrough(){
-    // console.log("loading walkthru")
     let walkthruInStorage = this.localStorage.getData(StorageId.WalkConfig);
-
-    // console.log(walkthruInStorage, typeof walkthruInStorage);
-
     let isInStorage = (typeof walkthruInStorage === 'string' && walkthruInStorage !== '') || 
       (typeof walkthruInStorage === 'object' && Object.keys(JSON.parse(walkthruInStorage)).length > 0);
-
-    // console.log(walkthruInStorage, typeof walkthruInStorage, isInStorage);
 
     if(!isInStorage){
       console.log("not isinstorage");
@@ -221,7 +210,6 @@ import { WalkthroughComponent } from 'angular-walkthrough';
 
 
   tabulateStep(confData:CyranoTutorialConfig){
-    // console.log('tabulating steps')
     if(this.restartTabulatedIds){
       this.tabulatedId = [];
       this.steps = [];
@@ -247,12 +235,7 @@ import { WalkthroughComponent } from 'angular-walkthrough';
             this.tabulatedId.push(step.id);
             
             step.descr = this.implementArrMarkup(step.descr);
-            // if(!Array.isArray(step.textDescr)){
-            //   step.textDescr = this.implementMarkUp(step.textDescr);
-            // } else {
-              
-            // }
-            
+          
             // store all step info
             this.steps.push(step);
             
@@ -277,13 +260,10 @@ import { WalkthroughComponent } from 'angular-walkthrough';
       
     });
 
-    // console.log("alldescr",alldescr)
-
     return alldescr;
   }
 
   getAllDescr(){
-    // console.log("description list", this.descrList);
     return this.descrList;
   }
 
@@ -346,7 +326,6 @@ import { WalkthroughComponent } from 'angular-walkthrough';
   scrollIntoView(elementId:string){
     const parentEl = document.getElementById(elementId);
       if(parentEl){
-        // console.log("Scroll to el ->", parentEl);
         parentEl.scrollIntoView({
           behavior: 'smooth',
           block: 'center',
