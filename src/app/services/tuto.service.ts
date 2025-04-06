@@ -110,7 +110,7 @@ import { WalkthroughComponent } from 'angular-walkthrough';
     return rtnMarkups;
   }
 
-  private reverseMarkUp(descr:string): string{
+  public  reverseMarkUp(descr:string): string{
     return descr.replace(/<b>\s*(.*?)\s*<\/b>/g, '## $1 ##');
   }
 

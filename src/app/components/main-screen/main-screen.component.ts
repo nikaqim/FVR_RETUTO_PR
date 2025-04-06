@@ -1,4 +1,5 @@
 import { 
+  ChangeDetectionStrategy,
   Component,
   OnDestroy,
   OnInit,
@@ -18,7 +19,8 @@ import { WalkthroughConfigService } from '../../services/tuto.service';
 @Component({
   selector: 'app-main-screen',
   templateUrl: './main-screen.component.html',
-  styleUrl: './main-screen.component.scss'
+  styleUrl: './main-screen.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class MainScreenComponent implements OnInit, OnDestroy {
   private subs = new Subscription();  
@@ -60,7 +62,7 @@ export class MainScreenComponent implements OnInit, OnDestroy {
     );
 
     this.subs.add(
-      this.walkService.onFinishLoadWalkThru().subscribe((data)=>{
+      this.walkService.onFinishLoadWalkThru().subscribe((data: CyranoTutorialConfig)=>{
         this.tutoData = this.walkService.getConfig();      
         this.panels = Object.keys(this.tutoData);
       })
