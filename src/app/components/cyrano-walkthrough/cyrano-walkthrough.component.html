@@ -1,21 +1,25 @@
 <div #tutorWrapper class="tutorial-container">
-    <ng-template ngFor let-step [ngForOf]="steps">
-        <ng-walkthrough
-          [id]="step.id"
-          [focusElementSelector]="step.focusElementId"
-          [contentTemplate]="step1Template">
-        </ng-walkthrough>
-    
-        <ng-template #step1Template>
-          <ng-template ngFor let-descr [ngForOf]="step.descr">
-            <p 
-              [id]="'descr-' + step.id" 
-              [innerHTML]="descr.text"
-              [ngStyle]="descr.style ? descr.style : {}">
-            </p>
-          </ng-template>
-        </ng-template>
+  <ng-container *ngFor="let step of steps">
+    <!-- If has both prev and next step -->
+    <ng-walkthrough
+        [id]="step.id"
+        [focusElementSelector]="step.focusElementId"
+        [contentTemplate]="step1Template">
+    </ng-walkthrough>
+
+    <ng-template #step1Template>
+        <!-- <lib-icon-btn class="closebtn" (click)="close()">
+            <img src="/assets/imgs/closebtn.png" />
+         </lib-icon-btn> -->
+        <p 
+            [id]="'descr-' + step.id" 
+            *ngFor="let descr of step.descr" 
+            [innerHTML]="descr.text"
+            [ngStyle]="descr.style ? descr.style : {}">
+        </p>
     </ng-template>
+
+</ng-container>
     
 </div>
 

@@ -57,7 +57,7 @@ export class MainScreenComponent implements OnInit, OnDestroy {
 
     this.subs.add(
       this.walkService.onFinishLoadWalkThru().subscribe((data: CyranoTutorialConfig)=>{
-        this.tutoData = this.walkService.getConfig();      
+        this.tutoData = { ...this.walkService.getConfig()};      
         this.panels = Object.keys(this.tutoData);
       })
     );

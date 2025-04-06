@@ -13,7 +13,8 @@ import {
   SimpleChanges,
   HostListener,
   Output,
-  EventEmitter
+  EventEmitter,
+  ChangeDetectorRef
 } from '@angular/core';
 
 import { Subscription } from 'rxjs';
@@ -26,6 +27,7 @@ import { CyranoTutorialConfig } from '../../model/cyrano-walkthrough-cfg.model';
 import { 
   WalkthroughComponent,
   WalkthroughNavigate,
+  WalkthroughService,
 } from 'angular-walkthrough';
 
 import { WalkthroughConfigService } from '../../services/tuto.service';
@@ -60,7 +62,8 @@ export class CyranoWalkthroughComponent implements
     constructor( 
       private wsService:WsService,
       private tutoService: WalkthroughConfigService,
-      private arrowService: ArrowService
+      private arrowService: ArrowService,
+      private cd: ChangeDetectorRef
     ){}
 
     ngOnInit(): void {
@@ -138,9 +141,19 @@ export class CyranoWalkthroughComponent implements
     }
 
     ngOnChanges(changes: SimpleChanges): void {
-      if(changes['data']){
+      // if(changes['data']){
+        
+      //   this.steps = this.tutoService.tabulateStep(this.data);
+      //   this.panels = this.tutoService.getScreens();
+      // }
+      if (changes['data'] && this.data) {
         this.steps = this.tutoService.tabulateStep(this.data);
         this.panels = this.tutoService.getScreens();
+    
+        // Defer until DOM renders
+        setTimeout(() => {
+          this.construct_walk();
+        }, 0);
       }
     }
 
@@ -269,8 +282,9 @@ export class CyranoWalkthroughComponent implements
           }
         });
 
-        console.log("this.steps:",this.steps);
+        
         if(this.steps.length > 0){
+          this.cd.detectChanges();
           this.open(this.steps[0].id);
           this.activeId = this.steps[0].id;
           this.tutoService.setActiveId(this.activeId);
@@ -296,7 +310,11 @@ export class CyranoWalkthroughComponent implements
     if(this.walkthroughComponents){
       const targetWalkthrough = this.walkthroughComponents.find(wt => wt.id === stepId);
       if (targetWalkthrough) {
-          targetWalkthrough.open();
+        console.log(this.steps);
+          targetWalkthrough.open().then((status)=> {
+            console.log("status:",status, targetWalkthrough.id)
+          });
+          console.log(targetWalkthrough);
           this.activeId = this.steps[0].id;
           this.tutoService.setActiveId(this.activeId);
           this.tutoService.activateSwipeNav(stepId);
