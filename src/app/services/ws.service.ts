@@ -4,6 +4,7 @@ import { Socket } from 'ngx-socket-io';
 import { BehaviorSubject, Observable, map } from 'rxjs';
 
 import { IBtnGroupConfig } from '../components/shared/btn-group/btn-group-config.model';
+import { CyranoTutorialConfig } from '../model/cyrano-walkthrough-cfg.model';
 
 @Injectable({ providedIn: 'root' })
 export class WsService {
@@ -16,7 +17,12 @@ export class WsService {
 
 
     // ✅ Listen for messages from the WebSocket server
-    listen(event: string): Observable<IBtnGroupConfig> {
+    listenBtnUpdate(event: string): Observable<IBtnGroupConfig> {
+        return this.socket.fromEvent(event);
+    }
+
+    // ✅ Listen for messages from the WebSocket server
+    listenWalkUpdate(event: string): Observable<CyranoTutorialConfig> {
         return this.socket.fromEvent(event);
     }
 

@@ -11,16 +11,15 @@
                  </lib-icon-btn>
                 <div class="btn-container {{ highlightAll(isActiveScreen(panel)) ? 'highlightall' : ''}}" [class.onwalk]="!!walkthroughActive">
                     <!-- to be made into a component -->
-                     <div *ngFor="let btngrp of buttonGroup">
-                        <app-btn-group 
-                            [id]="panel + btngrp.id" 
-                            [screenId]="panel"
-                            [activeId]="walkthroughActive"
-                            [type]="btngrp.layout" 
-                            [buttons]="btngrp.buttons"
-                            (ButtonGroupReady)="setBtnGroupReady($event)">
-                        </app-btn-group>
-                     </div>
+                    <app-btn-group 
+                        *ngFor="let btngrp of buttonGroup"
+                        [id]="panel + btngrp.id" 
+                        [screenId]="panel"
+                        [activeId]="walkthroughActive"
+                        [type]="btngrp.layout" 
+                        [buttons]="btngrp.buttons"
+                        (ButtonGroupReady)="setBtnGroupReady($event)">
+                    </app-btn-group>
                 </div>
             </div>
         </div>
@@ -33,16 +32,15 @@
                  
                 <div class="btn-container" [class.onwalk]="!!walkthroughActive" >
                     <!-- to be made into a component -->
-                     <div *ngFor="let btngrp of buttonGroup">
-                        <app-btn-group 
-                            [id]="'mob' + btngrp.id" 
-                            [screenId]="'mob'"
-                            [activeId]="walkthroughActive"
-                            [type]="btngrp.layout" 
-                            [buttons]="btngrp.buttons"
-                            (ButtonGroupReady)="setBtnGroupReady($event)">
-                        </app-btn-group>
-                     </div>
+                    <app-btn-group 
+                        *ngFor="let btngrp of buttonGroup"
+                        [id]="'mob' + btngrp.id" 
+                        [screenId]="'mob'"
+                        [activeId]="walkthroughActive"
+                        [type]="btngrp.layout" 
+                        [buttons]="btngrp.buttons"
+                        (ButtonGroupReady)="setBtnGroupReady($event)">
+                </app-btn-group>
                 </div>
             </div>
         </div>

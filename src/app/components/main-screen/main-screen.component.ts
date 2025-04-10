@@ -66,8 +66,7 @@ export class MainScreenComponent implements OnInit, OnDestroy {
   private initSubs(): void{
     // for testing realtime update using websocket
     this.subs.add(
-      this.wsService.listen('btnJsonUpdate').subscribe((msg:IBtnGroupConfig) => {
-        
+      this.wsService.listenBtnUpdate('btnJsonUpdate').subscribe((msg:IBtnGroupConfig) => {
         this.buttonGroup = typeof msg === 'string' ? JSON.parse(msg)['btngroup'] : msg['btngroup'];
       })
     );
