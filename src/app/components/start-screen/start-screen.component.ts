@@ -6,10 +6,22 @@ import {
   ViewChildren
 } from '@angular/core';
 
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { RouterModule} from '@angular/router';
+import { TranslateModule } from '@ngx-translate/core';
+
 import { WalkthroughConfigService } from '../../services/tuto.service';
 import { WalkDescrMap } from '../../model/cyrano-walkthrough-screenmap.model';
 @Component({
   selector: 'app-start-screen',
+  standalone: true,
+  imports: [
+    CommonModule,
+    FormsModule,
+    RouterModule,
+    TranslateModule
+  ],
   templateUrl: './start-screen.component.html',
   styleUrl: './start-screen.component.scss'
 })

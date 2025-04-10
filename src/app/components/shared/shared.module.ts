@@ -22,9 +22,6 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
 
 @NgModule({
   declarations: [
-    BtnGroupComponent,
-    ButtonComponent,
-    LanguageSelectorComponent,
   ],
   imports: [
     CommonModule,
@@ -52,9 +49,6 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     FormsModule,
     MatIconModule,
     ButtonsModule,
-    BtnGroupComponent,
-    ButtonComponent,
-    LanguageSelectorComponent
   ]
 })
 export class SharedModule { }

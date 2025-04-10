@@ -13,12 +13,22 @@ import {
 
 import { Subscription } from 'rxjs';
 
+import { ButtonComponent } from '../button/button.component';
+import { TranslateModule } from '@ngx-translate/core';
+
 import { BtnGroupService } from '../../../services/btn.service';
 import { Button } from '../button/button.model';
 import { WalkthroughConfigService } from '../../../services/tuto.service';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-btn-group',
+  standalone: true,
+  imports: [
+    CommonModule,
+    ButtonComponent,
+    TranslateModule
+  ],
   templateUrl: './btn-group.component.html',
   styleUrl: './btn-group.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush

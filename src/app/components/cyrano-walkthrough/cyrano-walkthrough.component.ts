@@ -21,6 +21,10 @@ import { Subscription } from 'rxjs';
 
 import { WsService } from '../../services/ws.service';
 
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { WalkthroughModule } from 'angular-walkthrough';
+
 import { CyranoTutorial } from '../../model/cyrano-walkthrough.model';
 import { CyranoTutorialConfig } from '../../model/cyrano-walkthrough-cfg.model';
 
@@ -33,8 +37,15 @@ import {
 import { WalkthroughConfigService } from '../../services/tuto.service';
 import { ArrowService } from 'src/app/services/arrow.service';
 
+
 @Component({
   selector: 'app-cyrano-walkthrough',
+  standalone: true,
+  imports: [
+    CommonModule,
+    FormsModule,
+    WalkthroughModule
+  ],
   templateUrl: './cyrano-walkthrough.component.html',
   styleUrl: './cyrano-walkthrough.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush

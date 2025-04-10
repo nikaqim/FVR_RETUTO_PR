@@ -5,6 +5,13 @@ import {
   OnInit,
 } from '@angular/core';
 
+import { ButtonsModule } from 'nextsapien-component-lib';
+import { CommonModule } from '@angular/common';
+import { CyranoWalkthroughComponent } from '../cyrano-walkthrough/cyrano-walkthrough.component';
+import { BtnGroupComponent } from '../shared/btn-group/btn-group.component';
+import { TranslateModule } from '@ngx-translate/core';
+import { LanguageSelectorComponent } from '../shared/language-selector/language-selector.component';
+
 import { Subscription } from 'rxjs';
 
 import { ButtonGroup } from '../shared/btn-group/btn-group.model';
@@ -16,8 +23,18 @@ import { WsService } from '../../services/ws.service';
 import { CyranoTutorialConfig } from '../../model/cyrano-walkthrough-cfg.model';
 import { WalkthroughConfigService } from '../../services/tuto.service';
 
+
 @Component({
   selector: 'app-main-screen',
+  standalone: true,
+  imports: [
+    CommonModule,
+    TranslateModule,
+    ButtonsModule,
+    BtnGroupComponent,
+    LanguageSelectorComponent,
+    CyranoWalkthroughComponent
+  ],
   templateUrl: './main-screen.component.html',
   styleUrl: './main-screen.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush

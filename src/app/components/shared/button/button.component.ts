@@ -8,7 +8,10 @@ import {
   SimpleChanges
 } from '@angular/core';
 
-import { TranslateService } from '@ngx-translate/core';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { ButtonsModule } from 'nextsapien-component-lib';
+import { CommonModule } from '@angular/common';
+
 import { Button } from './button.model';
 import { WalkthroughConfigService } from '../../../services/tuto.service';
 import { BtnGroupService } from '../../../services/btn.service';
@@ -16,7 +19,13 @@ import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-button',
+  standalone: true,
   templateUrl: './button.component.html',
+  imports: [
+    CommonModule,
+    ButtonsModule,
+    TranslateModule
+  ],
   styleUrl: './button.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
