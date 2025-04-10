@@ -9,6 +9,6 @@
             <img [src]="btnSetting.icon" alt="icon" />
             <!-- <mat-icon>{{btnSetting.icon}}</mat-icon> -->
      </lib-bubble-btn>
-     <span>{{ getTranslatedLabel(btnSetting.label) }}</span>
+     <span>{{ 'app.button.' + btnSetting.label | translate }}</span>
 </div>
 
