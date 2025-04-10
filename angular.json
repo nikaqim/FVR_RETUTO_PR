@@ -53,6 +53,7 @@
               "src/styles.scss"
             ],
             "scripts": [
+              "src/assets/js/leader-line.min.js"
               
             ]
           },
