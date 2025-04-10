@@ -100,13 +100,6 @@ export class CyranoWalkthroughComponent implements
             this.close()
         })
       )
-
-      this.subs.add(
-        WalkthroughComponent.onOpen.subscribe((comp: WalkthroughComponent)=>{
-
-          console.log(`#${comp.id} is open & point to el${comp.focusElementSelector} -> alreadyshow ${WalkthroughComponent.walkthroughHasShow()}`);
-        })
-      );
   
       this.subs.add(
         WalkthroughComponent.onNavigate
@@ -121,7 +114,6 @@ export class CyranoWalkthroughComponent implements
             this.tutoService.notifyTutoNavigation(current)
           }
 
-          console.log("WalkthroughComponent.walkthroughHasShow():",WalkthroughComponent.walkthroughHasShow());
         })
       );
   
@@ -152,11 +144,6 @@ export class CyranoWalkthroughComponent implements
     }
 
     ngOnChanges(changes: SimpleChanges): void {
-      // if(changes['data']){
-        
-      //   this.steps = this.tutoService.tabulateStep(this.data);
-      //   this.panels = this.tutoService.getScreens();
-      // }
       if (changes['data'] && this.data) {
         this.steps = this.tutoService.tabulateStep(this.data);
         this.panels = this.tutoService.getScreens();
@@ -179,7 +166,6 @@ export class CyranoWalkthroughComponent implements
     }
 
     private drawArrow(event:WalkthroughComponent, arrowId: string){
-      console.log('drawArrow:',event);
       const comp = event
 
       if(comp){
@@ -197,8 +183,6 @@ export class CyranoWalkthroughComponent implements
           const el = document.querySelector(".wkt-content-block") as HTMLElement;
           const screen = document.querySelector(".screen-container.onwalk");
           const backdrop = document.querySelector('.wkt-zone') as HTMLElement;
-
-          console.log("bgdrop",backdrop);
 
           if(backdrop){
             
@@ -222,8 +206,6 @@ export class CyranoWalkthroughComponent implements
             
             el.style.left = (scr.left + 8) + 'px'; 
 
-            console.log(`ScreenTop:${scr.top} Left:${scr.left} Bottom:${scr.bottom} \n 
-              Right:${scr.right} Width:${scr.width} Height:${scr.height}`);
           }
 
           this.arrowService.drawArrow(fromEl, toEl, this.activeArrowId);
@@ -321,11 +303,7 @@ export class CyranoWalkthroughComponent implements
     if(this.walkthroughComponents){
       const targetWalkthrough = this.walkthroughComponents.find(wt => wt.id === stepId);
       if (targetWalkthrough) {
-        console.log(this.steps);
-          targetWalkthrough.open().then((status)=> {
-            console.log("status:",status, targetWalkthrough.id)
-          });
-          console.log(targetWalkthrough);
+        
           this.activeId = this.steps[0].id;
           this.tutoService.setActiveId(this.activeId);
           this.tutoService.activateSwipeNav(stepId);

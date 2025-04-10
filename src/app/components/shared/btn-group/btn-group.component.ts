@@ -98,7 +98,6 @@ export class BtnGroupComponent implements OnChanges, AfterViewInit, OnInit, OnDe
  }
 
  ngAfterViewInit(){
-  // BtnGroupService.notifyButtonGrpReady(0)
   this.ButtonGroupReady.emit(this.buttonIds.join())
   }
 

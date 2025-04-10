@@ -2,9 +2,7 @@ import {
   ChangeDetectionStrategy,
   Component, 
   Input,
-  OnInit,
   OnChanges,
-  AfterViewInit,
   SimpleChanges
 } from '@angular/core';
 
@@ -29,7 +27,7 @@ import { Router } from '@angular/router';
   styleUrl: './button.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ButtonComponent implements OnInit, OnChanges, AfterViewInit {
+export class ButtonComponent implements OnChanges {
   @Input() btnSetting:Button;
   @Input() screenId:string = '';
 
@@ -47,17 +45,12 @@ export class ButtonComponent implements OnInit, OnChanges, AfterViewInit {
     this.btnSetting = new Button("","","","", "",false)
   }
 
-  ngOnInit(): void {
-      
-  }
 
   ngOnChanges(changes: SimpleChanges): void {
     if(changes['btnSetting.id']){
     }    
   }
 
-  ngAfterViewInit(): void {
-  }
 
   public buttonClicked(type: string): void{
     const action = this.buttonActions[type];
