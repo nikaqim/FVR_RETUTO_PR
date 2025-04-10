@@ -144,6 +144,11 @@ export class CyranoWalkthroughComponent implements
     }
 
     ngOnChanges(changes: SimpleChanges): void {
+      // if(changes['data']){
+        
+      //   this.steps = this.tutoService.tabulateStep(this.data);
+      //   this.panels = this.tutoService.getScreens();
+      // }
       if (changes['data'] && this.data) {
         this.steps = this.tutoService.tabulateStep(this.data);
         this.panels = this.tutoService.getScreens();
@@ -304,6 +309,8 @@ export class CyranoWalkthroughComponent implements
       const targetWalkthrough = this.walkthroughComponents.find(wt => wt.id === stepId);
       if (targetWalkthrough) {
         
+          targetWalkthrough.open();
+          
           this.activeId = this.steps[0].id;
           this.tutoService.setActiveId(this.activeId);
           this.tutoService.activateSwipeNav(stepId);
