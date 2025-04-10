@@ -3,6 +3,8 @@ import { Socket } from 'ngx-socket-io';
 
 import { BehaviorSubject, Observable, map } from 'rxjs';
 
+import { IBtnGroupConfig } from '../components/shared/btn-group/btn-group-config.model';
+
 @Injectable({ providedIn: 'root' })
 export class WsService {
     
@@ -12,13 +14,9 @@ export class WsService {
         })
     }
 
-    // ✅ Send a message to the WebSocket server
-    sendMessage(event: string, data: any) {
-        this.socket.emit(event, data);
-    }
 
     // ✅ Listen for messages from the WebSocket server
-    listen(event: string): Observable<any> {
+    listen(event: string): Observable<IBtnGroupConfig> {
         return this.socket.fromEvent(event);
     }
 
