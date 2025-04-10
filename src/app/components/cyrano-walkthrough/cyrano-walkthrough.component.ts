@@ -64,11 +64,11 @@ export class CyranoWalkthroughComponent implements
     @Input() addSwiperNav:boolean = false;
     @Output() isOpen = new EventEmitter<string>();
 
-    steps: CyranoTutorial[] = [];
-    panels:string[] = [];
-    activeScreenId:string = ""; 
-    activeId: string = "";
-    activeArrowId: string = "";
+    public  steps: CyranoTutorial[] = [];
+    public panels:string[] = [];
+    public activeScreenId:string = ""; 
+    private activeId: string = "";
+    private activeArrowId: string = "";
 
     constructor( 
       private wsService:WsService,

@@ -44,16 +44,15 @@ export class BtnGroupComponent implements OnChanges, AfterViewInit, OnInit, OnDe
 
   private subs = new Subscription();  
 
-  mainAssigned:string = '';
-  vertButtons: Button[] = [];
-  arcButtons: Button[] = [];
-  baseButtons: Button[] = [];
+  private mainAssigned:string = '';
+  public arcButtons: Button[] = [];
+  public baseButtons: Button[] = [];
 
-  buttonIds:string[] = [];
+  private buttonIds:string[] = [];
 
   @Output() ButtonGroupReady = new EventEmitter<string>();
 
-  isTypeVertical = false;
+  public isTypeVertical = false;
 
  constructor(
     private btnService: BtnGroupService,

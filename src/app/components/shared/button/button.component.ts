@@ -31,7 +31,7 @@ export class ButtonComponent implements OnChanges {
   @Input() btnSetting:Button;
   @Input() screenId:string = '';
 
-  buttonActions: { [key:string] : () => void } = {
+  private buttonActions: { [key:string] : () => void } = {
     "openHelp": () => this.openTutorial(),
     "exitTutorial": () => this.exitTutorial()
   }
@@ -53,10 +53,8 @@ export class ButtonComponent implements OnChanges {
 
 
   public buttonClicked(type: string): void{
-    const action = this.buttonActions[type];
-    
-    if (action) {
-      action();
+    if (this.buttonActions[type]) {
+      this.buttonActions[type]();
     }
   }
 
