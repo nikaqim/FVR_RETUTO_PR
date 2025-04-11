@@ -296,14 +296,11 @@ import { WalkthroughComponent } from 'angular-walkthrough';
   }
 
   public scrollIntoView(elementId:string): void {
-    const parentEl = document.getElementById(elementId);
-      if(parentEl){
-        parentEl.scrollIntoView({
-          behavior: 'smooth',
-          block: 'center',
-          inline: 'center'
-        });
-      }
+    document.getElementById(elementId)?.scrollIntoView({
+      behavior: 'smooth',
+      block: 'center',
+      inline: 'center'
+    });
   }
   
 }

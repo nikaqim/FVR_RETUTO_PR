@@ -16,11 +16,6 @@ const socketConfig:SocketIoConfig = {
   options: {}
 }
 
-// // Required for AoT
-// export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
-//   return new TranslateHttpLoader(http, '../assets/i18n/', '.json');
-// }
-
 export const appConfig: ApplicationConfig = {
   providers: [
     provideHttpClient(),
