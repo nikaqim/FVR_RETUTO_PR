@@ -34,5 +34,8 @@
     "strictInjectionParameters": true,
     "strictInputAccessModifiers": true,
     "strictTemplates": true
-  }
+  },
+  "files": [
+    "src/types/leader-line.d.ts"
+  ]
 }

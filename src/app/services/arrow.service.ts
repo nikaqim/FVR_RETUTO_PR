@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 
-declare const LeaderLine:any;
+// declare const LeaderLine:LeaderLine;
 
 @Injectable({ providedIn: 'root' })
 export class ArrowService {
-    private lines: Map<string, any> = new Map(); // ✅ Store multiple arrows
+    private lines: Map<string, LeaderLine> = new Map(); // ✅ Store multiple arrows
 
     constructor() {}
 
@@ -51,9 +51,8 @@ export class ArrowService {
 
     // ✅ Remove an arrow by ID
     removeArrow(arrowId: string) {
-        console.log("removing arrow with id:", arrowId);
         if (this.lines.has(arrowId)) {
-            this.lines.get(arrowId).remove();
+            this.lines.get(arrowId)?.remove();
             this.lines.delete(arrowId);
         }
 
@@ -62,8 +61,8 @@ export class ArrowService {
     removeAll(){
         Array.from(this.lines.keys())
             .forEach(el => {
-                this.lines.get(el).hide();
-                this.lines.get(el).remove();
+                this.lines.get(el)?.hide();
+                this.lines.get(el)?.remove();
         });
 
         this.lines.clear();
