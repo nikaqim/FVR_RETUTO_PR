@@ -26,14 +26,14 @@ import { WalkthroughComponent } from 'angular-walkthrough';
   private walkthroughTextSubject = new BehaviorSubject<CyranoTutorialConfig>({
   });
 
-  steps:CyranoTutorial[] = [];
-  descrList: WalkDescrMap = {};
-  step2screen: WalkStepMap = {};
-  restartTabulatedIds: boolean = false;
+  private steps:CyranoTutorial[] = [];
+  private descrList: WalkDescrMap = {};
+  private step2screen: WalkStepMap = {};
+  private restartTabulatedIds: boolean = false;
   
-  walkconfig: CyranoTutorialConfig = {};
-  tabulatedId:string[] = [];
-  activeId:string = '';
+  private walkconfig: CyranoTutorialConfig = {};
+  private tabulatedId:string[] = [];
+  private activeId:string = '';
 
   constructor(
     private httpClient:HttpClient,
