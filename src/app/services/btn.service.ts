@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
+import { take } from 'rxjs/operators';
 import { ButtonGroup } from '../components/shared/btn-group/btn-group.model';
 import { IBtnGroupConfig } from '../components/shared/btn-group/btn-group-config.model';
 
@@ -25,11 +26,10 @@ import { IBtnGroupConfig } from '../components/shared/btn-group/btn-group-config
     }
 
     private loadButtonConfig(): void{
-      this.getButtonConfig().subscribe((data:IBtnGroupConfig) => {
+      this.getButtonConfig()
+      .pipe(take(1))
+      .subscribe((data:IBtnGroupConfig) => {
         this.btnConfigSubject.next(data);
-        if(data["btngroup"]){
-        }
-        
       })
     }
 
