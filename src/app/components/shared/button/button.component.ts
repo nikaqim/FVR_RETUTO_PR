@@ -65,8 +65,7 @@ export class ButtonComponent implements OnChanges {
   }
 
   private openTutorial(): void {
-    // this.walkService.scrollIntoView(this.walkService.getScreenById('walk1'));
-    // this.walkService.startTuto('walk1');
+    console.log('Open tutorial');
     this.walkService.moveToSlide(0);
   }
 

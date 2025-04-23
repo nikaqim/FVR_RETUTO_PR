@@ -133,7 +133,7 @@ export class CyranoWalkthroughComponent implements
       this.subs.add(
         this.tutoService.onSwiperChanged()
           .subscribe((screen:string) => {
-
+            console.log("active screen id:", screen);
           // `setting ${screen} as active..`
           this.activeScreenId = screen;
           
@@ -142,6 +142,7 @@ export class CyranoWalkthroughComponent implements
   
       this.subs.add(
         this.tutoService.onStartTuto().subscribe((id:string)=>{
+          console.log('open walkthrough', id);
           this.open(id);
         })
       );
@@ -240,6 +241,7 @@ export class CyranoWalkthroughComponent implements
   private construct_walk(): void {
 
     setTimeout(()=> {
+      console.log('constructing walkthrough')
     
       if(this.walkthroughComponents){
 
@@ -272,9 +274,12 @@ export class CyranoWalkthroughComponent implements
             current.focusGlow = false;
 
             current.rootElement = '#' + this.tutoService.getScreenById(step.id);
-            current.focusElementSelector = window.innerWidth < 551 ?
-              step.focusElementId :
-              ('#' + this.tutoService.getScreenById(step.id) + step.focusElementId.replace('#','')).toLowerCase();
+
+            // current.focusElementSelector = window.innerWidth < 551 ?
+            //   step.focusElementId :
+            //   ('#' + this.tutoService.getScreenById(step.id) + step.focusElementId.replace('#','')).toLowerCase();
+
+            current.focusElementSelector = ('#' + this.tutoService.getScreenById(step.id) + step.focusElementId.replace('#','')).toLowerCase();
             
           }
           
@@ -331,6 +336,8 @@ export class CyranoWalkthroughComponent implements
     if(this.walkthroughComponents){
       const targetWalkthrough = this.walkthroughComponents.find(wt => wt.id === stepId);
       if (targetWalkthrough) {
+
+          console.log('Found walkthrough....');
         
           targetWalkthrough.open();
           

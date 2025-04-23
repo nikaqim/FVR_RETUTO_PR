@@ -98,7 +98,8 @@ export class BtnGroupComponent implements OnChanges, AfterViewInit, OnInit, OnDe
 
  ngAfterViewInit(){
   this.ButtonGroupReady.emit(this.buttonIds.join())
-  }
+  console.log(this.activeId, this.screenId, this.buttons);
+}
 
   public getButtonPosition(index: number, total: number): Object {
 
