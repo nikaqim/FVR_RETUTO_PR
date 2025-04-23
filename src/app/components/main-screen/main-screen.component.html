@@ -4,8 +4,16 @@
             <app-language-selector></app-language-selector>
         </div>
 
-        <div #allScreenView class="desktop screen-panel">
-            <div class="screen-container {{isActiveScreen(panel) ? 'onwalk': ''}}" *ngFor="let panel of panels" [id]="panel">
+        <swiper-container 
+            #allScreenView 
+            class="desktop screen-panel" 
+            init="false"
+            (swiperslidechange)="onSlideChange($event)"
+            (swiperslidenexttransitionstart)="onBeforeSlideChange($event)"
+            (swiperslidenexttransitionend)="onSlideChangeEnd($event)"
+            (swiperslideprevtransitionend)="onSlidePrevEnd($event)">
+
+            <swiper-slide class="screen-container {{isActiveScreen(panel) ? 'onwalk': ''}}" *ngFor="let panel of panels" [id]="panel">
                 <lib-icon-btn class="closebtn" (click)="closeWalkthrough()">
                     <img src="/assets/imgs/closebtn.png" />
                  </lib-icon-btn>
@@ -21,17 +29,16 @@
                         (ButtonGroupReady)="setBtnGroupReady($event)">
                     </app-btn-group>
                 </div>
-            </div>
-        </div>
+            </swiper-slide>
+        </swiper-container>
 
-        <div class="mobile screen-panel">
+        <!-- <div class="mobile screen-panel">
             <div class="screen-container" [class.onwalk]="!!walkthroughActive" [id]="'mob'">
                 <lib-icon-btn class="closebtn" (click)="closeWalkthrough()">
                     <img src="/assets/imgs/closebtn.png" />
                  </lib-icon-btn>
                  
                 <div class="btn-container" [class.onwalk]="!!walkthroughActive" >
-                    <!-- to be made into a component -->
                     <app-btn-group 
                         *ngFor="let btngrp of buttonGroup"
                         [id]="'mob' + btngrp.id" 
@@ -43,9 +50,12 @@
                 </app-btn-group>
                 </div>
             </div>
-        </div>
+        </div> -->
 
-        <app-cyrano-walkthrough [data]="tutoData" (isOpen)="setActiveBtn($event)"></app-cyrano-walkthrough>
+        <app-cyrano-walkthrough 
+            [data]="tutoData" 
+            (isOpen)="setActiveBtn($event)">
+        </app-cyrano-walkthrough>
         
     </div>
     

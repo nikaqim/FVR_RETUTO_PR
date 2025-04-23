@@ -33,16 +33,21 @@
 
     
     .screen-panel {
+        width: 100vw;
         display: flex;
-        width: fit-content;
+        // width: fit-content;
+        // width: 100vw;
+        // width: 100%;
         justify-content: space-between;
-        overflow: scroll;
-        gap: 64px;
-        flex-wrap: wrap;
-        flex-direction: column;
+        // overflow: scroll;
+        // gap: 64px;
+        // flex-wrap: wrap;
+        // flex-direction: column;
 
-        > div:not(.nav-container) {
-            width: 321px;
+        > swiper-slide:not(.nav-container) {
+            // width: calc(100%/3-16)!important;
+            width: 321px !important;
+            margin-right: calc((100% - ((321px * 3) + (64px * 2))) / 3) !important;
             min-height: 569px;
             height: 85%;
             position: relative;
@@ -92,9 +97,9 @@
         display: flex;
     }
 
-    .screen-panel.desktop {
-        display: none !important;
-    }
+    // .screen-panel.desktop {
+    //     display: none !important;
+    // }
 
     .screen-container.onwalk .closebtn {
         position: absolute;

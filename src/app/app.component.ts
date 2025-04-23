@@ -12,6 +12,7 @@ import { RouterModule } from '@angular/router';
 })
 export class AppComponent {
   constructor(translate: TranslateService) {
+    console.log("register swiper");
     translate.setDefaultLang('en');
     translate.use('es');
   }

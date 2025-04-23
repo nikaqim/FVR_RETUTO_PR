@@ -19,7 +19,10 @@ import { WalkthroughComponent } from 'angular-walkthrough';
   private tutorNavigateSubject = new BehaviorSubject<string>("");
   private startTutoSubject = new BehaviorSubject<string>("");
   private swiperNavSubject = new BehaviorSubject<string>("");
+  private swiperSlideSubject = new Subject<boolean>();
+  private swiperMoveSubject = new Subject<number>();
   private closeTutoSubject = new BehaviorSubject<boolean>(false);
+
 
   private walkConfigSubject = new BehaviorSubject<CyranoTutorialConfig>({});
 
@@ -128,6 +131,22 @@ import { WalkthroughComponent } from 'angular-walkthrough';
     this.swiperNavSubject.next(this.getScreenById(nextId.id));
   }
 
+  public swiperIsOnSlide(status:boolean){
+    this.swiperSlideSubject.next(status);
+  }  
+
+  public isSwiperIsOnSlide(): Observable<boolean>{
+    return this.swiperSlideSubject.asObservable();
+  }
+
+  public moveToSlide(idx:number){
+    this.swiperMoveSubject.next(idx)
+  }
+
+  public onMoveToSlide(){
+    return this.swiperMoveSubject.asObservable();
+  }
+  
   public activateSwipeNav(id:string): void {
     this.swiperNavSubject.next(this.getScreenById(id));
   }

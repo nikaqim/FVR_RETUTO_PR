@@ -96,6 +96,19 @@ export class CyranoWalkthroughComponent implements
       )
 
       this.subs.add(
+        this.tutoService.isSwiperIsOnSlide().subscribe((next:boolean)=>{
+          
+          if(next){
+            console.log('next walkthru');
+            this.navigateWalkThru();
+          } else {
+            console.log('prev walkthru');
+            this.navigateWalkThru(false);
+          }
+        })
+      )
+
+      this.subs.add(
         this.tutoService.onTutoClose().subscribe((status:boolean)=>{
             this.close()
         })
@@ -292,13 +305,23 @@ export class CyranoWalkthroughComponent implements
     },100)    
   }
 
-  navigateWalkThru(): void{    
+  navigateWalkThru(next:boolean=true): void{    
     const current = this.tutoService.getById(this.activeId);
 
-    if(current && current.nextStep){
-      this.tutoService.scrollIntoView(this.tutoService.getScreenById(current.nextStep.id));
-      WalkthroughComponent.walkthroughNext();  
+    if(next){
+      if(current && current.nextStep){
+        console.log("Moving next WalkThrough ->", current.nextStep);
+        // this.tutoService.scrollIntoView(this.tutoService.getScreenById(current.nextStep.id));
+        WalkthroughComponent.walkthroughNext();  
+      }
+    } else if(!next){
+      if(current && current.previousStep){
+        console.log("Moving prev WalkThrough ->", current.previousStep);
+        // this.tutoService.scrollIntoView(this.tutoService.getScreenById(current.previousStep.id));
+        WalkthroughComponent.walkthroughPrevious();  
+      }
     }
+    
   }
 
   /**

@@ -1,8 +1,13 @@
 import { 
+  input,
   ChangeDetectionStrategy,
   Component,
   OnDestroy,
   OnInit,
+  CUSTOM_ELEMENTS_SCHEMA,
+  viewChild,
+  ElementRef,
+  AfterViewInit,
 } from '@angular/core';
 
 import { ButtonsModule } from 'nextsapien-component-lib';
@@ -11,6 +16,10 @@ import { CyranoWalkthroughComponent } from '../cyrano-walkthrough/cyrano-walkthr
 import { BtnGroupComponent } from '../shared/btn-group/btn-group.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { LanguageSelectorComponent } from '../shared/language-selector/language-selector.component';
+
+import { SwiperConfig } from '../../config/swiper';
+import { SwiperContainer } from 'swiper/element';
+
 
 import { Subscription } from 'rxjs';
 
@@ -37,10 +46,13 @@ import { WalkthroughConfigService } from '../../services/tuto.service';
   ],
   templateUrl: './main-screen.component.html',
   styleUrl: './main-screen.component.scss',
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class MainScreenComponent implements OnInit, OnDestroy {
+export class MainScreenComponent implements OnInit, AfterViewInit, OnDestroy {
   private subs = new Subscription();  
+  private readonly swiperContainer = viewChild.required<ElementRef<SwiperContainer>>('allScreenView');
+  
 
   buttonGroup :ButtonGroup[] = [];
   tutoData:CyranoTutorialConfig = {};
@@ -54,6 +66,7 @@ export class MainScreenComponent implements OnInit, OnDestroy {
     private btnGroupService: BtnGroupService,
     private walkService: WalkthroughConfigService,
   ){
+
     this.btnGroupService.getButtonConfig().subscribe((data:IBtnGroupConfig) => {
       this.buttonGroup = data['btngroup'];
     });
@@ -73,10 +86,82 @@ export class MainScreenComponent implements OnInit, OnDestroy {
 
     this.subs.add(
       this.walkService.onFinishLoadWalkThru().subscribe((data: CyranoTutorialConfig)=>{
+        console.log("onFinishLoadWalkThru...");
         this.tutoData = { ...this.walkService.getConfig()};      
         this.panels = Object.keys(this.tutoData);
       })
     );
+
+    this.subs.add(
+      this.walkService.onMoveToSlide().subscribe((idx:number)=>{
+        this.swiperContainer().nativeElement.swiper.slideTo(
+          idx,
+          0, 
+          false
+        );
+
+        this.walkService.startTuto(this.walkService.getSteps()[0].id);
+      })
+    );
+  }
+
+  ngAfterViewInit(): void {
+    // Initialize swiperJs
+    if(this.panels.length > 0){
+      const swiperElement = this.swiperContainer().nativeElement;
+      console.log("swiperElement:",swiperElement);
+      Object.assign(swiperElement, SwiperConfig);
+
+      swiperElement.initialize();
+      // setTimeout(() => {
+      //   swiperElement.initialize();
+      // }, 0);
+      
+    }
+  }
+
+  public onSlideChange(event:any){
+    console.log("onSlideChange", event);
+    console.log(
+      "Current slide #:", 
+      event["detail"][0].activeIndex, 
+      this.walkService.getSteps().length);
+
+    // this.walkService.swiperIsOnSlide(true);
+    // this.swiperContainer().nativeElement.swiper.update();
+  }
+
+  onBeforeSlideChange(event:any){
+    if(event["detail"][0].activeIndex >= this.walkService.getSteps().length-1) {
+      // set slide to last slide once reached  
+      console.log('Reached final slide');
+      this.swiperContainer().nativeElement.swiper.slideTo(
+        this.walkService.getSteps().length-1, 
+        0, 
+        false
+      );
+              
+      this.swiperContainer().nativeElement.swiper.update();
+
+      setTimeout(()=>{
+        this.walkService.swiperIsOnSlide(true);
+      }, 100)
+      
+
+    } 
+  }
+
+  public onSlideChangeEnd(event:any){
+    if(event["detail"][0].activeIndex < this.walkService.getSteps().length) {
+      console.log('Still under');
+      this.walkService.swiperIsOnSlide(true);
+    } else {
+      console.log('Above limit');
+    }
+  }
+
+  public onSlidePrevEnd(event:Event){
+    this.walkService.swiperIsOnSlide(false);
   }
 
   public setBtnGroupReady(data: string): void{
