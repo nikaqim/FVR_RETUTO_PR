@@ -333,6 +333,7 @@ export class CyranoWalkthroughComponent implements
           block: 'nearest',
           inline: 'center'
         });
+        
       }
     }
   }

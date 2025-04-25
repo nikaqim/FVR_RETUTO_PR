@@ -7,6 +7,7 @@ export class Button {
     main:boolean = false;
     title: string= "";
     visible: boolean = false;
+    progress: boolean = false;
 
     constructor(id: string = "", icon: string = "", label: string = "", size:string = "", action: string = "", visible:boolean = false) {
         this.id = id;

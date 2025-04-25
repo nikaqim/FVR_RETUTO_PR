@@ -2,13 +2,46 @@
     <!-- <lib-icon-btn [id]="screenId !== 'mob' ? (screenId + btnSetting.id).toLowerCase() : btnSetting.id">
         <img [src]="btnSetting.icon" />
      </lib-icon-btn> -->
-     <lib-bubble-btn 
-        [id]="screenId !== 'mob' ? (screenId.replace(' ','') + btnSetting.id).toLowerCase() : btnSetting.id" 
-        variant='primary'
-        [title]="btnSetting.title ? btnSetting.title : ''">
-            <img [src]="btnSetting.icon" alt="icon" />
-            <!-- <mat-icon>{{btnSetting.icon}}</mat-icon> -->
-     </lib-bubble-btn>
+     <div>
+        <svg *ngIf="btnSetting.progress !== undefined && btnSetting.progress" class="ring" viewBox="0 0 100 100">
+            <defs>
+              <linearGradient id="ringGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stop-color="#ff4c75" stop-opacity="1"/>
+                <stop offset="100%" stop-color="#ff4c75" stop-opacity="0"/>
+              </linearGradient>
+            </defs>
+            <circle
+              class="ring-bg"
+              cx="50"
+              cy="50"
+              r="45"
+              fill="none"
+              stroke="rgba(255, 255, 255, 0.1)"
+              stroke-width="8"
+            />
+            <circle
+              class="ring-progress"
+              cx="50"
+              cy="50"
+              r="45"
+              fill="none"
+              stroke="url(#ringGradient)"
+              stroke-width="8"
+              stroke-dasharray="270"
+              stroke-dashoffset="45"
+              stroke-linecap="round"
+            />
+        </svg>
+        <div class="button-content">
+            <lib-bubble-btn 
+                [id]="screenId !== 'mob' ? (screenId.replace(' ','') + btnSetting.id).toLowerCase() : btnSetting.id" 
+                variant='primary'
+                [title]="btnSetting.title ? btnSetting.title : ''">
+                <img [src]="btnSetting.icon" alt="icon" />
+            </lib-bubble-btn> 
+        </div>
+    </div>
+     
      <span>{{ 'app.button.' + btnSetting.label | translate }}</span>
 </div>
 
