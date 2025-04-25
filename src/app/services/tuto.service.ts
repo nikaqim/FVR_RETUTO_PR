@@ -61,26 +61,33 @@ import { WalkthroughComponent } from 'angular-walkthrough';
    */
   private loadWalkthrough(): void{
     let walkthruInStorage = this.localStorage.getData(StorageId.WalkConfig);
-    let isInStorage = (typeof walkthruInStorage === 'string' && walkthruInStorage !== '') || 
-      (typeof walkthruInStorage === 'object' && Object.keys(JSON.parse(walkthruInStorage)).length > 0);
+    
+    let walkthruInStorageObj = (walkthruInStorage !== undefined) && ((walkthruInStorage !== '') )? 
+      typeof walkthruInStorage === 'string' ? JSON.parse(walkthruInStorage) : walkthruInStorage : {};
 
-    if(!isInStorage){
-      console.log("not isinstorage");
-      
-      this.getWalkhroughData().subscribe((data:CyranoTutorialConfig) => {
+    this.getWalkhroughData().subscribe((data:CyranoTutorialConfig) => {
+
+      let needReload = !this.isStorageConfigValid(data, walkthruInStorageObj);
+    
+      if(needReload){
         this.steps = this.tabulateStep(data);
         this.descrList = this.tabulateDescr(this.steps);
         this.walkconfig = data;
-        this.walkConfigSubject.next(data);
-      });
-    } else {
-      console.log("isinstorage");
 
-      this.steps = this.tabulateStep(JSON.parse(walkthruInStorage))
-      this.descrList = this.tabulateDescr(this.steps);
-      this.walkconfig = JSON.parse(walkthruInStorage);
-      this.walkConfigSubject.next(JSON.parse(walkthruInStorage));
-    }
+        this.localStorage.setData(
+          StorageId.WalkConfig, 
+          JSON.stringify(this.steps)
+        )
+
+        this.walkConfigSubject.next(data);
+      } else {
+        this.steps = this.tabulateStep(walkthruInStorageObj)
+        this.descrList = this.tabulateDescr(this.steps);
+        this.walkconfig = walkthruInStorageObj;
+        this.walkConfigSubject.next(walkthruInStorageObj);
+      }
+    });
+  
   }
 
   public getConfig(): CyranoTutorialConfig{
@@ -197,6 +204,21 @@ import { WalkthroughComponent } from 'angular-walkthrough';
 
   public resetTabulatedId(): void {
     this.restartTabulatedIds = true;
+  }
+
+  private isStorageConfigValid(confData:CyranoTutorialConfig, inLocalStorage:CyranoTutorialConfig): boolean {
+
+    if(Object.keys(confData).length !== Object.keys(inLocalStorage).length){
+      return false;
+    } else {
+      for(let i=0; i < Object.keys(confData).length; i++){
+        if(Object.keys(confData)[i] !== Object.keys(inLocalStorage)[i]){
+          return false;
+        }
+      }
+    }
+    
+    return true;
   }
 
 

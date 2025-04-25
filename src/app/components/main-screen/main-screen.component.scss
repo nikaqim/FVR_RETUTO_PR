@@ -97,7 +97,7 @@
         > swiper-slide:not(.nav-container) {
             // width: calc(100%/3-16)!important;
             width: 321px !important;
-            margin-right: calc((100% - 1530px) / 5) !important;
+            // margin-right: calc((100% - 1530px) / 5) !important;
             min-height: 569px;
             height: 85%;
             position: relative;
@@ -114,7 +114,7 @@
         > swiper-slide:not(.nav-container) {
             // width: calc(100%/3-16)!important;
             width: 321px !important;
-            margin-right: calc((100% - 1280px) / 4) !important;
+            // margin-right: calc((100% - 1280px) / 4) !important;
             min-height: 569px;
             height: 85%;
             position: relative;
@@ -131,7 +131,7 @@
         > swiper-slide:not(.nav-container) {
             // width: calc(100%/3-16)!important;
             width: 321px !important;
-            margin-right: calc((100% - 780px) / 3) !important;
+            // margin-right: calc((100% - 780px) / 3) !important;
             min-height: 569px;
             height: 85%;
             position: relative;
@@ -148,7 +148,7 @@
         > swiper-slide:not(.nav-container) {
             // width: calc(100%/3-16)!important;
             width: 321px !important;
-            margin-right: calc((100% - 505px) / 2) !important;
+            // margin-right: calc((100% - 505px) / 2) !important;
             min-height: 569px;
             height: 85%;
             position: relative;
@@ -177,9 +177,13 @@
 
 @media only screen and (max-width:550px){
 
-    // .screen-panel.desktop {
-    //     display: none !important;
-    // }
+    .screen-panel {
+        > swiper-slide:not(.nav-container) {
+            margin-right: 0px !important;
+            border: 1px solid transparent !important;
+        }
+    }
+    
 
     .screen-container.onwalk .closebtn {
         position: absolute;

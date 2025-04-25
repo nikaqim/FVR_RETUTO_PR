@@ -8,21 +8,22 @@
             #allScreenView 
             class="desktop screen-panel" 
             init="false"
+            (swiperslidermove)="onSwiperMove($event)"
             (swiperslidechange)="onSlideChange($event)"
             (swiperslidenexttransitionstart)="onBeforeSlideChange($event)"
             (swiperslidenexttransitionend)="onSlideChangeEnd($event)"
             (swiperslideprevtransitionend)="onSlidePrevEnd($event)">
 
-            <swiper-slide class="screen-container {{isActiveScreen(panel) ? 'onwalk': ''}}" *ngFor="let panel of panels" [id]="panel">
+            <swiper-slide class="screen-container {{isActiveScreen(panel.replace(' ','')) ? 'onwalk': ''}}" *ngFor="let panel of panels" [id]="panel">
                 <lib-icon-btn class="closebtn" (click)="closeWalkthrough()">
                     <img src="/assets/imgs/closebtn.png" />
                  </lib-icon-btn>
-                <div class="btn-container {{ highlightAll(isActiveScreen(panel)) ? 'highlightall' : ''}}" [class.onwalk]="!!walkthroughActive">
+                <div class="btn-container {{ highlightAll(isActiveScreen(panel.replace(' ',''))) ? 'highlightall' : ''}}" [class.onwalk]="!!walkthroughActive">
                     <!-- to be made into a component -->
                     <app-btn-group 
                         *ngFor="let btngrp of buttonGroup"
                         [id]="panel + btngrp.id" 
-                        [screenId]="panel"
+                        [screenId]="panel.replace(' ','')"
                         [activeId]="walkthroughActive"
                         [type]="btngrp.layout" 
                         [buttons]="btngrp.buttons"

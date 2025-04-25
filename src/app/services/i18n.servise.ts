@@ -14,7 +14,6 @@ export class I18nService {
 
     public changeLanguage(lang: string): void {
         this.translateService.use(lang).subscribe(()=>{
-            console.log("this.changeLanguage", lang);
         })
     }
 

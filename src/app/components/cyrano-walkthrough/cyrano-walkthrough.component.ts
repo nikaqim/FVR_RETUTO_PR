@@ -99,10 +99,8 @@ export class CyranoWalkthroughComponent implements
         this.tutoService.isSwiperIsOnSlide().subscribe((next:boolean)=>{
           
           if(next){
-            console.log('next walkthru');
             this.navigateWalkThru();
           } else {
-            console.log('prev walkthru');
             this.navigateWalkThru(false);
           }
         })
@@ -120,7 +118,7 @@ export class CyranoWalkthroughComponent implements
           const current = this.tutoService.getById(comt.next.id);
           this.activeId = comt.next.id;
           this.tutoService.setActiveId(this.activeId);
-          this.isOpen.emit(current?.focusElementSelector.replace("#",''));
+          this.isOpen.emit(current?.focusElementSelector.replace(' ','').replace("#",''));
           
           if(current){
             this.drawArrow(current, current?.focusElementSelector);
@@ -133,16 +131,15 @@ export class CyranoWalkthroughComponent implements
       this.subs.add(
         this.tutoService.onSwiperChanged()
           .subscribe((screen:string) => {
-            console.log("active screen id:", screen);
           // `setting ${screen} as active..`
-          this.activeScreenId = screen;
+          this.activeScreenId = screen.replace(' ','');
+          this.scrollToPanel(screen);
           
         })
       );
   
       this.subs.add(
         this.tutoService.onStartTuto().subscribe((id:string)=>{
-          console.log('open walkthrough', id);
           this.open(id);
         })
       );
@@ -189,13 +186,13 @@ export class CyranoWalkthroughComponent implements
 
       if(comp){
         const fromEl = 'descr-' + comp.id
-        const toEl = comp.focusElementSelector.replace('#','')
+        const toEl = comp.focusElementSelector.replace(' ','').replace('#','')
 
         if(this.activeArrowId){
-          this.arrowService.removeArrow(this.activeArrowId);
+          this.arrowService.removeArrow(this.activeArrowId.replace(' ',''));
         }
         
-        this.activeArrowId = arrowId;
+        this.activeArrowId = arrowId.replace(' ', '');
 
         setTimeout(()=>{
 
@@ -218,13 +215,15 @@ export class CyranoWalkthroughComponent implements
               el.style.top =(elPos.top + 56) + 'px';
 
             } else  if(elPos.top < scr.top){
-
               el.style.top = scr.top + 'px';
+            }
 
+            if(window.innerWidth < 551){
+              el.style.left = '15px';
+            } else {
+              el.style.left = (scr.left + 8) + 'px'; 
             }
             
-            el.style.left = (scr.left + 8) + 'px'; 
-
           }
 
           this.arrowService.drawArrow(fromEl, toEl, this.activeArrowId);
@@ -241,8 +240,6 @@ export class CyranoWalkthroughComponent implements
   private construct_walk(): void {
 
     setTimeout(()=> {
-      console.log('constructing walkthrough')
-    
       if(this.walkthroughComponents){
 
         this.walkthroughComponents.forEach((walkthru, idx, arr) => {  
@@ -315,20 +312,30 @@ export class CyranoWalkthroughComponent implements
 
     if(next){
       if(current && current.nextStep){
-        console.log("Moving next WalkThrough ->", current.nextStep);
-        // this.tutoService.scrollIntoView(this.tutoService.getScreenById(current.nextStep.id));
+        this.tutoService.scrollIntoView(this.tutoService.getScreenById(current.nextStep.id));
         WalkthroughComponent.walkthroughNext();  
       }
     } else if(!next){
       if(current && current.previousStep){
-        console.log("Moving prev WalkThrough ->", current.previousStep);
-        // this.tutoService.scrollIntoView(this.tutoService.getScreenById(current.previousStep.id));
+        this.tutoService.scrollIntoView(this.tutoService.getScreenById(current.previousStep.id));
         WalkthroughComponent.walkthroughPrevious();  
       }
     }
     
   }
 
+  private scrollToPanel(panelId:string): void {
+    if(this.navElements){
+      const targetEl = this.navElements.find(el => el.nativeElement.id === panelId);
+      if (targetEl) {
+        targetEl.nativeElement.scrollIntoView({
+          behavior: 'smooth',
+          block: 'nearest',
+          inline: 'center'
+        });
+      }
+    }
+  }
   /**
    * Open walkthrough by stepId
    */
@@ -336,8 +343,6 @@ export class CyranoWalkthroughComponent implements
     if(this.walkthroughComponents){
       const targetWalkthrough = this.walkthroughComponents.find(wt => wt.id === stepId);
       if (targetWalkthrough) {
-
-          console.log('Found walkthrough....');
         
           targetWalkthrough.open();
           

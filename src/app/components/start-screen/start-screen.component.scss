@@ -4,6 +4,15 @@
     display: block;
 }
 
+@media only screen and (max-width:550px){
+    .content .left {
+        width: 112px !important;
+    }   
+    .content .right {
+        width: calc(100% - 112px) !important;
+    }
+}
+
 .content .right {
     width: calc(100% - 172px);
     overflow: clip;

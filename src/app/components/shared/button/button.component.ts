@@ -65,7 +65,6 @@ export class ButtonComponent implements OnChanges {
   }
 
   private openTutorial(): void {
-    console.log('Open tutorial');
     this.walkService.moveToSlide(0);
   }
 

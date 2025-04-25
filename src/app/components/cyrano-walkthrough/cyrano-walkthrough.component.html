@@ -2,7 +2,7 @@
   <ng-container *ngFor="let step of steps">
     <ng-walkthrough
         [id]="step.id"
-        [focusElementSelector]="step.focusElementId"
+        [focusElementSelector]="step.focusElementId.replace(' ','')"
         [contentTemplate]="step1Template">
     </ng-walkthrough>
 
@@ -22,7 +22,7 @@
 <div class="swiper-nav" (click)="navigateWalkThru()">
     <div class="nav-container">
         <ul>
-            <li [ngClass]="{ 'active': panel === activeScreenId }" #navigations *ngFor="let panel of panels" [id]="panel">
+            <li [ngClass]="{ 'active': panel.replace(' ','') === activeScreenId.replace(' ','') }" #navigations *ngFor="let panel of panels" [id]="panel.replace(' ','')">
                 {{ panel }}
             </li>
         </ul>

@@ -11,7 +11,10 @@ import { FormsModule } from '@angular/forms';
 import { RouterModule} from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 
+import { Subscription } from 'rxjs';
+
 import { WalkthroughConfigService } from '../../services/tuto.service';
+import { CyranoTutorialConfig } from '../../model/cyrano-walkthrough-cfg.model';
 import { WalkDescrMap } from '../../model/cyrano-walkthrough-screenmap.model';
 @Component({
   selector: 'app-start-screen',
@@ -26,6 +29,8 @@ import { WalkDescrMap } from '../../model/cyrano-walkthrough-screenmap.model';
   styleUrl: './start-screen.component.scss'
 })
 export class StartScreenComponent implements OnInit {
+  private subs = new Subscription(); 
+
   steps:WalkDescrMap = {};
   @ViewChildren('inputDescr') inputElements!: QueryList<ElementRef>;
 
@@ -34,16 +39,20 @@ export class StartScreenComponent implements OnInit {
   ){}
 
   ngOnInit(): void {
-
-      const tmp = this.walkService.getAllDescr();
+    this.subs.add(
+      this.walkService.onFinishLoadWalkThru().subscribe((data:CyranoTutorialConfig) => {
+        const tmp = this.walkService.getAllDescr();
           
-      for(let step of Object.keys(tmp)){
-        if(!Array.isArray(tmp[step])){
-          tmp[step] = this.reverseMarkup(tmp[step]);
+        for(let step of Object.keys(tmp)){
+          if(!Array.isArray(tmp[step])){
+            tmp[step] = this.reverseMarkup(tmp[step]);
+          }
         }
-      }
-
-      this.steps = JSON.parse(JSON.stringify(tmp));
+  
+        this.steps = JSON.parse(JSON.stringify(tmp));
+      })
+    )
+    
   }
 
   public onInputChange(key:string, event:Event): void{

@@ -3,7 +3,7 @@
         <img [src]="btnSetting.icon" />
      </lib-icon-btn> -->
      <lib-bubble-btn 
-        [id]="screenId !== 'mob' ? (screenId + btnSetting.id).toLowerCase() : btnSetting.id" 
+        [id]="screenId !== 'mob' ? (screenId.replace(' ','') + btnSetting.id).toLowerCase() : btnSetting.id" 
         variant='primary'
         [title]="btnSetting.title ? btnSetting.title : ''">
             <img [src]="btnSetting.icon" alt="icon" />

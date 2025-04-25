@@ -31,7 +31,11 @@ import { WsService } from '../../services/ws.service';
 
 import { CyranoTutorialConfig } from '../../model/cyrano-walkthrough-cfg.model';
 import { WalkthroughConfigService } from '../../services/tuto.service';
-
+import { 
+  WalkthroughComponent,
+  WalkthroughNavigate,
+  WalkthroughService,
+} from 'angular-walkthrough';
 
 @Component({
   selector: 'app-main-screen',
@@ -56,6 +60,8 @@ export class MainScreenComponent implements OnInit, AfterViewInit, OnDestroy {
 
   buttonGroup :ButtonGroup[] = [];
   tutoData:CyranoTutorialConfig = {};
+
+  onSwiping: boolean = false;
 
   panels:string[] = [];
 
@@ -86,9 +92,23 @@ export class MainScreenComponent implements OnInit, AfterViewInit, OnDestroy {
 
     this.subs.add(
       this.walkService.onFinishLoadWalkThru().subscribe((data: CyranoTutorialConfig)=>{
-        console.log("onFinishLoadWalkThru...");
         this.tutoData = { ...this.walkService.getConfig()};      
         this.panels = Object.keys(this.tutoData);
+
+        if(this.panels.length > 0){
+          const swiperElement = this.swiperContainer().nativeElement;
+          Object.assign(swiperElement, SwiperConfig);
+    
+          swiperElement.initialize();
+        }
+      })
+    );
+
+     this.subs.add(
+      WalkthroughComponent.onNavigate
+      .subscribe((comt: WalkthroughNavigate) => {
+        this.onSwiping = false;
+        
       })
     );
 
@@ -107,34 +127,56 @@ export class MainScreenComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngAfterViewInit(): void {
     // Initialize swiperJs
-    if(this.panels.length > 0){
-      const swiperElement = this.swiperContainer().nativeElement;
-      console.log("swiperElement:",swiperElement);
-      Object.assign(swiperElement, SwiperConfig);
+  }
 
-      swiperElement.initialize();
-      // setTimeout(() => {
-      //   swiperElement.initialize();
-      // }, 0);
-      
+  public onSwiperMove(event:any){
+    if(!SwiperConfig.centeredSlides){
+      if(window.innerWidth > 641){
+        if(event.detail[1].movementX > 0){
+          if(!this.onSwiping){
+            this.onSwiping = true;
+            this.swiperContainer().nativeElement.swiper.slideTo(
+              event["detail"][0].activeIndex11, 
+              0, 
+              false
+            );
+    
+            this.swiperContainer().nativeElement.swiper.update();
+    
+            setTimeout(()=>{
+              this.walkService.swiperIsOnSlide(false);
+            }, 200)
+            
+          }
+        } else {
+          
+          if(!this.onSwiping){
+            this.onSwiping = true;
+            this.swiperContainer().nativeElement.swiper.slideTo(
+              event["detail"][0].activeIndex+1, 
+              0, 
+              false
+            );
+    
+            this.swiperContainer().nativeElement.swiper.update();
+    
+            setTimeout(()=>{
+              this.walkService.swiperIsOnSlide(true);
+            }, 200)
+    
+          }
+          
+        }
+      }
     }
   }
 
   public onSlideChange(event:any){
-    console.log("onSlideChange", event);
-    console.log(
-      "Current slide #:", 
-      event["detail"][0].activeIndex, 
-      this.walkService.getSteps().length);
-
-    // this.walkService.swiperIsOnSlide(true);
-    // this.swiperContainer().nativeElement.swiper.update();
   }
 
   onBeforeSlideChange(event:any){
     if(event["detail"][0].activeIndex >= this.walkService.getSteps().length-1) {
       // set slide to last slide once reached  
-      console.log('Reached final slide');
       this.swiperContainer().nativeElement.swiper.slideTo(
         this.walkService.getSteps().length-1, 
         0, 
@@ -153,10 +195,7 @@ export class MainScreenComponent implements OnInit, AfterViewInit, OnDestroy {
 
   public onSlideChangeEnd(event:any){
     if(event["detail"][0].activeIndex < this.walkService.getSteps().length) {
-      console.log('Still under');
       this.walkService.swiperIsOnSlide(true);
-    } else {
-      console.log('Above limit');
     }
   }
 
@@ -170,7 +209,6 @@ export class MainScreenComponent implements OnInit, AfterViewInit, OnDestroy {
 
   public setActiveBtn(id: string): void{
     if(id !== ''){
-      console.log('Setiing active btn', id);
       this.walkthroughActive = id;
       this.btnGroupService.notifyButtonGrpReady(id);
     } else {
@@ -181,7 +219,7 @@ export class MainScreenComponent implements OnInit, AfterViewInit, OnDestroy {
 
   public isActiveScreen(panelId:string): boolean{
     if(this.walkthroughActive !== ''){
-      let screenId = this.walkService.getScreenById(this.walkService.getActiveId());
+      let screenId = this.walkService.getScreenById(this.walkService.getActiveId()).replace(' ','');
       return panelId === screenId
     }
     

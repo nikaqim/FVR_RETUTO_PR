@@ -65,7 +65,7 @@ export class BtnGroupComponent implements OnChanges, AfterViewInit, OnInit, OnDe
   // on walkthru navigate next focus nextElement/btn 
   this.walkService.onTutoNavigation().subscribe((btnId:string)=>{
     if(btnId){
-      const parentId = this.btnService.getScreenContainerId(btnId)
+      const parentId = this.btnService.getScreenContainerId(btnId.replace(' ',''))
       this.walkService.scrollIntoView(parentId)
       
     }
@@ -98,7 +98,6 @@ export class BtnGroupComponent implements OnChanges, AfterViewInit, OnInit, OnDe
 
  ngAfterViewInit(){
   this.ButtonGroupReady.emit(this.buttonIds.join())
-  console.log(this.activeId, this.screenId, this.buttons);
 }
 
   public getButtonPosition(index: number, total: number): Object {
