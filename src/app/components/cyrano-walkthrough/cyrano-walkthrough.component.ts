@@ -17,7 +17,7 @@ import {
   ChangeDetectorRef
 } from '@angular/core';
 
-import { Subscription } from 'rxjs';
+import { Subscription, debounceTime, fromEvent } from 'rxjs';
 
 import { WsService } from '../../services/ws.service';
 
@@ -81,6 +81,12 @@ export class CyranoWalkthroughComponent implements
     }
 
     private initSubs(): void {
+      this.subs.add(
+        fromEvent(window, 'resize').pipe(debounceTime(500)).subscribe(() => {
+          this.onResizeFinished();
+        })
+      );
+
       // rxjs observable
       this.subs.add(
         this.wsService.listenWalkUpdate('walkJsonUpdate').subscribe((msg:CyranoTutorialConfig) => {
@@ -96,12 +102,14 @@ export class CyranoWalkthroughComponent implements
 
       this.subs.add(
         this.tutoService.isSwiperIsOnSlide().subscribe((next:boolean)=>{
+          setTimeout(()=>{
+            if(next){
+              this.navigateWalkThru();
+            } else {
+              this.navigateWalkThru(false);
+            }
+          }, 300)
           
-          if(next){
-            this.navigateWalkThru();
-          } else {
-            this.navigateWalkThru(false);
-          }
         })
       )
 
@@ -145,6 +153,7 @@ export class CyranoWalkthroughComponent implements
     }
 
     private reset(config:CyranoTutorialConfig=this.data): void{
+      console.log('cyrano.component:reset walkthru');
       this.close(); // close walkthrough
       this.tutoService.resetTabulatedId(); // clear walkthrough data
       this.destroy(); // destroy walkthrough existing components
@@ -166,10 +175,9 @@ export class CyranoWalkthroughComponent implements
       }
     }
 
-    @HostListener('window:resize', ['$event'])
-    onResize(event: Event) {
-        this.reset();
-        this.close();
+    onResizeFinished(){
+      this.reset();
+      this.close();
     }
 
     ngAfterViewInit(): void {
