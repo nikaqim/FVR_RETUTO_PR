@@ -209,16 +209,22 @@ export class CyranoWalkthroughComponent implements
             const scr = screen.getBoundingClientRect();
             const elPos = el.getBoundingClientRect();
 
+            // adjust top position styling
             if(window.innerWidth < 551){
+              console.log('Window bounding', window.innerWidth, window.innerHeight)
+              console.log("Screen bounding",scr);
+              console.log("El bounding",elPos);
               
-              let topPos = (elPos.top + 56)
+              let topPos = (elPos.top + 12)
               el.style.top = topPos+ 'px';
-              el.style.top = topPos < 0 ? "0px" : el.style.top;
+              el.style.top = topPos < 0 ? "40px" : el.style.top;
 
             } else  if(elPos.top < scr.top){
               el.style.top = scr.top + 'px';
             }
 
+            
+            // adjust left position styling
             if(window.innerWidth < 551){
               el.style.left = '15px';
             } else {

@@ -109,8 +109,8 @@ walkthrough-container {
     font-family: 'Gilroy-Regular';
     line-height: 160%;
     text-shadow: 0px 0px 5.74px rgba(255, 255, 255, 1);
-    margin-bottom: 32px;
-    padding-top: 32px;
+    // margin-bottom: 32px;
+    // padding-top: 32px;
 }
 
 @media only screen and (min-width:551px){
@@ -166,6 +166,7 @@ walkthrough-container {
     }
 
     .wkt-content-block {
+        margin: 0 !important;
         max-width: 50%;
         min-width: unset !important;
     }
