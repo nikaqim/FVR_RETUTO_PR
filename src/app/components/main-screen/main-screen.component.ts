@@ -115,19 +115,23 @@ export class MainScreenComponent implements OnInit, AfterViewInit, OnDestroy {
       this.walkService.isOnTriggerSwiper().subscribe((next:boolean) => {
         let currentIdx = this.swiperContainer().nativeElement.swiper.activeIndex;
 
-        if(next){
-          let moveToPosition = currentIdx +1 ;
-          this.swiperContainer().nativeElement.swiper.slideTo(
-            moveToPosition
-          );
-
-        } else {
-          let moveToPosition = currentIdx -1 ;
-          this.swiperContainer().nativeElement.swiper.slideTo(
-            moveToPosition
-          );
-
+        if(!this.onSwiping){
+          this.onSwiping = true;
+          if(next){
+            let moveToPosition = currentIdx +1 ;
+            this.swiperContainer().nativeElement.swiper.slideTo(
+              moveToPosition
+            );
+  
+          } else {
+            let moveToPosition = currentIdx -1 ;
+            this.swiperContainer().nativeElement.swiper.slideTo(
+              moveToPosition
+            );
+  
+          }
         }
+        
       })
     )
 

@@ -108,7 +108,7 @@ export class CyranoWalkthroughComponent implements
             } else {
               this.navigateWalkThru(false);
             }
-          }, 300)
+          }, 100)
           
         })
       )
@@ -153,7 +153,6 @@ export class CyranoWalkthroughComponent implements
     }
 
     private reset(config:CyranoTutorialConfig=this.data): void{
-      console.log('cyrano.component:reset walkthru');
       this.close(); // close walkthrough
       this.tutoService.resetTabulatedId(); // clear walkthrough data
       this.destroy(); // destroy walkthrough existing components
@@ -353,14 +352,14 @@ export class CyranoWalkthroughComponent implements
         
           targetWalkthrough.open();
           
-          this.activeId = this.steps[0].id;
+          this.activeId = stepId;
           this.tutoService.setActiveId(this.activeId);
           this.tutoService.activateSwipeNav(stepId);
           
-          this.isOpen.emit(this.steps[0].focusElementId.replace('#',''));
+          this.isOpen.emit(targetWalkthrough.focusElementSelector.replace('#',''));
 
           if(WalkthroughComponent.walkthroughHasShow()){
-            this.drawArrow(targetWalkthrough, this.steps[0].focusElementId);
+            this.drawArrow(targetWalkthrough, targetWalkthrough.focusElementSelector);
           }
 
 
