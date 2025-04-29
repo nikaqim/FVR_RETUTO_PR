@@ -122,8 +122,8 @@
     .screen-panel {
         > swiper-slide:not(.nav-container) {
             width: 321px !important;
-            min-height: 569px;
-            height: 85%;
+            max-height: 569px;
+            height: calc(100% - 120px - 24px);
             position: relative;
             border: 1px solid white;
             padding: 32px 32px;

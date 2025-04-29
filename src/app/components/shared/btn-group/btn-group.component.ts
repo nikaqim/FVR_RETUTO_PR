@@ -102,7 +102,7 @@ export class BtnGroupComponent implements OnChanges, AfterViewInit, OnInit, OnDe
 
   public getButtonPosition(index: number, total: number): Object {
 
-    const radius = 50 + (total * 4); // Dynamically increase arc size
+    const radius = 50 + (total * 3); // Dynamically increase arc size
     const startAngle = Math.PI / 2; // Start at 180 degrees (semi-circle)
     const endAngle = (3 * Math.PI)/2; // End at 360 degrees
 

@@ -21,10 +21,12 @@
 .page.start-page > div {
     width: max-content;
     height: max-content;
+    max-height: 100vh;
     margin: auto;
     top: 0;
     bottom: 0;
     left: 0;
     position: absolute;
     right: 0;
+    padding: 12px 0px;
 }

@@ -5,6 +5,7 @@ body {
     margin: 0;
     color: white;
     background: #161419;
+    --font-size-title: 10px !important;
 }
 
 .lib-button-component button, 
@@ -63,7 +64,7 @@ body::-webkit-scrollbar,
     min-width: 100%;
     width: 100vw;
     height: 100vh;
-    padding: 64px;
+    padding: 12px 64px;
 }
 
 .page > div {
