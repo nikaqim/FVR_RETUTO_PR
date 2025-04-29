@@ -17,12 +17,13 @@
                 "text":"Note: All your data from this tool will be deleted after it is closed and will not be shared with anyone else for any reason.",
                 "style":{
                     "fontSize": "10px",
+                    "fontFamily": "Gilroy-Regular",
                     "lineHeight": "160%",
                     "textShadow": "0px 0px 5.74px rgba(255, 255, 255, 1)"
                 }
             }]
         }
-    ],
+    ], 
     "Timer": [
     {
         "id":"walk2",
@@ -97,7 +98,7 @@
             "focusElementId": "#outfit",
             "focusBackdrop": false,
             "contentAlign": "left",
-            "contentVertAlign": "above",
+            "contentVertAlign": "center",
             "showArrow": true,
             "closeAnywhere": false,
             "showFinishBtn": true,

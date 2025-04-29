@@ -60,7 +60,7 @@
 
     .btn-container {
         position: absolute;
-        right: 16px;
+        right: 12px;
         top: 16px;
         display: flex;
         flex-direction: column;
@@ -163,7 +163,7 @@
 @media only screen and (max-width:641px){
     .screen-panel {
         > swiper-slide:not(.nav-container) {
-            width: 98% !important;
+            width: 98.5% !important;
             min-height: unset !important;
             margin: 0 1%;
             height: 99%;
@@ -187,7 +187,7 @@
 
     .screen-container.onwalk .closebtn {
         position: absolute;
-        top: 52px !important;
+        top: 12px !important;
     }
 }
 

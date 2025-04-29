@@ -43,13 +43,15 @@ lib-bubble-btn button .mat-icon {
 }
 
 b {
-    color: #FE3C72;
+    color: #FFFFFF;
+    text-shadow: 0px 0px 5.74px 0px #FFFFFF;
     font-weight: bold;
+    font-family: 'Gilroy-Bold';
 }
 
 div, p, span, input, textarea {
     box-sizing: border-box;
-    font-family: 'Gilroy Regular';
+    font-family: 'Gilroy-Regular';
 }
 
 body::-webkit-scrollbar,
@@ -104,6 +106,7 @@ walkthrough-container {
 
 .wkt-content p:first-child {
     font-size: 16px;
+    font-family: 'Gilroy-Regular';
     line-height: 160%;
     text-shadow: 0px 0px 5.74px rgba(255, 255, 255, 1);
     margin-bottom: 32px;
@@ -120,6 +123,7 @@ walkthrough-container {
 
 .wkt-content {
     text-align: left;
+    background: transparent;
 }
 
 .wkt-navigate .wkt-finish-link,
@@ -149,7 +153,7 @@ walkthrough-container {
 
 @media only screen and (max-width:550px){
     .page {
-        padding: 12px !important;
+        padding: 0px !important;
     }
 
     .screen-panel {

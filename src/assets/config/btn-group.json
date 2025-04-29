@@ -107,7 +107,7 @@
                     "maticon": "logout", 
                     "icon": "/assets/imgs/svg/selfie.svg",
                     "label": "Selfie & Video",
-                    "size": "xl",
+                    "size": "lg",
                     "action": "openSelfieVideo",
                     "progress": true,
                     "visible": true,

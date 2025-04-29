@@ -37,7 +37,6 @@ import {
 import { WalkthroughConfigService } from '../../services/tuto.service';
 import { ArrowService } from 'src/app/services/arrow.service';
 
-
 @Component({
   selector: 'app-cyrano-walkthrough',
   standalone: true,
@@ -212,7 +211,9 @@ export class CyranoWalkthroughComponent implements
 
             if(window.innerWidth < 551){
               
-              el.style.top =(elPos.top + 56) + 'px';
+              let topPos = (elPos.top + 56)
+              el.style.top = topPos+ 'px';
+              el.style.top = topPos < 0 ? "0px" : el.style.top;
 
             } else  if(elPos.top < scr.top){
               el.style.top = scr.top + 'px';

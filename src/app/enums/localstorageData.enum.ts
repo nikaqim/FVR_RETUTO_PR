@@ -1,3 +1,4 @@
 export enum StorageId {
-    WalkConfig = 'TutorialSteps'
+    WalkConfig = 'TutorialSteps',
+    LangConfig = 'TutorialLang',
 }

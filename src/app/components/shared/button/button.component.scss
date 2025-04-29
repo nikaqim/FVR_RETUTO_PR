@@ -86,14 +86,14 @@
 }
 
 .custom-btn.sm {
-    width: 32px;
-    height: 32px;
-    --lib-icon-button-width: 32px;
-    --lib-icon-button-container-width: 32px;
-    --lib-bubble-btn-diameter: 32px;
+    width: 29px;
+    height: 29px;
+    --lib-icon-button-width: 29px;
+    --lib-icon-button-container-width: 29px;
+    --lib-bubble-btn-diameter: 29px;
 
-    --lib-icon-button-height: 32px;
-    --lib-icon-button-container-height: 32px;
+    --lib-icon-button-height: 29px;
+    --lib-icon-button-container-height: 29px;
 }
 
 .custom-btn.md {
@@ -108,17 +108,28 @@
 }
 
 .custom-btn.lg {
+    width: 46px;
+    height: 46px;
+    --lib-icon-button-width: 46px;
+    --lib-icon-button-container-width:46px;
+    --lib-bubble-btn-diameter: 46px;
+
+    --lib-icon-button-height: 46px;
+    --lib-icon-button-container-height:46px;
+}
+
+.custom-btn.xl {
     width: 56px;
     height: 56px;
     --lib-icon-button-width: 56px;
     --lib-icon-button-container-width:56px;
     --lib-bubble-btn-diameter: 56px;
 
-    --lib-icon-button-height: 55px;
-    --lib-icon-button-container-height:55px;
+    --lib-icon-button-height: 56px;
+    --lib-icon-button-container-height:56px;    
 }
 
-.custom-btn.xl {
+.custom-btn.xxl {
     width: 70px;
     height: 70px;
     --lib-icon-button-width: 70px;
