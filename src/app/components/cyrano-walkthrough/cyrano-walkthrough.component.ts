@@ -154,11 +154,7 @@ export class CyranoWalkthroughComponent implements
     }
 
     ngOnChanges(changes: SimpleChanges): void {
-      // if(changes['data']){
-        
-      //   this.steps = this.tutoService.tabulateStep(this.data);
-      //   this.panels = this.tutoService.getScreens();
-      // }
+     
       if (changes['data'] && this.data) {
         this.steps = this.tutoService.tabulateStep(this.data);
         this.panels = this.tutoService.getScreens();
@@ -211,10 +207,6 @@ export class CyranoWalkthroughComponent implements
 
             // adjust top position styling
             if(window.innerWidth < 551){
-              console.log('Window bounding', window.innerWidth, window.innerHeight)
-              console.log("Screen bounding",scr);
-              console.log("El bounding",elPos);
-              
               let topPos = (elPos.top + 12)
               el.style.top = topPos+ 'px';
               el.style.top = topPos < 0 ? "40px" : el.style.top;
@@ -278,11 +270,6 @@ export class CyranoWalkthroughComponent implements
             current.focusGlow = false;
 
             current.rootElement = '#' + this.tutoService.getScreenById(step.id);
-
-            // current.focusElementSelector = window.innerWidth < 551 ?
-            //   step.focusElementId :
-            //   ('#' + this.tutoService.getScreenById(step.id) + step.focusElementId.replace('#','')).toLowerCase();
-
             current.focusElementSelector = ('#' + this.tutoService.getScreenById(step.id) + step.focusElementId.replace('#','')).toLowerCase();
             
           }
@@ -312,6 +299,10 @@ export class CyranoWalkthroughComponent implements
         }
       }
     },100)    
+  }
+
+  triggerSlideFunction(): void {
+    this.tutoService.triggerSwiper(true);
   }
 
   navigateWalkThru(next:boolean=true): void{    

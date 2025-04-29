@@ -36,27 +36,7 @@
     .screen-panel {
         width: 100vw;
         display: flex;
-        // width: fit-content;
-        // width: 100vw;
-        // width: 100%;
         justify-content: space-between;
-        // overflow: scroll;
-        // gap: 64px;
-        // flex-wrap: wrap;
-        // flex-direction: column;
-
-        // > swiper-slide:not(.nav-container) {
-        //     // width: calc(100%/3-16)!important;
-        //     width: 321px !important;
-        //     margin-right: calc((100% - ((321px * 3) + (64px * 2))) / 3) !important;
-        //     min-height: 569px;
-        //     height: 85%;
-        //     position: relative;
-        //     border: 1px solid white;
-        //     padding: 32px 32px;
-        //     border-radius: 5%;
-    
-        // }
     }
 
     .btn-container {
@@ -96,9 +76,7 @@
 @media only screen and (min-width:1605px){
     .screen-panel {
         > swiper-slide:not(.nav-container) {
-            // width: calc(100%/3-16)!important;
             width: 321px !important;
-            // margin-right: calc((100% - 1530px) / 5) !important;
             min-height: 569px;
             height: 85%;
             position: relative;
@@ -113,9 +91,7 @@
 @media only screen and (min-width:1284px) and (max-width:1604px){
     .screen-panel {
         > swiper-slide:not(.nav-container) {
-            // width: calc(100%/3-16)!important;
             width: 321px !important;
-            // margin-right: calc((100% - 1280px) / 4) !important;
             min-height: 569px;
             height: 85%;
             position: relative;
@@ -130,9 +106,7 @@
 @media only screen and (min-width:963px) and (max-width:1283px){
     .screen-panel {
         > swiper-slide:not(.nav-container) {
-            // width: calc(100%/3-16)!important;
             width: 321px !important;
-            // margin-right: calc((100% - 780px) / 3) !important;
             min-height: 569px;
             height: 85%;
             position: relative;
@@ -147,9 +121,7 @@
 @media only screen and (min-width:642px) and (max-width:962px){
     .screen-panel {
         > swiper-slide:not(.nav-container) {
-            // width: calc(100%/3-16)!important;
             width: 321px !important;
-            // margin-right: calc((100% - 505px) / 2) !important;
             min-height: 569px;
             height: 85%;
             position: relative;

@@ -108,9 +108,28 @@ export class MainScreenComponent implements OnInit, AfterViewInit, OnDestroy {
       WalkthroughComponent.onNavigate
       .subscribe((comt: WalkthroughNavigate) => {
         this.onSwiping = false;
-        
       })
     );
+
+    this.subs.add(
+      this.walkService.isOnTriggerSwiper().subscribe((next:boolean) => {
+        let currentIdx = this.swiperContainer().nativeElement.swiper.activeIndex;
+
+        if(next){
+          let moveToPosition = currentIdx +1 ;
+          this.swiperContainer().nativeElement.swiper.slideTo(
+            moveToPosition
+          );
+
+        } else {
+          let moveToPosition = currentIdx -1 ;
+          this.swiperContainer().nativeElement.swiper.slideTo(
+            moveToPosition
+          );
+
+        }
+      })
+    )
 
     this.subs.add(
       this.walkService.onMoveToSlide().subscribe((idx:number)=>{
@@ -136,7 +155,7 @@ export class MainScreenComponent implements OnInit, AfterViewInit, OnDestroy {
           if(!this.onSwiping){
             this.onSwiping = true;
             this.swiperContainer().nativeElement.swiper.slideTo(
-              event["detail"][0].activeIndex11, 
+              event["detail"][0].activeIndex-1, 
               0, 
               false
             );

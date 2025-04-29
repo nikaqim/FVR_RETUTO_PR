@@ -20,6 +20,7 @@ import { WalkthroughComponent } from 'angular-walkthrough';
   private startTutoSubject = new BehaviorSubject<string>("");
   private swiperNavSubject = new BehaviorSubject<string>("");
   private swiperSlideSubject = new Subject<boolean>();
+  private swiperTriggerSlideSubject = new Subject<boolean>();
   private swiperMoveSubject = new Subject<number>();
   private closeTutoSubject = new BehaviorSubject<boolean>(false);
 
@@ -144,6 +145,14 @@ import { WalkthroughComponent } from 'angular-walkthrough';
 
   public isSwiperIsOnSlide(): Observable<boolean>{
     return this.swiperSlideSubject.asObservable();
+  }
+
+  public triggerSwiper(next: boolean){
+    this.swiperTriggerSlideSubject.next(next);
+  }
+
+  public isOnTriggerSwiper(): Observable<boolean>{
+    return this.swiperTriggerSlideSubject.asObservable()
   }
 
   public moveToSlide(idx:number){
