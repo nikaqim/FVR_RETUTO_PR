@@ -20,6 +20,7 @@ import { WalkthroughComponent } from 'angular-walkthrough';
   private startTutoSubject = new BehaviorSubject<string>("");
   private swiperNavSubject = new BehaviorSubject<string>("");
   private swiperSlideSubject = new Subject<boolean>();
+  private drawArrowSubject = new Subject<boolean>();
   private swiperTriggerSlideSubject = new Subject<boolean>();
   private swiperMoveSubject = new Subject<number>();
   private closeTutoSubject = new BehaviorSubject<boolean>(false);
@@ -38,6 +39,7 @@ import { WalkthroughComponent } from 'angular-walkthrough';
   private walkconfig: CyranoTutorialConfig = {};
   private tabulatedId:string[] = [];
   private activeId:string = '';
+  private onSwipe:boolean = false;
 
   constructor(
     private httpClient:HttpClient,
@@ -56,6 +58,7 @@ import { WalkthroughComponent } from 'angular-walkthrough';
   getWalkhroughData(): Observable<CyranoTutorialConfig> {
     return this.httpClient.get<CyranoTutorialConfig>('/assets/config/walkthrough.json');
   }
+
 
   /**
    * Loading Walkthrough Configuration Object
@@ -137,6 +140,22 @@ import { WalkthroughComponent } from 'angular-walkthrough';
 
     this.tutorNavigateSubject.next(nextId.focusElementSelector);
     this.swiperNavSubject.next(this.getScreenById(nextId.id));
+  }
+
+  public setDrawArrowSubject(){
+    this.drawArrowSubject.next(true);
+  }
+
+  public onDrawArrowSubject(): Observable<boolean>{
+    return this.drawArrowSubject.asObservable()
+  }
+
+  public isSwping():boolean{
+    return this.onSwipe;
+  }
+
+  public setSwiping(status:boolean){
+    this.onSwipe = status;
   }
 
   public swiperIsOnSlide(status:boolean){

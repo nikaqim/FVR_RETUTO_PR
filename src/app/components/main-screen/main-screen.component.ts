@@ -8,6 +8,7 @@ import {
   viewChild,
   ElementRef,
   AfterViewInit,
+  NgZone
 } from '@angular/core';
 
 import { ButtonsModule } from 'nextsapien-component-lib';
@@ -21,7 +22,7 @@ import { SwiperConfig } from '../../config/swiper';
 import { SwiperContainer } from 'swiper/element';
 
 
-import { Subscription } from 'rxjs';
+import { Subscription, fromEvent, debounceTime } from 'rxjs';
 
 import { ButtonGroup } from '../shared/btn-group/btn-group.model';
 import { BtnGroupService } from '../../services/btn.service';
@@ -68,6 +69,7 @@ export class MainScreenComponent implements OnInit, AfterViewInit, OnDestroy {
   walkthroughActive:string = '';
 
   constructor(
+    private zone: NgZone,
     private wsService: WsService,
     private btnGroupService: BtnGroupService,
     private walkService: WalkthroughConfigService,
@@ -117,6 +119,8 @@ export class MainScreenComponent implements OnInit, AfterViewInit, OnDestroy {
 
         if(!this.onSwiping){
           this.onSwiping = true;
+          this.walkService.setSwiping(this.onSwiping);
+
           if(next){
             let moveToPosition = currentIdx +1 ;
             this.swiperContainer().nativeElement.swiper.slideTo(
@@ -150,6 +154,16 @@ export class MainScreenComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngAfterViewInit(): void {
     // Initialize swiperJs
+    const swiperElement: HTMLElement = this.swiperContainer().nativeElement;
+
+    fromEvent(swiperElement, 'transitionend')  // lowercase native event!
+      .pipe(debounceTime(300))
+      .subscribe(() => {
+        this.zone.run(() => {
+          this.walkService.setSwiping(false);
+          this.walkService.setDrawArrowSubject();
+        });
+      });
   }
 
   public onSwiperMove(event:any){
@@ -157,7 +171,10 @@ export class MainScreenComponent implements OnInit, AfterViewInit, OnDestroy {
       if(window.innerWidth > 641){
         if(event.detail[1].movementX > 0){
           if(!this.onSwiping){
+
             this.onSwiping = true;
+            this.walkService.setSwiping(this.onSwiping);
+
             this.swiperContainer().nativeElement.swiper.slideTo(
               event["detail"][0].activeIndex-1, 
               0, 
@@ -174,7 +191,10 @@ export class MainScreenComponent implements OnInit, AfterViewInit, OnDestroy {
         } else {
           
           if(!this.onSwiping){
+
             this.onSwiping = true;
+            this.walkService.setSwiping(this.onSwiping);
+
             this.swiperContainer().nativeElement.swiper.slideTo(
               event["detail"][0].activeIndex+1, 
               0, 
@@ -198,6 +218,8 @@ export class MainScreenComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   onBeforeSlideChange(event:any){
+    this.onSwiping = true;
+    this.walkService.setSwiping(true);
     if(event["detail"][0].activeIndex >= this.walkService.getSteps().length-1) {
       // set slide to last slide once reached  
       this.swiperContainer().nativeElement.swiper.slideTo(
@@ -217,6 +239,7 @@ export class MainScreenComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   public onSlideChangeEnd(event:any){
+    this.onSwiping = false;
     if(event["detail"][0].activeIndex < this.walkService.getSteps().length) {
       this.walkService.swiperIsOnSlide(true);
     }

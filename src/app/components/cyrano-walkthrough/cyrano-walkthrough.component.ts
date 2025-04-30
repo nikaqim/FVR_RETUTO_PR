@@ -102,6 +102,10 @@ export class CyranoWalkthroughComponent implements
 
       this.subs.add(
         this.tutoService.isSwiperIsOnSlide().subscribe((next:boolean)=>{
+          if(this.tutoService.isSwping()){
+            this.arrowService.removeArrow(this.activeArrowId.replace(' ',''));
+          }
+
           setTimeout(()=>{
             if(next){
               this.navigateWalkThru();
@@ -120,6 +124,15 @@ export class CyranoWalkthroughComponent implements
       )
   
       this.subs.add(
+        this.tutoService.onDrawArrowSubject().subscribe((status:boolean)=>{
+          let current = this.tutoService.getById(this.activeId);
+          if(current){
+            this.drawArrow(current, current?.focusElementSelector);
+          }
+        })
+      );
+
+      this.subs.add(
         WalkthroughComponent.onNavigate
         .subscribe((comt: WalkthroughNavigate) => {
           const current = this.tutoService.getById(comt.next.id);
@@ -128,8 +141,13 @@ export class CyranoWalkthroughComponent implements
           this.isOpen.emit(current?.focusElementSelector.replace(' ','').replace("#",''));
           
           if(current){
-            this.drawArrow(current, current?.focusElementSelector);
+            
             this.tutoService.notifyTutoNavigation(current)
+
+            setTimeout(()=>{
+              this.repositionTuto();
+            }, 100)
+            
           }
 
         })
@@ -174,6 +192,34 @@ export class CyranoWalkthroughComponent implements
       }
     }
 
+    repositionTuto(){
+      const el = document.querySelector(".wkt-content-block") as HTMLElement;
+      const screen = document.querySelector(".screen-container.onwalk");
+      if(screen && el){
+        // readjust position so don't get out of screen
+        const scr = screen.getBoundingClientRect();
+        const elPos = el.getBoundingClientRect();
+
+        // adjust top position styling
+        if(window.innerWidth < 551){
+          let topPos = (elPos.top + 12)
+          el.style.top = topPos+ 'px';
+          el.style.top = topPos < 0 ? "40px" : el.style.top;
+
+        } else  if(elPos.top < scr.top){
+          el.style.top = scr.top + 'px';
+        }
+
+        // adjust left position styling
+        if(window.innerWidth < 551){
+          el.style.left = '15px';
+        } else {
+          el.style.left = (scr.left + 8) + 'px'; 
+        }
+        
+      }
+    }
+
     onResizeFinished(){
       this.reset();
       this.close();
@@ -196,45 +242,14 @@ export class CyranoWalkthroughComponent implements
         
         this.activeArrowId = arrowId.replace(' ', '');
 
-        setTimeout(()=>{
+        const backdrop = document.querySelector('.wkt-zone') as HTMLElement;
 
-          const el = document.querySelector(".wkt-content-block") as HTMLElement;
-          const screen = document.querySelector(".screen-container.onwalk");
-          const backdrop = document.querySelector('.wkt-zone') as HTMLElement;
+        if(backdrop){
+          
+          backdrop.style.setProperty('box-shadow', 'none', 'important');
+        }
 
-          if(backdrop){
-            
-            backdrop.style.setProperty('box-shadow', 'none', 'important');
-          }
-
-          if(screen && el){
-            // readjust position so don't get out of screen
-            const scr = screen.getBoundingClientRect();
-            const elPos = el.getBoundingClientRect();
-
-            // adjust top position styling
-            if(window.innerWidth < 551){
-              let topPos = (elPos.top + 12)
-              el.style.top = topPos+ 'px';
-              el.style.top = topPos < 0 ? "40px" : el.style.top;
-
-            } else  if(elPos.top < scr.top){
-              el.style.top = scr.top + 'px';
-            }
-
-            
-            // adjust left position styling
-            if(window.innerWidth < 551){
-              el.style.left = '15px';
-            } else {
-              el.style.left = (scr.left + 8) + 'px'; 
-            }
-            
-          }
-
-          this.arrowService.drawArrow(fromEl, toEl, this.activeArrowId);
-
-        }, 150)
+        this.arrowService.drawArrow(fromEl, toEl, this.activeArrowId);
       }
       
       
@@ -359,9 +374,11 @@ export class CyranoWalkthroughComponent implements
           this.isOpen.emit(targetWalkthrough.focusElementSelector.replace('#',''));
 
           if(WalkthroughComponent.walkthroughHasShow()){
-            this.drawArrow(targetWalkthrough, targetWalkthrough.focusElementSelector);
+            this.repositionTuto();
+            if(!this.tutoService.isSwping()){
+              this.drawArrow(targetWalkthrough, targetWalkthrough.focusElementSelector);
+            }
           }
-
 
       } else {
           console.warn(`Walkthrough with id '${stepId}' not found`);

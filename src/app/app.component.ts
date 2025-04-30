@@ -27,7 +27,6 @@ export class AppComponent {
     // Prevent double-click
     @HostListener('window:dblclick', ['$event'])
     onDoubleClick(event: MouseEvent) {
-      console.log('double click...');
       event.preventDefault();
     }
 }

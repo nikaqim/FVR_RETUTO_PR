@@ -11,7 +11,6 @@ export class WsService {
     
     constructor(private socket: Socket) {
         this.socket.on('connect', ()=>{
-            console.log("websocket connected");
         })
     }
 
