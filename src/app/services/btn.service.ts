@@ -55,6 +55,7 @@ import { IBtnGroupConfig } from '../components/shared/btn-group/btn-group-config
     }
 
     public getScreenContainerId(elementId:string): string{
+      console.log("elementId:",elementId )
       const child = document.getElementById(elementId.replace('#',''));
       const screenContainer = child?.closest('.screen-container');
       const screenId = (screenContainer as HTMLElement).id;

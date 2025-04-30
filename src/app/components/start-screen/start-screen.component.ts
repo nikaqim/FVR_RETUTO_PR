@@ -1,5 +1,6 @@
 import { 
   Component,
+  HostListener,
   ElementRef,
   OnInit,
   QueryList,
@@ -54,6 +55,7 @@ export class StartScreenComponent implements OnInit {
     )
     
   }
+
 
   public onInputChange(key:string, event:Event): void{
     const inputElement = event.target as HTMLInputElement;
