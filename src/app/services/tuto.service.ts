@@ -142,8 +142,8 @@ import { WalkthroughComponent } from 'angular-walkthrough';
     this.swiperNavSubject.next(this.getScreenById(nextId.id));
   }
 
-  public setDrawArrowSubject(){
-    this.drawArrowSubject.next(true);
+  public setDrawArrowSubject(status:boolean){
+    this.drawArrowSubject.next(status);
   }
 
   public onDrawArrowSubject(): Observable<boolean>{

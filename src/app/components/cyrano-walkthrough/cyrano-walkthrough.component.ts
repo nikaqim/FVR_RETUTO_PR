@@ -126,12 +126,21 @@ export class CyranoWalkthroughComponent implements
       this.subs.add(
         this.tutoService.onDrawArrowSubject().subscribe((status:boolean)=>{
           let current = this.tutoService.getById(this.activeId);
-          if(current){
+          if(current && status){
             this.drawArrow(current, current?.focusElementSelector);
+          } else if(!status){
+            this.arrowService.removeArrow(this.activeArrowId.replace(' ',''));
           }
         })
       );
 
+      this.subs.add(
+        WalkthroughComponent.onRefresh.subscribe((comt:WalkthroughComponent)=>{
+          if(WalkthroughComponent.walkthroughHasShow()){
+            console.log('component open');
+          }
+        })
+      )
       this.subs.add(
         WalkthroughComponent.onNavigate
         .subscribe((comt: WalkthroughNavigate) => {
@@ -165,6 +174,7 @@ export class CyranoWalkthroughComponent implements
   
       this.subs.add(
         this.tutoService.onStartTuto().subscribe((id:string)=>{
+          console.log('onstartTuto');
           this.open(id);
         })
       );
@@ -373,13 +383,15 @@ export class CyranoWalkthroughComponent implements
           
           this.isOpen.emit(targetWalkthrough.focusElementSelector.replace('#',''));
 
-          if(WalkthroughComponent.walkthroughHasShow()){
-            this.repositionTuto();
-            if(!this.tutoService.isSwping()){
-              this.drawArrow(targetWalkthrough, targetWalkthrough.focusElementSelector);
-            }
-          }
-
+          setTimeout(()=>{
+            if(WalkthroughComponent.walkthroughHasShow()){
+              this.repositionTuto();
+              if(!this.tutoService.isSwping()){
+                this.drawArrow(targetWalkthrough, targetWalkthrough.focusElementSelector);
+              }
+            }  
+          }, 100)
+          
       } else {
           console.warn(`Walkthrough with id '${stepId}' not found`);
       } 

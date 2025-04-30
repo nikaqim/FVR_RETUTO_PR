@@ -33,26 +33,6 @@
             </swiper-slide>
         </swiper-container>
 
-        <!-- <div class="mobile screen-panel">
-            <div class="screen-container" [class.onwalk]="!!walkthroughActive" [id]="'mob'">
-                <lib-icon-btn class="closebtn" (click)="closeWalkthrough()">
-                    <img src="/assets/imgs/closebtn.png" />
-                 </lib-icon-btn>
-                 
-                <div class="btn-container" [class.onwalk]="!!walkthroughActive" >
-                    <app-btn-group 
-                        *ngFor="let btngrp of buttonGroup"
-                        [id]="'mob' + btngrp.id" 
-                        [screenId]="'mob'"
-                        [activeId]="walkthroughActive"
-                        [type]="btngrp.layout" 
-                        [buttons]="btngrp.buttons"
-                        (ButtonGroupReady)="setBtnGroupReady($event)">
-                </app-btn-group>
-                </div>
-            </div>
-        </div> -->
-
         <app-cyrano-walkthrough 
             [data]="tutoData" 
             (isOpen)="setActiveBtn($event)">

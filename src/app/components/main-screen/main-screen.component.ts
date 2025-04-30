@@ -119,6 +119,7 @@ export class MainScreenComponent implements OnInit, AfterViewInit, OnDestroy {
 
         if(!this.onSwiping){
           this.onSwiping = true;
+          
           this.walkService.setSwiping(this.onSwiping);
 
           if(next){
@@ -161,7 +162,7 @@ export class MainScreenComponent implements OnInit, AfterViewInit, OnDestroy {
       .subscribe(() => {
         this.zone.run(() => {
           this.walkService.setSwiping(false);
-          this.walkService.setDrawArrowSubject();
+          this.walkService.setDrawArrowSubject(true);
         });
       });
   }
@@ -174,6 +175,7 @@ export class MainScreenComponent implements OnInit, AfterViewInit, OnDestroy {
 
             this.onSwiping = true;
             this.walkService.setSwiping(this.onSwiping);
+            
 
             this.swiperContainer().nativeElement.swiper.slideTo(
               event["detail"][0].activeIndex-1, 
@@ -194,6 +196,7 @@ export class MainScreenComponent implements OnInit, AfterViewInit, OnDestroy {
 
             this.onSwiping = true;
             this.walkService.setSwiping(this.onSwiping);
+            
 
             this.swiperContainer().nativeElement.swiper.slideTo(
               event["detail"][0].activeIndex+1, 
@@ -220,6 +223,7 @@ export class MainScreenComponent implements OnInit, AfterViewInit, OnDestroy {
   onBeforeSlideChange(event:any){
     this.onSwiping = true;
     this.walkService.setSwiping(true);
+    
     if(event["detail"][0].activeIndex >= this.walkService.getSteps().length-1) {
       // set slide to last slide once reached  
       this.swiperContainer().nativeElement.swiper.slideTo(
