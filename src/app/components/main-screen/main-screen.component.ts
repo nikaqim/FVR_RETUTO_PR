@@ -28,7 +28,7 @@ import { ButtonGroup } from '../shared/btn-group/btn-group.model';
 import { BtnGroupService } from '../../services/btn.service';
 import { IBtnGroupConfig } from '../shared/btn-group/btn-group-config.model';
 
-import { WsService } from '../../services/ws.service';
+// import { WsService } from '../../services/ws.service';
 
 import { CyranoTutorialConfig } from '../../model/cyrano-walkthrough-cfg.model';
 import { WalkthroughConfigService } from '../../services/tuto.service';
@@ -70,7 +70,7 @@ export class MainScreenComponent implements OnInit, AfterViewInit, OnDestroy {
 
   constructor(
     private zone: NgZone,
-    private wsService: WsService,
+    // private wsService: WsService,
     private btnGroupService: BtnGroupService,
     private walkService: WalkthroughConfigService,
   ){
@@ -108,11 +108,14 @@ export class MainScreenComponent implements OnInit, AfterViewInit, OnDestroy {
 
      this.subs.add(
       WalkthroughComponent.onNavigate
+      .pipe(debounceTime(100))
       .subscribe((comt: WalkthroughNavigate) => {
         this.onSwiping = false;
+        this.walkService.setDrawArrowSubject(true);
       })
     );
 
+    // for navigation trigger swiper
     this.subs.add(
       this.walkService.isOnTriggerSwiper().subscribe((next:boolean) => {
         let currentIdx = this.swiperContainer().nativeElement.swiper.activeIndex;
@@ -144,7 +147,7 @@ export class MainScreenComponent implements OnInit, AfterViewInit, OnDestroy {
       this.walkService.onMoveToSlide().subscribe((idx:number)=>{
         this.swiperContainer().nativeElement.swiper.slideTo(
           idx,
-          0, 
+          10, 
           false
         );
 
@@ -159,11 +162,10 @@ export class MainScreenComponent implements OnInit, AfterViewInit, OnDestroy {
 
     // on swipe transition - draw arrow
     fromEvent(swiperElement, 'transitionend')  // lowercase native event!
-      .pipe(debounceTime(300))
+      .pipe(debounceTime(100))
       .subscribe(() => {
         this.zone.run(() => {
           this.walkService.setSwiping(false);
-          this.walkService.setDrawArrowSubject(true);
         });
       });
   }
@@ -177,10 +179,9 @@ export class MainScreenComponent implements OnInit, AfterViewInit, OnDestroy {
             this.onSwiping = true;
             this.walkService.setSwiping(this.onSwiping);
             
-
             this.swiperContainer().nativeElement.swiper.slideTo(
               event["detail"][0].activeIndex-1, 
-              0, 
+              10, 
               false
             );
     
@@ -198,10 +199,9 @@ export class MainScreenComponent implements OnInit, AfterViewInit, OnDestroy {
             this.onSwiping = true;
             this.walkService.setSwiping(this.onSwiping);
             
-
             this.swiperContainer().nativeElement.swiper.slideTo(
               event["detail"][0].activeIndex+1, 
-              0, 
+              10, 
               false
             );
     
@@ -229,7 +229,7 @@ export class MainScreenComponent implements OnInit, AfterViewInit, OnDestroy {
     if(event["detail"][0].activeIndex >= this.walkService.getSteps().length-1) {
       this.swiperContainer().nativeElement.swiper.slideTo(
         this.walkService.getSteps().length-1, 
-        0, 
+        10, 
         false
       );
               

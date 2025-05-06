@@ -19,7 +19,7 @@ import {
 
 import { Subscription, debounceTime, fromEvent } from 'rxjs';
 
-import { WsService } from '../../services/ws.service';
+// import { WsService } from '../../services/ws.service';
 
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -70,7 +70,7 @@ export class CyranoWalkthroughComponent implements
     private activeArrowId: string = "";
 
     constructor( 
-      private wsService:WsService,
+      // private wsService:WsService,
       private tutoService: WalkthroughConfigService,
       private arrowService: ArrowService,
       private cd: ChangeDetectorRef
@@ -88,11 +88,11 @@ export class CyranoWalkthroughComponent implements
       );
 
       // rxjs observable
-      this.subs.add(
-        this.wsService.listenWalkUpdate('walkJsonUpdate').subscribe((msg:CyranoTutorialConfig) => {
-          this.reset(msg)
-        })
-      );
+      // this.subs.add(
+      //   this.wsService.listenWalkUpdate('walkJsonUpdate').subscribe((msg:CyranoTutorialConfig) => {
+      //     this.reset(msg)
+      //   })
+      // );
 
       this.subs.add(
         this.tutoService.onNotifyTextChange().subscribe((msg:CyranoTutorialConfig)=>{
@@ -127,7 +127,6 @@ export class CyranoWalkthroughComponent implements
         this.tutoService.onDrawArrowSubject()
         .pipe(debounceTime(100))
         .subscribe((status:boolean)=>{
-          
           let current = this.tutoService.getById(this.activeId);
 
           if(current && status){
