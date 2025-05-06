@@ -1,11 +1,11 @@
 export const SwiperConfig = {
     slidesPerView: 1,
     spaceBetween: 0,
-    centeredSlides: true,
+    centeredSlides: false,
     observer: true,
     observeParents: true,
     grabCursor: true,
-    breakpointsBase: 'container',
+    breakpointsBase: 'window',
     breakpoints: {
         640: {
             slidesPerView: 'auto',

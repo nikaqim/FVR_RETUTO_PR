@@ -101,10 +101,9 @@ export class CyranoWalkthroughComponent implements
       )
 
       this.subs.add(
+        // on receiving swiper slide event
         this.tutoService.isSwiperIsOnSlide().subscribe((next:boolean)=>{
-          if(this.tutoService.isSwping()){
-            this.arrowService.removeArrow(this.activeArrowId.replace(' ',''));
-          }
+          this.arrowService.removeArrow(this.activeArrowId.replace(' ',''));
 
           setTimeout(()=>{
             if(next){
@@ -123,9 +122,14 @@ export class CyranoWalkthroughComponent implements
         })
       )
   
+      // receive trigger to draw/remove walkthrough arrow
       this.subs.add(
-        this.tutoService.onDrawArrowSubject().subscribe((status:boolean)=>{
+        this.tutoService.onDrawArrowSubject()
+        .pipe(debounceTime(100))
+        .subscribe((status:boolean)=>{
+          
           let current = this.tutoService.getById(this.activeId);
+
           if(current && status){
             this.drawArrow(current, current?.focusElementSelector);
           } else if(!status){
@@ -137,7 +141,6 @@ export class CyranoWalkthroughComponent implements
       this.subs.add(
         WalkthroughComponent.onRefresh.subscribe((comt:WalkthroughComponent)=>{
           if(WalkthroughComponent.walkthroughHasShow()){
-            console.log('component open');
           }
         })
       )
@@ -174,7 +177,6 @@ export class CyranoWalkthroughComponent implements
   
       this.subs.add(
         this.tutoService.onStartTuto().subscribe((id:string)=>{
-          console.log('onstartTuto');
           this.open(id);
         })
       );

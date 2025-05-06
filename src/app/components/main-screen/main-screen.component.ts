@@ -157,6 +157,7 @@ export class MainScreenComponent implements OnInit, AfterViewInit, OnDestroy {
     // Initialize swiperJs
     const swiperElement: HTMLElement = this.swiperContainer().nativeElement;
 
+    // on swipe transition - draw arrow
     fromEvent(swiperElement, 'transitionend')  // lowercase native event!
       .pipe(debounceTime(300))
       .subscribe(() => {
@@ -224,8 +225,8 @@ export class MainScreenComponent implements OnInit, AfterViewInit, OnDestroy {
     this.onSwiping = true;
     this.walkService.setSwiping(true);
     
+    // set slide to last slide once reached  
     if(event["detail"][0].activeIndex >= this.walkService.getSteps().length-1) {
-      // set slide to last slide once reached  
       this.swiperContainer().nativeElement.swiper.slideTo(
         this.walkService.getSteps().length-1, 
         0, 

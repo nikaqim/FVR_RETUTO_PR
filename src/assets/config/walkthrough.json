@@ -98,7 +98,7 @@
             "focusElementId": "#outfit",
             "focusBackdrop": false,
             "contentAlign": "left",
-            "contentVertAlign": "center",
+            "contentVertAlign": "above",
             "showArrow": true,
             "closeAnywhere": false,
             "showFinishBtn": true,
