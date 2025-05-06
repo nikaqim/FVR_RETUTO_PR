@@ -86,11 +86,11 @@ export class MainScreenComponent implements OnInit, AfterViewInit, OnDestroy {
 
   private initSubs(): void{
     // for testing realtime update using websocket
-    this.subs.add(
-      this.wsService.listenBtnUpdate('btnJsonUpdate').subscribe((msg:IBtnGroupConfig) => {
-        this.buttonGroup = typeof msg === 'string' ? JSON.parse(msg)['btngroup'] : msg['btngroup'];
-      })
-    );
+    // this.subs.add(
+    //   this.wsService.listenBtnUpdate('btnJsonUpdate').subscribe((msg:IBtnGroupConfig) => {
+    //     this.buttonGroup = typeof msg === 'string' ? JSON.parse(msg)['btngroup'] : msg['btngroup'];
+    //   })
+    // );
 
     this.subs.add(
       this.walkService.onFinishLoadWalkThru().subscribe((data: CyranoTutorialConfig)=>{

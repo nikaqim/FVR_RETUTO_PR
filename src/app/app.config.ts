@@ -21,7 +21,7 @@ export const appConfig: ApplicationConfig = {
     provideHttpClient(),
     provideRouter(routes),
 
-    SocketIoModule.forRoot(socketConfig).providers!, // ✅ this fixes WrappedSocket
+    // SocketIoModule.forRoot(socketConfig).providers!, // ✅ this fixes WrappedSocket
 
     TranslateModule.forRoot({
         defaultLanguage: 'en',
