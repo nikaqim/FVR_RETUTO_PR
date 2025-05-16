@@ -272,6 +272,7 @@ export class MainScreenComponent implements OnInit, AfterViewInit, OnDestroy {
     if(step && this.walkService.isActive()){
       
       this.walkService.setActiveId(step.id);
+      console.log("onSlideChange:getSteps:",this.walkService.getSteps());
       this.setActiveBtn(step.focusElementSelector.replace('#',''));
       // this.walkService.scrollIntoView(this.walkService.getScreenById(step.id));
     }

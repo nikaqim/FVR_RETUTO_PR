@@ -343,6 +343,7 @@ import { WalkthroughComponent } from 'angular-walkthrough';
             this.tabulatedId.push(step.id);
             
             step.descr = this.implementArrMarkup(step.descr);
+            step.focusElementSelector = ('#' + screen + step.focusElementId.replace('#','')).toLowerCase();
           
             // store all step info
             this.steps.push(step);
@@ -350,7 +351,6 @@ import { WalkthroughComponent } from 'angular-walkthrough';
             // screen screen id for each step
             if(!this.step2screen[step.id]){
               this.step2screen[step.id] = screen;
-              step.focusElementSelector = ('#' + screen + step.focusElementId.replace('#','')).toLowerCase();
             }
 
             
@@ -393,6 +393,7 @@ import { WalkthroughComponent } from 'angular-walkthrough';
           this.restartTabulatedIds = true;
           
           this.steps = this.tabulateStep(this.walkconfig);
+          console.log("this.steps:",this.steps);
           this.notifyTextChange(this.walkconfig);
 
           break;
