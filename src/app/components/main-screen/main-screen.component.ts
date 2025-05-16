@@ -258,8 +258,6 @@ export class MainScreenComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   public onSlideChange(event:any){
-
-    console.log('onslidechange: event=',event.detail[0].activeIndex, this.onButtonTrigger)
     let activeSwiperIdx = this.swiperContainer?.nativeElement.swiper.activeIndex;
     // let direction = this.swiperContainer?.nativeElement.swiper.swipeDirection;
     let direction = event.detail[0].swipeDirection;
@@ -277,10 +275,6 @@ export class MainScreenComponent implements OnInit, AfterViewInit, OnDestroy {
     let step = this.walkService.getSteps()[stepIdx];
 
     if(step && this.walkService.isActive()){
-      
-
-      console.log("this.onSlideChange", stepIdx, direction);
-
       this.walkService.setActiveId(step.id);
       this.setActiveBtn(step.focusElementSelector.replace('#',''));
       // this.walkService.scrollIntoView(this.walkService.getScreenById(step.id));
