@@ -18,7 +18,7 @@ import { CommonModule } from '@angular/common';
 import { CyranoTutorial } from '../../model/cyrano-walkthrough.model';
 import { CyranoTutorialConfig } from '../../model/cyrano-walkthrough-cfg.model';
 
-import { ShepherdService } from 'angular-shepherd';
+// import { ShepherdService } from 'angular-shepherd';
 import { WalkthroughConfigService } from '../../services/tuto.service';
 import { ArrowService } from 'src/app/services/arrow.service';
 import { BtnGroupService } from '../../services/btn.service';

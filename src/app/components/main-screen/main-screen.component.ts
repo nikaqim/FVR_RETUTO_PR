@@ -92,25 +92,27 @@ export class MainScreenComponent implements OnInit, AfterViewInit, OnDestroy {
     // for navigation trigger swiper
     this.subs.add(
       this.walkService.isOnTriggerSwiper().subscribe((next:boolean) => {
-        let currentIdx = this.swiperContainer?.nativeElement.swiper.activeIndex;
+        let activeSwiperIdx = this.swiperContainer?.nativeElement.swiper.activeIndex;
+        let currentActiveIdx = this.walkService.getStepIdxFromId(this.walkService.getActiveId());
 
-        if(!this.onSwiping && currentIdx){
-          this.onSwiping = true;
-          
-          this.walkService.setSwiping(this.onSwiping);
+        let stepIdx = (next) && (activeSwiperIdx !== currentActiveIdx + 1) ?
+          currentActiveIdx + 1 : (!!next) && (activeSwiperIdx !== currentActiveIdx - 1) ?
+          currentActiveIdx - 1 : activeSwiperIdx;
 
-          if(next){
-            let moveToPosition = currentIdx +1 ;
+        if(!this.onSwiping && this.walkService.isActive()){
+          let step = this.walkService.getSteps()[stepIdx];
+
+          if(step){
+            this.onSwiping = true;
+            this.walkService.setSwiping(this.onSwiping);
+            
+            this.walkService.setActiveId(step.id);
+            this.setActiveBtn(step.focusElementSelector.replace('#',''));
+
             this.swiperContainer?.nativeElement.swiper.slideTo(
-              moveToPosition
+              stepIdx
             );
-  
-          } else {
-            let moveToPosition = currentIdx -1 ;
-            this.swiperContainer?.nativeElement.swiper.slideTo(
-              moveToPosition
-            );
-  
+
           }
         }
         
