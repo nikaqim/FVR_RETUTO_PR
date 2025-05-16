@@ -5,7 +5,7 @@
         </div>
 
         <swiper-container 
-            #allScreenView 
+            #allScreenView
             class="desktop screen-panel" 
             init="false"
             (swiperslidermove)="onSwiperMove($event)"
@@ -18,6 +18,7 @@
                 <lib-icon-btn class="closebtn" (click)="closeWalkthrough()">
                     <img src="/assets/imgs/closebtn.png" />
                  </lib-icon-btn>
+
                 <div class="btn-container {{ highlightAll(isActiveScreen(panel.replace(' ',''))) ? 'highlightall' : ''}}" [class.onwalk]="!!walkthroughActive">
                     <!-- to be made into a component -->
                     <app-btn-group 
@@ -30,13 +31,26 @@
                         (ButtonGroupReady)="setBtnGroupReady($event)">
                     </app-btn-group>
                 </div>
+
+                <app-custom-walkthrough
+                    [data]="tutoData[panel]" 
+                    [panelId]="panel"
+                    [isActive]="isActiveScreen(panel.replace(' ',''))"
+                    (activeScreenId)="setCurrentActiveScreen($event)"
+                    >
+                </app-custom-walkthrough>
             </swiper-slide>
         </swiper-container>
 
-        <app-cyrano-walkthrough 
+        <app-navigation
+            [panels]="panels"
+            [activeScreenId]="activeScreen">            
+        </app-navigation>
+
+        <!-- <app-cyrano-walkthrough 
             [data]="tutoData" 
             (isOpen)="setActiveBtn($event)">
-        </app-cyrano-walkthrough>
+        </app-cyrano-walkthrough> -->
         
     </div>
     

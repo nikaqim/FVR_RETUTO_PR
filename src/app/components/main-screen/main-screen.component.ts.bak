@@ -1,0 +1,340 @@
+import { 
+  input,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  OnDestroy,
+  OnInit,
+  CUSTOM_ELEMENTS_SCHEMA,
+  ViewChild,
+  ElementRef,
+  AfterViewInit,
+  NgZone
+} from '@angular/core';
+
+import { ButtonsModule } from 'nextsapien-component-lib';
+import { CommonModule } from '@angular/common';
+import { CyranoWalkthroughComponent } from '../cyrano-walkthrough/cyrano-walkthrough.component';
+import { CustomWalkthroughComponent } from '../custom-walkthrough/custom-walkthrough.component';
+import { BtnGroupComponent } from '../shared/btn-group/btn-group.component';
+import { TranslateModule } from '@ngx-translate/core';
+import { LanguageSelectorComponent } from '../shared/language-selector/language-selector.component';
+
+import { SwiperConfig } from '../../config/swiper';
+import { SwiperContainer } from 'swiper/element';
+
+
+import { Subscription, fromEvent, debounceTime, every } from 'rxjs';
+
+import { ButtonGroup } from '../shared/btn-group/btn-group.model';
+import { BtnGroupService } from '../../services/btn.service';
+import { IBtnGroupConfig } from '../shared/btn-group/btn-group-config.model';
+
+// import { WsService } from '../../services/ws.service';
+
+import { CyranoTutorialConfig } from '../../model/cyrano-walkthrough-cfg.model';
+import { WalkthroughConfigService } from '../../services/tuto.service';
+import { 
+  WalkthroughComponent,
+  WalkthroughNavigate,
+  WalkthroughService,
+} from 'angular-walkthrough';
+import Swiper from 'swiper';
+
+@Component({
+  selector: 'app-main-screen',
+  standalone: true,
+  imports: [
+    CommonModule,
+    TranslateModule,
+    ButtonsModule,
+    BtnGroupComponent,
+    LanguageSelectorComponent,
+    CyranoWalkthroughComponent,
+    CustomWalkthroughComponent
+  ],
+  templateUrl: './main-screen.component.html',
+  styleUrl: './main-screen.component.scss',
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
+  changeDetection: ChangeDetectionStrategy.OnPush
+})
+export class MainScreenComponent implements OnInit, AfterViewInit, OnDestroy {
+  private subs = new Subscription();  
+  // private readonly swiperContainer = viewChild.required<ElementRef<SwiperContainer>>('allScreenView');
+  @ViewChild('allScreenView', { static: false }) swiperContainer!: ElementRef<SwiperContainer>;
+
+  buttonGroup :ButtonGroup[] = [];
+  tutoData:CyranoTutorialConfig = {};
+
+  onSwiping: boolean = false;
+
+  panels:string[] = [];
+
+  walkthroughActive:string = '';
+
+  constructor(
+    private zone: NgZone,
+    // private wsService: WsService,
+    private btnGroupService: BtnGroupService,
+    private walkService: WalkthroughConfigService,
+    private cd: ChangeDetectorRef
+  ){
+
+    this.btnGroupService.getButtonConfig().subscribe((data:IBtnGroupConfig) => {
+      this.buttonGroup = data['btngroup'];
+    });
+  }
+
+  ngOnInit(): void {
+    this.initSubs();
+  }
+
+  private initSubs(): void{
+    // for testing realtime update using websocket
+    // this.subs.add(
+    //   this.wsService.listenBtnUpdate('btnJsonUpdate').subscribe((msg:IBtnGroupConfig) => {
+    //     this.buttonGroup = typeof msg === 'string' ? JSON.parse(msg)['btngroup'] : msg['btngroup'];
+    //   })
+    // );
+
+    this.subs.add(
+      this.walkService.onFinishLoadWalkThru().subscribe((data: CyranoTutorialConfig)=>{
+        this.tutoData = { ...this.walkService.getConfig()};    
+        console.log(
+          "src/app/components/main-screen/main-screen.component.ts:onFinishLoadWalkThru()",
+          "tutoData=", this.tutoData
+        )  
+        this.panels = Object.keys(this.tutoData);
+
+        if(this.panels.length > 0){
+          const swiperElement = this.swiperContainer?.nativeElement;
+          if(swiperElement){
+            Object.assign(swiperElement, SwiperConfig);
+      
+            console.log('Initialized')
+            swiperElement.initialize();
+            this.cd.markForCheck();
+          }
+          
+        }
+      })
+    );
+
+     this.subs.add(
+      WalkthroughComponent.onNavigate
+      .pipe(debounceTime(100))
+      .subscribe((comt: WalkthroughNavigate) => {
+        this.onSwiping = false;
+        this.walkService.setDrawArrowSubject(true);
+      })
+    );
+
+    // for navigation trigger swiper
+    this.subs.add(
+      this.walkService.isOnTriggerSwiper().subscribe((next:boolean) => {
+        let currentIdx = this.swiperContainer?.nativeElement.swiper.activeIndex;
+
+        if(!this.onSwiping && currentIdx){
+          this.onSwiping = true;
+          
+          this.walkService.setSwiping(this.onSwiping);
+
+          if(next){
+            let moveToPosition = currentIdx +1 ;
+            this.swiperContainer?.nativeElement.swiper.slideTo(
+              moveToPosition
+            );
+  
+          } else {
+            let moveToPosition = currentIdx -1 ;
+            this.swiperContainer?.nativeElement.swiper.slideTo(
+              moveToPosition
+            );
+  
+          }
+        }
+        
+      })
+    )
+
+    this.subs.add(
+      this.walkService.onMoveToSlide().subscribe((idx:number)=>{
+        this.swiperContainer?.nativeElement.swiper.slideTo(
+          idx,
+          10, 
+          false
+        );
+
+        this.walkService.startTuto(this.walkService.getSteps()[0].id);
+      })
+    );
+  }
+
+  ngAfterViewInit(): void {
+    const swiperEl = this.swiperContainer?.nativeElement;
+    if (swiperEl) {
+      Object.assign(swiperEl, SwiperConfig);
+      swiperEl.initialize();
+
+      fromEvent(swiperEl, 'transitionend')
+        .pipe(debounceTime(100))
+        .subscribe(() => {
+          this.zone.run(() => {
+            this.walkService.setSwiping(false);
+          });
+        });
+    }
+
+    // // Initialize swiperJs
+    //   const swiperElement = this.swiperContainer?.nativeElement;
+    //   if(swiperElement){
+    //     // on swipe transition - draw arrow
+    //     fromEvent(swiperElement, 'transitionend')  // lowercase native event!
+    //       .pipe(debounceTime(100))
+    //       .subscribe(() => {
+    //         this.zone.run(() => {
+    //           this.walkService.setSwiping(false);
+    //         });
+    //       });
+    //   }
+    
+  }
+
+  public onAfterInit(event:any){
+    console.log("after init")
+   this.cd.markForCheck();
+   this.cd.detectChanges();   
+  }
+
+  public onSwiperMove(event:any){
+    if(!SwiperConfig.centeredSlides){
+      if(window.innerWidth > 641){
+        if(event.detail[1].movementX > 0){
+          if(!this.onSwiping){
+
+            this.onSwiping = true;
+            this.walkService.setSwiping(this.onSwiping);
+            
+            this.swiperContainer?.nativeElement.swiper.slideTo(
+              event["detail"][0].activeIndex-1, 
+              10, 
+              false
+            );
+    
+            this.swiperContainer?.nativeElement.swiper.update();
+    
+            setTimeout(()=>{
+              this.walkService.swiperIsOnSlide(false);
+            }, 200)
+            
+          }
+        } else {
+          
+          if(!this.onSwiping){
+
+            this.onSwiping = true;
+            this.walkService.setSwiping(this.onSwiping);
+            
+            this.swiperContainer?.nativeElement.swiper.slideTo(
+              event["detail"][0].activeIndex+1, 
+              10, 
+              false
+            );
+    
+            this.swiperContainer?.nativeElement.swiper.update();
+    
+            setTimeout(()=>{
+              this.walkService.swiperIsOnSlide(true);
+            }, 200)
+    
+          }
+          
+        }
+      }
+    }
+  }
+
+  public onSlideChange(event:any){
+  }
+
+  onBeforeSlideChange(event:any){
+    this.onSwiping = true;
+    this.walkService.setSwiping(true);
+    
+    // set slide to last slide once reached  
+    if(event["detail"][0].activeIndex >= this.walkService.getSteps().length-1) {
+      this.swiperContainer?.nativeElement.swiper.slideTo(
+        this.walkService.getSteps().length-1, 
+        10, 
+        false
+      );
+              
+      this.swiperContainer?.nativeElement.swiper.update();
+
+      setTimeout(()=>{
+        this.walkService.swiperIsOnSlide(true);
+      }, 100)
+      
+
+    } 
+  }
+
+  public onSlideChangeEnd(event:any){
+    this.onSwiping = false;
+    if(event["detail"][0].activeIndex < this.walkService.getSteps().length) {
+      this.walkService.swiperIsOnSlide(true);
+    }
+  }
+
+  public onSlidePrevEnd(event:Event){
+    this.walkService.swiperIsOnSlide(false);
+  }
+
+  public setBtnGroupReady(data: string): void{
+    console.log("this.setBtnGroupReady")
+    this.btnGroupService.notifyButtonGrpReady(data);
+  }
+
+  public setActiveBtn(id: string): void{
+    if(id !== ''){
+      this.walkthroughActive = id;
+      this.btnGroupService.notifyButtonGrpReady(id);
+    } else {
+      this.walkthroughActive = '';
+    }
+    
+  }
+
+  public isActiveScreen(panelId:string): boolean{
+    if(this.walkthroughActive !== ''){
+      let screenId = this.walkService.getScreenById(this.walkService.getActiveId()).replace(' ','');
+      return panelId === screenId
+    }
+    
+    return false;
+  }
+
+  public highlightAll(screenIsActive:boolean): boolean{
+    
+    return screenIsActive && !this.walkService.getById(this.walkService.getActiveId())?.focusBackdrop;
+  }
+
+  /**
+   * Close walkthrough
+   */
+  public closeWalkthrough(): void {
+    const container = document.querySelector('.wkt-finish-link');
+    if (container) {
+        (container as HTMLElement).click();
+
+        this.walkService.closeTuto();
+    }
+  }
+
+  ngOnDestroy(): void {
+    this.subs.unsubscribe(); // ✅ Unsubscribe from all subscriptions
+  }
+
+
+  
+}

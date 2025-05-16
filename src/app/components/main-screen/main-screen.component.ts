@@ -1,11 +1,11 @@
 import { 
-  input,
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   OnDestroy,
   OnInit,
   CUSTOM_ELEMENTS_SCHEMA,
-  viewChild,
+  ViewChild,
   ElementRef,
   AfterViewInit,
   NgZone
@@ -14,6 +14,8 @@ import {
 import { ButtonsModule } from 'nextsapien-component-lib';
 import { CommonModule } from '@angular/common';
 import { CyranoWalkthroughComponent } from '../cyrano-walkthrough/cyrano-walkthrough.component';
+import { CustomWalkthroughComponent } from '../custom-walkthrough/custom-walkthrough.component';
+import { NavigationComponent } from '../navigation/navigation.component';
 import { BtnGroupComponent } from '../shared/btn-group/btn-group.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { LanguageSelectorComponent } from '../shared/language-selector/language-selector.component';
@@ -21,8 +23,7 @@ import { LanguageSelectorComponent } from '../shared/language-selector/language-
 import { SwiperConfig } from '../../config/swiper';
 import { SwiperContainer } from 'swiper/element';
 
-
-import { Subscription, fromEvent, debounceTime } from 'rxjs';
+import { Subscription, fromEvent, debounceTime, every } from 'rxjs';
 
 import { ButtonGroup } from '../shared/btn-group/btn-group.model';
 import { BtnGroupService } from '../../services/btn.service';
@@ -32,11 +33,8 @@ import { IBtnGroupConfig } from '../shared/btn-group/btn-group-config.model';
 
 import { CyranoTutorialConfig } from '../../model/cyrano-walkthrough-cfg.model';
 import { WalkthroughConfigService } from '../../services/tuto.service';
-import { 
-  WalkthroughComponent,
-  WalkthroughNavigate,
-  WalkthroughService,
-} from 'angular-walkthrough';
+
+import { transition } from '@angular/animations';
 
 @Component({
   selector: 'app-main-screen',
@@ -47,7 +45,9 @@ import {
     ButtonsModule,
     BtnGroupComponent,
     LanguageSelectorComponent,
-    CyranoWalkthroughComponent
+    CyranoWalkthroughComponent,
+    CustomWalkthroughComponent,
+    NavigationComponent
   ],
   templateUrl: './main-screen.component.html',
   styleUrl: './main-screen.component.scss',
@@ -56,8 +56,7 @@ import {
 })
 export class MainScreenComponent implements OnInit, AfterViewInit, OnDestroy {
   private subs = new Subscription();  
-  private readonly swiperContainer = viewChild.required<ElementRef<SwiperContainer>>('allScreenView');
-  
+  @ViewChild('allScreenView', { static: false }) swiperContainer!: ElementRef<SwiperContainer>;
 
   buttonGroup :ButtonGroup[] = [];
   tutoData:CyranoTutorialConfig = {};
@@ -65,14 +64,18 @@ export class MainScreenComponent implements OnInit, AfterViewInit, OnDestroy {
   onSwiping: boolean = false;
 
   panels:string[] = [];
+  activeScreen:string = "";
 
   walkthroughActive:string = '';
+  walkthroughActiveStepsIdx: number = 0;
+
+
 
   constructor(
     private zone: NgZone,
-    // private wsService: WsService,
     private btnGroupService: BtnGroupService,
     private walkService: WalkthroughConfigService,
+    private cd: ChangeDetectorRef
   ){
 
     this.btnGroupService.getButtonConfig().subscribe((data:IBtnGroupConfig) => {
@@ -85,55 +88,26 @@ export class MainScreenComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   private initSubs(): void{
-    // for testing realtime update using websocket
-    // this.subs.add(
-    //   this.wsService.listenBtnUpdate('btnJsonUpdate').subscribe((msg:IBtnGroupConfig) => {
-    //     this.buttonGroup = typeof msg === 'string' ? JSON.parse(msg)['btngroup'] : msg['btngroup'];
-    //   })
-    // );
-
-    this.subs.add(
-      this.walkService.onFinishLoadWalkThru().subscribe((data: CyranoTutorialConfig)=>{
-        this.tutoData = { ...this.walkService.getConfig()};      
-        this.panels = Object.keys(this.tutoData);
-
-        if(this.panels.length > 0){
-          const swiperElement = this.swiperContainer().nativeElement;
-          Object.assign(swiperElement, SwiperConfig);
-    
-          swiperElement.initialize();
-        }
-      })
-    );
-
-     this.subs.add(
-      WalkthroughComponent.onNavigate
-      .pipe(debounceTime(100))
-      .subscribe((comt: WalkthroughNavigate) => {
-        this.onSwiping = false;
-        this.walkService.setDrawArrowSubject(true);
-      })
-    );
 
     // for navigation trigger swiper
     this.subs.add(
       this.walkService.isOnTriggerSwiper().subscribe((next:boolean) => {
-        let currentIdx = this.swiperContainer().nativeElement.swiper.activeIndex;
+        let currentIdx = this.swiperContainer?.nativeElement.swiper.activeIndex;
 
-        if(!this.onSwiping){
+        if(!this.onSwiping && currentIdx){
           this.onSwiping = true;
           
           this.walkService.setSwiping(this.onSwiping);
 
           if(next){
             let moveToPosition = currentIdx +1 ;
-            this.swiperContainer().nativeElement.swiper.slideTo(
+            this.swiperContainer?.nativeElement.swiper.slideTo(
               moveToPosition
             );
   
           } else {
             let moveToPosition = currentIdx -1 ;
-            this.swiperContainer().nativeElement.swiper.slideTo(
+            this.swiperContainer?.nativeElement.swiper.slideTo(
               moveToPosition
             );
   
@@ -145,80 +119,160 @@ export class MainScreenComponent implements OnInit, AfterViewInit, OnDestroy {
 
     this.subs.add(
       this.walkService.onMoveToSlide().subscribe((idx:number)=>{
-        this.swiperContainer().nativeElement.swiper.slideTo(
+        this.swiperContainer?.nativeElement.swiper.slideTo(
           idx,
           10, 
           false
         );
 
+        this.swiperContainer?.nativeElement.swiper.update();
         this.walkService.startTuto(this.walkService.getSteps()[0].id);
       })
     );
   }
 
   ngAfterViewInit(): void {
-    // Initialize swiperJs
-    const swiperElement: HTMLElement = this.swiperContainer().nativeElement;
 
-    // on swipe transition - draw arrow
-    fromEvent(swiperElement, 'transitionend')  // lowercase native event!
-      .pipe(debounceTime(100))
-      .subscribe(() => {
-        this.zone.run(() => {
-          this.walkService.setSwiping(false);
-        });
-      });
-  }
+    this.subs.add(
+      this.walkService.onFinishLoadWalkThru().subscribe((data: CyranoTutorialConfig)=>{
+        this.tutoData = { ...this.walkService.getConfig()};    
+        this.panels = Object.keys(this.tutoData);
 
-  public onSwiperMove(event:any){
-    if(!SwiperConfig.centeredSlides){
-      if(window.innerWidth > 641){
-        if(event.detail[1].movementX > 0){
-          if(!this.onSwiping){
+        if(this.panels.length > 0){
+          const swiperElement = this.swiperContainer?.nativeElement;
 
-            this.onSwiping = true;
-            this.walkService.setSwiping(this.onSwiping);
-            
-            this.swiperContainer().nativeElement.swiper.slideTo(
-              event["detail"][0].activeIndex-1, 
-              10, 
-              false
-            );
+          if(swiperElement){
+            Object.assign(swiperElement, SwiperConfig);
     
-            this.swiperContainer().nativeElement.swiper.update();
-    
-            setTimeout(()=>{
-              this.walkService.swiperIsOnSlide(false);
-            }, 200)
-            
-          }
-        } else {
-          
-          if(!this.onSwiping){
+            swiperElement.initialize();
 
-            this.onSwiping = true;
-            this.walkService.setSwiping(this.onSwiping);
-            
-            this.swiperContainer().nativeElement.swiper.slideTo(
-              event["detail"][0].activeIndex+1, 
-              10, 
-              false
-            );
-    
-            this.swiperContainer().nativeElement.swiper.update();
-    
-            setTimeout(()=>{
-              this.walkService.swiperIsOnSlide(true);
-            }, 200)
-    
+            let activePanel = this.panels[0];
+            let activeWalkThru = this.tutoData[activePanel][0];
+            let focusElementSelector = ('#' + activePanel + activeWalkThru.focusElementId.replace('#','')).toLowerCase();
+
+            this.walkService.setActiveId(activeWalkThru.id);
+            this.walkthroughActiveStepsIdx = 0;
+            this.setActiveBtn(focusElementSelector.replace('#',''));
+
           }
           
         }
+      })
+    );
+    
+    setTimeout(() => {
+      const swiperEl = this.swiperContainer?.nativeElement;
+
+      if (swiperEl?.swiper) {
+        swiperEl.swiper.update(); // 🔧 Recalculate layout  
+        this.cd.markForCheck()
+        this.cd.detectChanges();
+        this.walkService.startTuto(this.walkService.getActiveId());
+
+        swiperEl.swiper.on('transitionEnd', ()=>{
+          this.zone.run(() => {
+            this.onSwiping = false;
+            this.walkService.setSwiping(false);
+
+            if(this.walkService.isActive()){
+              let step =this.walkService.getCurrentStep();
+              if(step){
+                this.walkService.notifyTutoNavigation(step);
+              }
+            }
+
+          });
+        })
+      }
+    }, 300);
+ 
+  }
+
+  public onSwiperMove(event:any){
+    if(this.walkService.isActive() && !SwiperConfig.centeredSlides){
+      if(window.innerWidth > 641){
+        let direction = this.swiperContainer?.nativeElement.swiper.swipeDirection;
+        let isEnd = this.swiperContainer?.nativeElement.swiper.isEnd;
+        let isBeginning = this.swiperContainer?.nativeElement.swiper.isBeginning;
+        // let activeIndex = event["detail"][0].activeIndex;
+        let currentStepIdx = this.walkService.getStepIdxFromId(this.walkService.getActiveId());
+        let totalSteps = this.walkService.getSteps().length;
+
+        if((
+          (isEnd && (currentStepIdx < totalSteps && direction === 'next')) || 
+          (isBeginning && currentStepIdx > 0))){
+
+          if(direction === 'prev') {
+            
+            if(!this.onSwiping){
+              this.onSwiping = true;
+              this.walkService.setSwiping(this.onSwiping);
+              
+              this.swiperContainer?.nativeElement.swiper.slideTo(
+                event["detail"][0].activeIndex-1, 
+                10, 
+                false
+              );
+      
+              this.swiperContainer?.nativeElement.swiper.update();
+              let step = this.walkService.getPrevStep();
+
+              if(step){
+                this.walkService.setActiveId(step.id);
+                this.setActiveBtn(step.focusElementSelector.replace('#', ''));
+                // this.walkService.scrollIntoView(this.walkService.getScreenById(step.id));
+              }
+            }
+            
+          } else if(direction === 'next') {
+          
+            if(!this.onSwiping){
+
+              this.onSwiping = true;
+              this.walkService.setSwiping(this.onSwiping);
+              
+              this.swiperContainer?.nativeElement.swiper.slideTo(
+                event["detail"][0].activeIndex+1, 
+                10, 
+                false
+              );
+      
+              this.swiperContainer?.nativeElement.swiper.update();      
+              let step = this.walkService.getNextStep();
+
+              if(step){
+                this.walkService.setActiveId(step.id);
+                this.setActiveBtn(step.focusElementSelector.replace(' ','').replace('#', ''));
+                // this.walkService.scrollIntoView(this.walkService.getScreenById(step.id));
+              }
+      
+            }
+            
+          }
+        } 
       }
     }
   }
 
   public onSlideChange(event:any){
+
+    let activeSwiperIdx = this.swiperContainer?.nativeElement.swiper.activeIndex;
+    let direction = this.swiperContainer?.nativeElement.swiper.swipeDirection;
+    let currentActiveIdx = this.walkService.getStepIdxFromId(this.walkService.getActiveId());
+
+    let stepIdx = (direction === 'next') && (activeSwiperIdx !== currentActiveIdx + 1) ?
+      currentActiveIdx + 1 : (direction === 'prev') && (activeSwiperIdx !== currentActiveIdx - 1) ?
+      currentActiveIdx - 1 : activeSwiperIdx;
+
+    // sort navigation on custom walkthrough component
+    let step = this.walkService.getSteps()[stepIdx];
+
+    if(step && this.walkService.isActive()){
+      
+      this.walkService.setActiveId(step.id);
+      this.setActiveBtn(step.focusElementSelector.replace('#',''));
+      // this.walkService.scrollIntoView(this.walkService.getScreenById(step.id));
+    }
   }
 
   onBeforeSlideChange(event:any){
@@ -227,13 +281,13 @@ export class MainScreenComponent implements OnInit, AfterViewInit, OnDestroy {
     
     // set slide to last slide once reached  
     if(event["detail"][0].activeIndex >= this.walkService.getSteps().length-1) {
-      this.swiperContainer().nativeElement.swiper.slideTo(
+      this.swiperContainer?.nativeElement.swiper.slideTo(
         this.walkService.getSteps().length-1, 
         10, 
         false
       );
               
-      this.swiperContainer().nativeElement.swiper.update();
+      this.swiperContainer?.nativeElement.swiper.update();
 
       setTimeout(()=>{
         this.walkService.swiperIsOnSlide(true);
@@ -245,6 +299,7 @@ export class MainScreenComponent implements OnInit, AfterViewInit, OnDestroy {
 
   public onSlideChangeEnd(event:any){
     this.onSwiping = false;
+
     if(event["detail"][0].activeIndex < this.walkService.getSteps().length) {
       this.walkService.swiperIsOnSlide(true);
     }
@@ -256,6 +311,7 @@ export class MainScreenComponent implements OnInit, AfterViewInit, OnDestroy {
 
   public setBtnGroupReady(data: string): void{
     this.btnGroupService.notifyButtonGrpReady(data);
+    this.swiperContainer?.nativeElement.swiper.update();
   }
 
   public setActiveBtn(id: string): void{
@@ -268,33 +324,49 @@ export class MainScreenComponent implements OnInit, AfterViewInit, OnDestroy {
     
   }
 
-  public isActiveScreen(panelId:string): boolean{
-    if(this.walkthroughActive !== ''){
-      let screenId = this.walkService.getScreenById(this.walkService.getActiveId()).replace(' ','');
+  public setCurrentActiveScreen(screenId:string):void {
+    this.activeScreen = screenId;
+  }
+
+  isActiveScreen(panelId:string):boolean{
+    
+    if(this.walkthroughActive !== '' && this.walkService.isActive()){
+      let screenId = this.walkService.getScreenById(this.walkService.getActiveId());
       return panelId === screenId
     }
     
     return false;
   }
 
+
   public highlightAll(screenIsActive:boolean): boolean{
-    
-    return screenIsActive && !this.walkService.getById(this.walkService.getActiveId())?.focusBackdrop;
+    let step = this.walkService.getCurrentStep();
+
+    if(step){
+      return  screenIsActive && !step.focusBackdrop;
+    }
+
+    return false
   }
 
   /**
    * Close walkthrough
    */
   public closeWalkthrough(): void {
-    const container = document.querySelector('.wkt-finish-link');
-    if (container) {
-        (container as HTMLElement).click();
+    this.activeScreen = '';
+    this.walkthroughActive = '';
 
-        this.walkService.closeTuto();
-    }
+    this.setActiveBtn('');
+
+    this.walkService.setActiveId('');
+    this.walkService.closeTuto();
+    this.walkService.setWalkStatus(false);
   }
 
   ngOnDestroy(): void {
+    this.closeWalkthrough()
+    this.walkService.setWalkStatus(true);
+    this.swiperContainer?.nativeElement.swiper.destroy();
     this.subs.unsubscribe(); // ✅ Unsubscribe from all subscriptions
   }
 

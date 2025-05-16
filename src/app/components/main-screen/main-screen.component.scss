@@ -19,6 +19,7 @@
     .screen-container.onwalk .closebtn {
         display: block !important;
         position: absolute;
+        z-index: 10;
         left: 20px;
         top: 20px;
     }

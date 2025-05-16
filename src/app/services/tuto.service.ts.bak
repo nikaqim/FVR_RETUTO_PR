@@ -16,7 +16,7 @@ import { WalkthroughComponent } from 'angular-walkthrough';
 }) export class WalkthroughConfigService {
 
   private walkthroughs = new Map<string, WalkthroughComponent>();
-  private tutorNavigateSubject = new Subject<string>();
+  private tutorNavigateSubject = new BehaviorSubject<string>("");
   private startTutoSubject = new BehaviorSubject<string>("");
   private swiperNavSubject = new BehaviorSubject<string>("");
   private swiperSlideSubject = new Subject<boolean>();
@@ -35,8 +35,6 @@ import { WalkthroughComponent } from 'angular-walkthrough';
   private descrList: WalkDescrMap = {};
   private step2screen: WalkStepMap = {};
   private restartTabulatedIds: boolean = false;
-  private walkthroughLoaded:boolean = false;
-  private walkthroughIsActive: boolean = false;
   
   private walkconfig: CyranoTutorialConfig = {};
   private tabulatedId:string[] = [];
@@ -46,10 +44,6 @@ import { WalkthroughComponent } from 'angular-walkthrough';
   constructor(
     private httpClient:HttpClient,
     private localStorage:LocalStorageService) {
-      if(!this.walkthroughLoaded){
-        this.walkthroughLoaded = true;
-      }
-
       this.loadWalkthrough();
   }
 
@@ -65,13 +59,6 @@ import { WalkthroughComponent } from 'angular-walkthrough';
     return this.httpClient.get<CyranoTutorialConfig>('/assets/config/walkthrough.json');
   }
 
-  public isActive() : boolean {
-    return this.walkthroughIsActive;
-  }
-
-  public setWalkStatus(status:boolean): void {
-    this.walkthroughIsActive = status;
-  }
 
   /**
    * Loading Walkthrough Configuration Object
@@ -81,8 +68,6 @@ import { WalkthroughComponent } from 'angular-walkthrough';
     
     let walkthruInStorageObj = (walkthruInStorage !== undefined) && ((walkthruInStorage !== '') )? 
       typeof walkthruInStorage === 'string' ? JSON.parse(walkthruInStorage) : walkthruInStorage : {};
-
-    this.walkthroughIsActive = true;
 
     this.getWalkhroughData().subscribe((data:CyranoTutorialConfig) => {
 
@@ -151,7 +136,8 @@ import { WalkthroughComponent } from 'angular-walkthrough';
     return this.walkConfigSubject.asObservable();
   }
 
-  public notifyTutoNavigation(nextId:CyranoTutorial): void {
+  public notifyTutoNavigation(nextId:WalkthroughComponent): void {
+
     this.tutorNavigateSubject.next(nextId.focusElementSelector);
     this.swiperNavSubject.next(this.getScreenById(nextId.id));
   }
@@ -243,59 +229,6 @@ import { WalkthroughComponent } from 'angular-walkthrough';
   public getSteps(): CyranoTutorial[]{
     return this.steps;
   }
-  
-  getStepIdxFromId(id:string){
-    let idx = 0
-    idx = this.steps.findIndex(item => item.id === id);
-    
-    return idx
-  }
-
-  public getCurrentStep(): CyranoTutorial | null {
-    return this.getStepById(this.activeId);
-  }
-
-  public getNextStep(): CyranoTutorial | null {
-    let dWalk = null;
-    let returnNext = false;
-
-    for(const stepData of this.steps){
-
-      // return next step
-      if(returnNext){
-        dWalk = JSON.parse(JSON.stringify(stepData));
-        break;
-      }
-
-      // founc current active step
-      if(stepData.id === this.activeId){
-        returnNext = true;
-      }
-    }
-
-    return dWalk;
-  }
-
-  public getPrevStep(): CyranoTutorial | null {
-    let dWalk = null;
-    let returnPrev = false;
-
-    for(let i=this.steps.length-1; i >= 0; i--){
-
-      // return next step
-      if(returnPrev){
-        dWalk = JSON.parse(JSON.stringify(this.steps[i]));
-        break;
-      }
-
-      // founc current active step
-      if(this.steps[i].id === this.activeId){
-        returnPrev = true;
-      }
-    }
-
-    return dWalk;
-  }
 
   public resetTabulatedId(): void {
     this.restartTabulatedIds = true;
@@ -350,10 +283,7 @@ import { WalkthroughComponent } from 'angular-walkthrough';
             // screen screen id for each step
             if(!this.step2screen[step.id]){
               this.step2screen[step.id] = screen;
-              step.focusElementSelector = ('#' + screen + step.focusElementId.replace('#','')).toLowerCase();
             }
-
-            
           }
         });
       }
@@ -413,7 +343,7 @@ import { WalkthroughComponent } from 'angular-walkthrough';
   }
 
 
-  public getStepById(id:string): CyranoTutorial | null {
+  public getStepById(id:string): Object | null {
     let dWalk = null;
     
     for(const stepData of this.steps){
@@ -435,14 +365,11 @@ import { WalkthroughComponent } from 'angular-walkthrough';
   }
 
   public scrollIntoView(elementId:string): void {
-    if(document.getElementById(elementId)){
-      document.getElementById(elementId)?.scrollIntoView({
-        behavior: 'smooth',
-        block: 'center',
-        inline: 'center'
-      });
-    }
-    
+    document.getElementById(elementId)?.scrollIntoView({
+      behavior: 'smooth',
+      block: 'center',
+      inline: 'center'
+    });
   }
   
 }

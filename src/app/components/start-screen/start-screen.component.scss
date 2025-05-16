@@ -11,6 +11,26 @@
     .content .right {
         width: calc(100% - 112px) !important;
     }
+    .page.start-page > div {
+        width: 90% !important;
+        padding: 12px 0px 24px !important;
+        overflow-y: scroll;
+        margin: 0 auto;
+        height: 100vh !important;
+        -ms-overflow-style: none;  /* IE and Edge */
+        scrollbar-width: none;  /* Firefox */
+    }
+
+    .page.start-page .start-button {
+        position: sticky;
+        top: -12px;
+        padding: 24px 0px;
+        background: #161419;
+    }
+
+    .page.start-page > div::-webkit-scrollbar {
+        display: none;
+    }
 }
 
 .content .right {

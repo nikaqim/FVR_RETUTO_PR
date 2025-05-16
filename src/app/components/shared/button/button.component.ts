@@ -68,6 +68,7 @@ export class ButtonComponent implements OnChanges {
     this.walkService.closeTuto();
 
     setTimeout(()=>{
+      this.walkService.setWalkStatus(true);
       this.walkService.moveToSlide(0);
     },100)
     

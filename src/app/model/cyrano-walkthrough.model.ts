@@ -5,6 +5,7 @@ export class CyranoTutorial {
     prevStepId: string;
     nextStepId: string;
     focusElementId: string;
+    focusElementSelector:string;
     contentAlign: string;
     contentVertAlign: string;
     showArrow: boolean = true;
@@ -19,6 +20,7 @@ export class CyranoTutorial {
         prevStepId: string = '',
         nextStepId: string = '',
         focusElementId: string = '',
+        focusElementSelector:string ='',
         descr:WalkDescr[] = [],
         showArrow:boolean = true,
         showFinishBtn:boolean = false,
@@ -28,6 +30,7 @@ export class CyranoTutorial {
         this.prevStepId = prevStepId;
         this.nextStepId = nextStepId;
         this.focusElementId = focusElementId;
+        this.focusElementSelector = focusElementSelector;
         this.contentAlign = "center";
         this.contentVertAlign = "below";
         this.showArrow = showArrow;

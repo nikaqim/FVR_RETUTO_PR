@@ -1,0 +1,9 @@
+<div #tutorWrapper class="tutorial-container {{ isActive ? '' : 'hide' }}" [ngStyle]="styleOptions">
+    <p 
+        [id]="'descr-' + data[0].id" 
+        *ngFor="let descr of data[0].descr" 
+        [innerHTML]="descr.text"
+        [ngStyle]="descr.style ? descr.style : {}">
+    </p>
+</div>
+

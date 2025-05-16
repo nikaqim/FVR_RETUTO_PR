@@ -23,6 +23,7 @@
     "@angular/router": "^17.3.0",
     "@ngx-translate/core": "^15.0.0",
     "@ngx-translate/http-loader": "^8.0.0",
+    "angular-shepherd": "^17.0.0",
     "angular-walkthrough": "^0.10.2",
     "leader-line": "^1.0.7",
     "moment": "^2.30.1",
