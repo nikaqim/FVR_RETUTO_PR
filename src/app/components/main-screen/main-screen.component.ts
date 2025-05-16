@@ -69,7 +69,8 @@ export class MainScreenComponent implements OnInit, AfterViewInit, OnDestroy {
   walkthroughActive:string = '';
   walkthroughActiveStepsIdx: number = 0;
 
-
+  onButtonTrigger:boolean = false
+  onButtonDirection:string = "next";
 
   constructor(
     private zone: NgZone,
@@ -92,23 +93,28 @@ export class MainScreenComponent implements OnInit, AfterViewInit, OnDestroy {
     // for navigation trigger swiper
     this.subs.add(
       this.walkService.isOnTriggerSwiper()
-      .pipe(debounceTime(300)).subscribe((next:boolean) => {
-        console.log("isonTriggerSwiper", next);
+      .pipe(debounceTime(100)).subscribe((next:boolean) => {
+        
         let step = this.walkService.getCurrentStep();
         let currentIdx = step ? this.walkService.getStepIdxFromId(step.id) : null;
 
-        if((currentIdx) 
+        console.log("isonTriggerSwiper", next, currentIdx);
+        if((currentIdx !== null) 
           && ((next && (currentIdx < this.walkService.getSteps().length))
-            || (!!next && (currentIdx > 0)))){
+            || (!!next && (currentIdx >= 0)))){
+
+            this.swiperContainer.nativeElement.swiper.update();
+
             if(next){
+              this.onButtonTrigger = true;
+              this.onButtonDirection = "next";
               this.swiperContainer?.nativeElement.swiper.slideNext();
             } else {
+              this.onButtonTrigger = true;
+              this.onButtonDirection = "prev";
               this.swiperContainer?.nativeElement.swiper.slidePrev();
             }
         }
-        
-
-        this.swiperContainer.nativeElement.swiper.update();
         
       })
     )
@@ -169,6 +175,7 @@ export class MainScreenComponent implements OnInit, AfterViewInit, OnDestroy {
           this.zone.run(() => {
             this.onSwiping = false;
             this.walkService.setSwiping(false);
+            this.onButtonTrigger = false;
 
             if(this.walkService.isActive()){
               let step =this.walkService.getCurrentStep();
@@ -252,13 +259,19 @@ export class MainScreenComponent implements OnInit, AfterViewInit, OnDestroy {
 
   public onSlideChange(event:any){
 
+    console.log('onslidechange: event=',event.detail[0].activeIndex, this.onButtonTrigger)
     let activeSwiperIdx = this.swiperContainer?.nativeElement.swiper.activeIndex;
-    let direction = this.swiperContainer?.nativeElement.swiper.swipeDirection;
+    // let direction = this.swiperContainer?.nativeElement.swiper.swipeDirection;
+    let direction = event.detail[0].swipeDirection;
     let currentActiveIdx = this.walkService.getStepIdxFromId(this.walkService.getActiveId());
 
-    let stepIdx = (direction === 'next') && (activeSwiperIdx !== currentActiveIdx + 1) ?
-      currentActiveIdx + 1 : (direction === 'prev') && (activeSwiperIdx !== currentActiveIdx - 1) ?
-      currentActiveIdx - 1 : activeSwiperIdx;
+    let stepIdx = (((this.onButtonTrigger && this.onButtonDirection === 'next')
+                  ||(!this.onButtonTrigger && direction === 'next')) && 
+                  (activeSwiperIdx !== currentActiveIdx + 1)) ? 
+                    currentActiveIdx + 1 : 
+                  (((!this.onButtonTrigger && direction === 'prev') 
+                  ||(this.onButtonTrigger && this.onButtonDirection === 'prev')) && (activeSwiperIdx !== currentActiveIdx - 1)) ?
+                    currentActiveIdx - 1 : activeSwiperIdx;
 
     // sort navigation on custom walkthrough component
     let step = this.walkService.getSteps()[stepIdx];
