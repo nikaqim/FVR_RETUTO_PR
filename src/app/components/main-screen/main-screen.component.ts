@@ -91,30 +91,24 @@ export class MainScreenComponent implements OnInit, AfterViewInit, OnDestroy {
 
     // for navigation trigger swiper
     this.subs.add(
-      this.walkService.isOnTriggerSwiper().subscribe((next:boolean) => {
-        let activeSwiperIdx = this.swiperContainer?.nativeElement.swiper.activeIndex;
-        let currentActiveIdx = this.walkService.getStepIdxFromId(this.walkService.getActiveId());
+      this.walkService.isOnTriggerSwiper()
+      .pipe(debounceTime(300)).subscribe((next:boolean) => {
+        console.log("isonTriggerSwiper", next);
+        let step = this.walkService.getCurrentStep();
+        let currentIdx = step ? this.walkService.getStepIdxFromId(step.id) : null;
 
-        let stepIdx = (next) && (activeSwiperIdx !== currentActiveIdx + 1) ?
-          currentActiveIdx + 1 : (!!next) && (activeSwiperIdx !== currentActiveIdx - 1) ?
-          currentActiveIdx - 1 : activeSwiperIdx;
-
-        if(!this.onSwiping && this.walkService.isActive()){
-          let step = this.walkService.getSteps()[stepIdx];
-
-          if(step){
-            this.onSwiping = true;
-            this.walkService.setSwiping(this.onSwiping);
-            
-            this.walkService.setActiveId(step.id);
-            this.setActiveBtn(step.focusElementSelector.replace('#',''));
-
-            this.swiperContainer?.nativeElement.swiper.slideTo(
-              stepIdx
-            );
-
-          }
+        if((currentIdx) 
+          && ((next && (currentIdx < this.walkService.getSteps().length))
+            || (!!next && (currentIdx > 0)))){
+            if(next){
+              this.swiperContainer?.nativeElement.swiper.slideNext();
+            } else {
+              this.swiperContainer?.nativeElement.swiper.slidePrev();
+            }
         }
+        
+
+        this.swiperContainer.nativeElement.swiper.update();
         
       })
     )
@@ -271,6 +265,9 @@ export class MainScreenComponent implements OnInit, AfterViewInit, OnDestroy {
 
     if(step && this.walkService.isActive()){
       
+
+      console.log("this.onSlideChange", stepIdx, direction);
+
       this.walkService.setActiveId(step.id);
       this.setActiveBtn(step.focusElementSelector.replace('#',''));
       // this.walkService.scrollIntoView(this.walkService.getScreenById(step.id));
