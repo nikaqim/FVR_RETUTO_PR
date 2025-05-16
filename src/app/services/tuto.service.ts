@@ -393,7 +393,6 @@ import { WalkthroughComponent } from 'angular-walkthrough';
           this.restartTabulatedIds = true;
           
           this.steps = this.tabulateStep(this.walkconfig);
-          console.log("this.steps:",this.steps);
           this.notifyTextChange(this.walkconfig);
 
           break;
