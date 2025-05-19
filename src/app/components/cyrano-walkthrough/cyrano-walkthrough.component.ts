@@ -334,9 +334,9 @@ export class CyranoWalkthroughComponent implements
     },100)    
   }
 
-  triggerSlideFunction(): void {
-    this.tutoService.triggerSwiper(true);
-  }
+  // triggerSlideFunction(): void {
+  //   this.tutoService.triggerSwiper(true);
+  // }
 
   navigateWalkThru(next:boolean=true): void{    
     const current = this.tutoService.getById(this.activeId);

@@ -42,8 +42,9 @@ export class NavigationComponent implements OnInit, OnChanges{
     }
   }
 
-  triggerSlideFunction(): void {
-    this.tutoService.triggerSwiper(true);
+  triggerSlideFunction(panelClick:string): void {
+    let panelIdx = this.panels.indexOf(panelClick);
+    this.tutoService.triggerSwiper(panelIdx);
   }
 
   private scrollToPanel(panelId:string): void {

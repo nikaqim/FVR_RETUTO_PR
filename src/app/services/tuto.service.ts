@@ -21,7 +21,7 @@ import { WalkthroughComponent } from 'angular-walkthrough';
   private swiperNavSubject = new BehaviorSubject<string>("");
   private swiperSlideSubject = new Subject<boolean>();
   private drawArrowSubject = new Subject<boolean>();
-  private swiperTriggerSlideSubject = new Subject<boolean>();
+  private swiperTriggerSlideSubject = new Subject<number>();
   private swiperMoveSubject = new Subject<number>();
   private closeTutoSubject = new BehaviorSubject<boolean>(false);
 
@@ -180,11 +180,11 @@ import { WalkthroughComponent } from 'angular-walkthrough';
     return this.swiperSlideSubject.asObservable();
   }
 
-  public triggerSwiper(next: boolean){
-    this.swiperTriggerSlideSubject.next(next);
+  public triggerSwiper(panelIdx: number){
+    this.swiperTriggerSlideSubject.next(panelIdx);
   }
 
-  public isOnTriggerSwiper(): Observable<boolean>{
+  public isOnTriggerSwiper(): Observable<number>{
     return this.swiperTriggerSlideSubject.asObservable()
   }
 

@@ -93,28 +93,36 @@ export class MainScreenComponent implements OnInit, AfterViewInit, OnDestroy {
     // for navigation trigger swiper
     this.subs.add(
       this.walkService.isOnTriggerSwiper()
-      .pipe(debounceTime(100)).subscribe((next:boolean) => {
-        
+      .pipe(debounceTime(100)).subscribe((panelIdx:number) => {
+
+        let swiperEl = this.swiperContainer?.nativeElement.swiper;
+        let realIndex = swiperEl.realIndex;
+        let useStepIdx = (realIndex+1 !== this.walkService.getTotalSteps());
         let step = this.walkService.getCurrentStep();
         let currentIdx = step ? this.walkService.getStepIdxFromId(step.id) : null;
+        let toStep = this.walkService.getSteps()[panelIdx];
 
-        if((currentIdx !== null) 
-          && ((next && (currentIdx < this.walkService.getSteps().length))
-            || (!!next && (currentIdx >= 0)))){
 
-            this.swiperContainer.nativeElement.swiper.update();
+        if(currentIdx !== null && (currentIdx !== panelIdx)){
+          
+          this.onButtonDirection = panelIdx > currentIdx ? "next" : "prev";
+          this.onButtonTrigger = true;
 
-            if(next){
-              this.onButtonTrigger = true;
-              this.onButtonDirection = "next";
-              this.swiperContainer?.nativeElement.swiper.slideNext();
-            } else {
-              this.onButtonTrigger = true;
-              this.onButtonDirection = "prev";
-              this.swiperContainer?.nativeElement.swiper.slidePrev();
-            }
+          let indexWOffset = panelIdx - 1;
+
+          if(toStep){
+            this.walkService.setActiveId(toStep.id);
+            this.setActiveBtn(toStep.focusElementSelector.replace('#', ''));
+            this.walkService.scrollIntoView(this.walkService.getScreenById(toStep.id));
+          }
+
+          this.swiperContainer?.nativeElement.swiper.slideTo(indexWOffset, 10, false);
+          this.swiperContainer.nativeElement.swiper.update();
+
+          if(!useStepIdx){
+            
+          }
         }
-        
       })
     )
 
@@ -175,9 +183,11 @@ export class MainScreenComponent implements OnInit, AfterViewInit, OnDestroy {
             this.onSwiping = false;
             this.walkService.setSwiping(false);
             this.onButtonTrigger = false;
+            this.onButtonDirection = "";
 
             if(this.walkService.isActive()){
               let step =this.walkService.getCurrentStep();
+              
               if(step){
                 this.walkService.notifyTutoNavigation(step);
               }
@@ -265,17 +275,15 @@ export class MainScreenComponent implements OnInit, AfterViewInit, OnDestroy {
     let direction = event.detail[0].swipeDirection;
     let currentActiveIdx = this.walkService.getStepIdxFromId(this.walkService.getActiveId());
 
-    let stepIdx = (((this.onButtonTrigger && this.onButtonDirection === 'next')
-                  ||(!this.onButtonTrigger && direction === 'next')) && 
-                  (activeSwiperIdx !== currentActiveIdx + 1)) ? 
+    let stepIdx = ((!this.onButtonTrigger && direction === 'next') && (activeSwiperIdx !== currentActiveIdx + 1)) ? 
                     currentActiveIdx + 1 : 
-                  (((!this.onButtonTrigger && direction === 'prev') 
-                  ||(this.onButtonTrigger && this.onButtonDirection === 'prev')) && (activeSwiperIdx !== currentActiveIdx - 1)) ?
+                  ((!this.onButtonTrigger && direction === 'prev') && (activeSwiperIdx !== currentActiveIdx - 1)) ?
                     currentActiveIdx - 1 : activeSwiperIdx;
 
     let useStepIdx = (realIndex+1 !== this.walkService.getTotalSteps()) && (touchDif < 321);
 
-    stepIdx = this.onButtonTrigger || useStepIdx ? stepIdx : activeSwiperIdx;
+    stepIdx = useStepIdx ? stepIdx : activeSwiperIdx;
+    stepIdx = this.onButtonTrigger ? currentActiveIdx : stepIdx;
 
     // sort navigation on custom walkthrough component
     let step = this.walkService.getSteps()[stepIdx];
@@ -283,7 +291,9 @@ export class MainScreenComponent implements OnInit, AfterViewInit, OnDestroy {
     if(step && this.walkService.isActive()){
       this.walkService.setActiveId(step.id);
       this.setActiveBtn(step.focusElementSelector.replace('#',''));
-      // this.walkService.scrollIntoView(this.walkService.getScreenById(step.id));
+      // if(this.onButtonTrigger){
+      //   this.walkService.scrollIntoView(this.walkService.getScreenById(step.id));
+      // }
     }
   }
 

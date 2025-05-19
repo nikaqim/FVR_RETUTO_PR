@@ -53,7 +53,6 @@ export class ArrowService {
 
             if(container && lineEl){
 
-                console.log("toEl:",toElement.getBoundingClientRect());
                 lineEl?.classList.add(`linecontainer-${arrowId}`);
                 container.appendChild(lineEl);
 
@@ -63,7 +62,6 @@ export class ArrowService {
                 const FromPos = fromElement.getBoundingClientRect();
                 const ToPos = toElement.getBoundingClientRect();
 
-                console.log("containerPos.top, ToPos.top:",containerPos.left, FromPos.width, lineEl.style.top, lineEl.style.left);
                 lineEl.style.top = (window.innerHeight > 720) && (window.innerWidth > 790) ? 
                     (parseInt(lineEl.style.top.replace('px','')) - 60) + "px" : lineEl.style.top;
 

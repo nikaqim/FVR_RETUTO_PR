@@ -1,7 +1,11 @@
-<div class="swiper-nav" (click)="triggerSlideFunction()">
+<div class="swiper-nav">
     <div class="nav-container">
         <ul>
-            <li [ngClass]="{ 'active': panel.replace(' ','') === activeScreenId.replace(' ','') }" #navigations *ngFor="let panel of panels" [id]="panel.replace(' ','')">
+            <li 
+                [ngClass]="{ 'active': panel.replace(' ','') === activeScreenId.replace(' ','') }" 
+                #navigations 
+                (click)="triggerSlideFunction(panel)"
+                *ngFor="let panel of panels" [id]="panel.replace(' ','')">
                 {{ panel }}
             </li>
         </ul>
