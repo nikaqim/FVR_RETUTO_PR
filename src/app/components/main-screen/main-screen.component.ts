@@ -99,9 +99,10 @@ export class MainScreenComponent implements OnInit, AfterViewInit, OnDestroy {
         let realIndex = swiperEl.realIndex;
         let snapLen = swiperEl.snapGrid.length;
         let useStepIdx = (realIndex+1 !== this.walkService.getTotalSteps());
-        let loca = this.walkService.getCurrentStep();
+        let step = this.walkService.getCurrentStep();
         let currentIdx = step ? this.walkService.getStepIdxFromId(step.id) : null;
         let toStep = this.walkService.getSteps()[panelIdx];
+        let toStepIdx = toStep ? this.walkService.getStepIdxFromId(toStep.id) : null;
 
         console.log("swiperEl:",swiperEl, realIndex);
         if(currentIdx !== null && (currentIdx !== panelIdx)){
@@ -109,25 +110,26 @@ export class MainScreenComponent implements OnInit, AfterViewInit, OnDestroy {
           this.onButtonDirection = panelIdx > currentIdx ? "next" : "prev";
           this.onButtonTrigger = true;
 
-          let indexWOffset = (realIndex < snapLen-1) 
-            && (snapLen < this.walkService.getTotalSteps()-1) ? 
-              panelIdx : null;
-
-          console.log(
-            "isOnTriggerSwiper()", 
-            `realIndex ${realIndex}`, 
-            `snapLen ${snapLen}`, 
-            `indexWOffset ${indexWOffset}`, 
-            `panelIdx ${panelIdx}`, 
-            `currentIdx ${currentIdx}`,
-            `focusElementSelector ${toStep.focusElementSelector}`,
-            toStep
-          );
+          let indexWOffset = ((toStepIdx !== null) 
+            && toStepIdx < snapLen) ? panelIdx : null;
 
           if(toStep){
             this.walkService.setActiveId(toStep.id);
             this.setActiveBtn(toStep.focusElementSelector.replace('#', ''));
             // this.walkService.scrollIntoView(this.walkService.getScreenById(toStep.id));
+
+            console.log(
+            "isOnTriggerSwiper()", 
+            `realIndex ${realIndex}`, 
+            `snapLen ${snapLen}`, 
+            `indexWOffset ${indexWOffset}`, 
+            `panelIdx ${panelIdx}`, 
+            `panel ${this.walkService.getScreenById(toStep.id)}`, 
+            `currentIdx ${currentIdx}`,
+            `toStepIdx ${toStepIdx}`,
+            `focusElementSelector ${toStep.focusElementSelector}`,
+            toStep
+          );
           }
 
           if(indexWOffset !== null){
@@ -136,6 +138,7 @@ export class MainScreenComponent implements OnInit, AfterViewInit, OnDestroy {
             swiperEl.update();
           } else {
             console.log('scrolltoview', this.walkthroughActive)
+            this.walkService.notifyTutoNavigation(toStep);
           }
         }
       })
@@ -367,7 +370,9 @@ export class MainScreenComponent implements OnInit, AfterViewInit, OnDestroy {
     } else {
       this.walkthroughActive = '';
     }
-    
+
+    this.cd.markForCheck(); 
+    console.log("this.setActiveBtn markforcheck")
   }
 
   public setCurrentActiveScreen(screenId:string):void {
@@ -375,12 +380,13 @@ export class MainScreenComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   isActiveScreen(panelId:string):boolean{
-    
-    
     if(this.walkthroughActive !== '' && this.walkService.isActive()){
-      let screenId = this.walkService.getScreenById(this.walkService.getActiveId());
-      console.log("isActiveScreen",screenId);
-      return panelId === screenId
+      let currentStepIdx = this.walkService.getCurrentStep()?.id
+
+      if(currentStepIdx){
+        let screenId = this.walkService.getScreenById(currentStepIdx);
+        return panelId === screenId
+      }
     }
     
     return false;

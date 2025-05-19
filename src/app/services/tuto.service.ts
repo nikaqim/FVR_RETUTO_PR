@@ -152,6 +152,11 @@ import { WalkthroughComponent } from 'angular-walkthrough';
   }
 
   public notifyTutoNavigation(nextId:CyranoTutorial): void {
+    console.log(
+      `notifyTutoNavigation: focusElementSelector=${nextId.focusElementSelector}`,
+      `ScreenById: ${this.getScreenById(nextId.id)}`
+    )
+    
     this.tutorNavigateSubject.next(nextId.focusElementSelector);
     this.swiperNavSubject.next(this.getScreenById(nextId.id));
   }

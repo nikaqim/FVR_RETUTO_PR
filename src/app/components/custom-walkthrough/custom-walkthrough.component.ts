@@ -69,6 +69,11 @@ export class CustomWalkthroughComponent implements
         .subscribe((focusElementSelector:string)=>{
             
             if(this.isActive){
+              console.log(
+                `onTutoNavigation: focusElementSelector= ${focusElementSelector}`,
+                `id: data= ${this.data[0].id}`,
+              )
+
               let step = this.tutoService.getCurrentStep();
               if(step){
                 this.activeScreenId.emit(this.tutoService.getScreenById(step.id));
@@ -80,10 +85,18 @@ export class CustomWalkthroughComponent implements
     this.subs.add(
       this.tutoService.onTutoNavigation()
         .subscribe((focusElementSelector:string)=>{
-            if(!this.isActive){
-              let arrowId = this.removeArrow()
-              this.arrowService.removeArrow(arrowId);
-            }
+            
+          let step = this.tutoService.getCurrentStep();
+          if(step && (step.id !== this.data[0].id)){
+            console.log(
+              `current active step ${step.id}`,
+              `removing arrow in screen ${this.tutoService.getScreenById(this.data[0].id)}`
+            );
+
+            let arrowId = this.removeArrow()
+            this.arrowService.removeArrow(arrowId);
+          }
+              
     }));
 
     this.subs.add(
@@ -127,6 +140,7 @@ export class CustomWalkthroughComponent implements
     let element = document.querySelector(`.linecontainer-${arrowId}`);
 
     if(element){
+      console.log(`removing arrow ${arrowId}`);
       element.remove();
     }
 
