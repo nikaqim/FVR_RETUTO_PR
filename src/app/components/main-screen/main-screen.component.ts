@@ -139,6 +139,8 @@ export class MainScreenComponent implements OnInit, AfterViewInit, OnDestroy {
           } else {
             console.log('scrolltoview', this.walkthroughActive)
             this.walkService.notifyTutoNavigation(toStep);
+            this.onButtonTrigger = false;
+            this.onButtonDirection = "";
           }
         }
       })
@@ -287,7 +289,7 @@ export class MainScreenComponent implements OnInit, AfterViewInit, OnDestroy {
   public onSlideChange(event:any){
     let swiperEl = this.swiperContainer?.nativeElement.swiper;
     let activeSwiperIdx = swiperEl.activeIndex;
-    let realIndex = swiperEl.realIndex;
+    let snapLen = swiperEl.snapGrid.length;
     let touchDif = Math.abs(swiperEl.touches.diff);
     // let direction = this.swiperContainer?.nativeElement.swiper.swipeDirection;
     let direction = event.detail[0].swipeDirection;
@@ -298,7 +300,7 @@ export class MainScreenComponent implements OnInit, AfterViewInit, OnDestroy {
                   ((!this.onButtonTrigger && direction === 'prev') && (activeSwiperIdx !== currentActiveIdx - 1)) ?
                     currentActiveIdx - 1 : activeSwiperIdx;
 
-    let useStepIdx = (realIndex+1 !== this.walkService.getTotalSteps()) && (touchDif < 321);
+    let useStepIdx = (snapLen+1 !== this.walkService.getTotalSteps()) && (touchDif < 321);
 
     stepIdx = useStepIdx ? stepIdx : activeSwiperIdx;
     stepIdx = this.onButtonTrigger ? currentActiveIdx : stepIdx;

@@ -88,11 +88,6 @@ export class CustomWalkthroughComponent implements
             
           let step = this.tutoService.getCurrentStep();
           if(step && (step.id !== this.data[0].id)){
-            console.log(
-              `current active step ${step.id}`,
-              `removing arrow in screen ${this.tutoService.getScreenById(this.data[0].id)}`
-            );
-
             let arrowId = this.removeArrow()
             this.arrowService.removeArrow(arrowId);
           }
