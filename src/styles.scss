@@ -1,10 +1,15 @@
 @use '@angular/material' as mat;
 @import 'assets/styles/typography.scss';
 
+html {
+    font-size: 24px;
+}
 body {
+    font-size: 1rem;
     margin: 0;
     color: white;
-    background: #161419;
+    // background: #161419;
+    background: #171717;
     --font-size-title: 10px !important;
 }
 
@@ -39,6 +44,20 @@ lib-bubble-btn button .mat-icon {
     border-radius: 50%;
 }
 
+lib-bubble-btn button {
+    border: none !important;
+    background: var(--lib-button-background, linear-gradient(
+        180deg, 
+        rgba(62, 64, 69, .5) 0%, 
+        rgba(62, 64, 69, 0) 8.33%), 
+        radial-gradient(
+            170.95% 118.01% at 8.39% 32.81%, 
+            rgba(67, 64, 70, .5) 0%, 
+            rgba(41, 37, 45, .5) 28.24%,
+            rgba(10, 10, 11, .5) 100%)
+    ) !important;
+}
+
 .wkt-container .wkt-zone.backdrop {
     box-shadow: none !important;
 }
@@ -64,7 +83,7 @@ body::-webkit-scrollbar,
     min-width: 100%;
     width: 100vw;
     height: 100vh;
-    padding: 12px 64px;
+    padding: 12px;
 }
 
 .page > div {
@@ -93,15 +112,24 @@ body::-webkit-scrollbar,
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
+app-navigation {
+    display: flex;
+    align-items: center;
+    padding: 36px 0px;
+}
+
 app-navigation .swiper-nav {
+    display: flex;
+    align-items: center;
     position: fixed;
+    height: 80px;
     z-index: 10;
+    width: 100vw;
     bottom: 0px;
     left: 0;
     right: 0;
     margin: 0 auto;
     overflow-y: clip;
-    height: 80px;
 
     .nav-container {
         width: 100%;
@@ -119,20 +147,21 @@ app-navigation .swiper-nav {
         }
 
         ul {
-            justify-content: space-between;
+            justify-content: left;
             align-items: center;
             list-style: none;
             display: flex;
-            gap: 10%;
+            gap: 5%;
             font-size: 52px;
             font-family: "Gilroy-Regular";
             width: 100%;
-            padding: 0px 64px;
+            height: fit-content;
+            padding: 16px 64px;
             overflow-x: scroll;
             margin-block: 0px;
             
-
             > li {
+                font-size: 2.1rem;
                 cursor: pointer;
                 min-width: fit-content;
                 text-align: center;
@@ -161,7 +190,21 @@ app-navigation .swiper-nav {
     }
 }
 
-@media only screen and (max-width:551px){
+@media only screen and (min-height:720px) and (min-width:790px){
+    .page {
+        padding: 64px 16px !important;
+    }
+
+    app-navigation .swiper-nav {
+        position: relative !important;
+
+        .nav-container {
+            position: unset !important;
+        }
+    }
+}
+
+@media only screen and (max-width:791px){
     .nav-container ul {
         gap: 20px !important;
         font-size: 16px !important;
@@ -186,11 +229,11 @@ walkthrough-container {
     text-shadow: 0px 0px 5.74px rgba(255, 255, 255, 1);
 }
 
-@media only screen and (min-width:551px){
+@media only screen and (min-width:792px){
     .wkt-content-block,
     .tutorial-container  {
         width: 50%;
-        max-width: 200px;
+        // max-width: 200px;
         min-width: unset !important;
     }
 }
@@ -225,7 +268,11 @@ walkthrough-container {
     background-color: transparent !important;
 }
 
-@media only screen and (max-width:550px){
+@media only screen and (max-width:791px){
+    html {
+     font-size: 8px !important;   
+    }
+
     .page {
         padding: 0px !important;
     }

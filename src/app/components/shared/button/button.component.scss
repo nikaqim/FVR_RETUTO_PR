@@ -1,9 +1,10 @@
 .custom-btn {
+    z-index: 1;
     box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.2), -5px -5px 10px rgba(255, 255, 255, 0.05);
     position: relative;
     display: flex;
     width: 38px;
-    gap: 4px;
+    row-gap: 1px;
     flex-wrap: nowrap;
     flex-direction: column;
     overflow: visible;
@@ -26,10 +27,9 @@
     }
 }
 
-
-
 .custom-btn > span {
     display: block;
+    z-index: 10;
     font-size: 9px;
     line-height: 12px;
     width: 100%;

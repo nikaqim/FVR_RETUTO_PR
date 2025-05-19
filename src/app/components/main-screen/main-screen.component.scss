@@ -5,8 +5,13 @@
 .page.main-page .content{
     position: relative;
     display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
     justify-content: center;
-    width: 100%;
+    align-content: baseline;
+    align-items: center;
+    width: 100vw;
+    height: 100vh;
 
     .langSelect-Container {
         display: none;
@@ -36,6 +41,7 @@
     
     .screen-panel {
         width: 100vw;
+        height: fit-content;
         display: flex;
         justify-content: space-between;
     }
@@ -74,10 +80,18 @@
     }
 }
 
-@media only screen and (min-width:1605px){
+.screen-panel {
+    > swiper-slide:not(.nav-container) {
+        background:#161419
+    }
+}
+
+
+@media only screen and (min-width:1598px){
     .screen-panel {
         > swiper-slide:not(.nav-container) {
-            width: 321px !important;
+            width: calc((100% - 336px) / 4) !important;
+            min-width: 321px;
             min-height: 569px;
             height: 85%;
             position: relative;
@@ -89,10 +103,11 @@
     }
 }
 
-@media only screen and (min-width:1284px) and (max-width:1604px){
+@media only screen and (min-width:1195px) and (max-width:1598px){
     .screen-panel {
         > swiper-slide:not(.nav-container) {
-            width: 321px !important;
+            width: calc((100vw - 254px) / 3) !important;
+            min-width: 321px;
             min-height: 569px;
             height: 85%;
             position: relative;
@@ -104,27 +119,23 @@
     }
 }
 
-@media only screen and (min-width:963px) and (max-width:1283px){
+@media only screen and (min-height:720px) and (min-width:790px){
     .screen-panel {
         > swiper-slide:not(.nav-container) {
-            width: 321px !important;
-            min-height: 569px;
-            height: 85%;
-            position: relative;
-            border: 1px solid white;
-            padding: 32px 32px;
-            border-radius: 5%;
-    
+            min-height: unset !important;
+            height: calc(100vh - 296px) !important;
         }
+
     }
 }
 
-@media only screen and (min-width:642px) and (max-width:962px){
+@media only screen and (min-width:792px) and (max-width:1195px){
     .screen-panel {
         > swiper-slide:not(.nav-container) {
-            width: 321px !important;
+            width: calc((100vw - 172px) / 2) !important;
+            min-width: 321px;
             max-height: 569px;
-            height: calc(100% - 120px - 24px);
+            height: calc(100vh - 120px - 24px);
             position: relative;
             border: 1px solid white;
             padding: 32px 32px;
@@ -134,15 +145,16 @@
     }
 }
 
-@media only screen and (max-width:641px){
+@media only screen and (max-width:791px){
     .screen-panel {
         > swiper-slide:not(.nav-container) {
             width: 98.5% !important;
+            min-width: 321px;
             min-height: unset !important;
             margin: 0 1%;
-            height: 99%;
+            height: 100vh;
             position: relative;
-            border: 1px solid white;
+            // border: 1px solid white;
             border-radius: 5%;
     
         }

@@ -40,7 +40,11 @@ export class ArrowService {
                 endPlugColor: '#ffffff',
                 startPlugSize: 1,
                 endPlugSize: 2,
-                dropShadow: true
+                dropShadow: {
+                    dx: 0, 
+                    dy: 0,
+                    blur: 0
+                }
             });
 
             line.setOptions
@@ -48,14 +52,23 @@ export class ArrowService {
             let lineEl = document.querySelector('.leader-line:not([class*="linecontainer"])') as HTMLElement;
 
             if(container && lineEl){
+
+                console.log("toEl:",toElement.getBoundingClientRect());
                 lineEl?.classList.add(`linecontainer-${arrowId}`);
                 container.appendChild(lineEl);
 
+                const containerPos = container.getBoundingClientRect(); 
+
                 const LinePos = lineEl.getBoundingClientRect();
                 const FromPos = fromElement.getBoundingClientRect();
+                const ToPos = toElement.getBoundingClientRect();
 
-                lineEl.style.left = window.innerWidth > 550 ?
-                    (FromPos.width +(16))+ 'px' : lineEl.style.left;
+                console.log("containerPos.top, ToPos.top:",containerPos.left, FromPos.width, lineEl.style.top, lineEl.style.left);
+                lineEl.style.top = (window.innerHeight > 720) && (window.innerWidth > 790) ? 
+                    (parseInt(lineEl.style.top.replace('px','')) - 60) + "px" : lineEl.style.top;
+
+                lineEl.style.left = window.innerWidth > 720 ?
+                    (FromPos.width + 20) + 'px' : lineEl.style.left;
             }
             
             document.querySelector('.leader-line:not([class*="linecontainer"])')?.remove();
