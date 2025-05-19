@@ -243,6 +243,10 @@ import { WalkthroughComponent } from 'angular-walkthrough';
   public getSteps(): CyranoTutorial[]{
     return this.steps;
   }
+
+  public getTotalSteps(): number {
+    return this.steps.length;
+  }
   
   getStepIdxFromId(id:string){
     let idx = 0

@@ -98,7 +98,6 @@ export class MainScreenComponent implements OnInit, AfterViewInit, OnDestroy {
         let step = this.walkService.getCurrentStep();
         let currentIdx = step ? this.walkService.getStepIdxFromId(step.id) : null;
 
-        console.log("isonTriggerSwiper", next, currentIdx);
         if((currentIdx !== null) 
           && ((next && (currentIdx < this.walkService.getSteps().length))
             || (!!next && (currentIdx >= 0)))){
@@ -258,7 +257,10 @@ export class MainScreenComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   public onSlideChange(event:any){
-    let activeSwiperIdx = this.swiperContainer?.nativeElement.swiper.activeIndex;
+    let swiperEl = this.swiperContainer?.nativeElement.swiper;
+    let activeSwiperIdx = swiperEl.activeIndex;
+    let realIndex = swiperEl.realIndex;
+    let touchDif = Math.abs(swiperEl.touches.diff);
     // let direction = this.swiperContainer?.nativeElement.swiper.swipeDirection;
     let direction = event.detail[0].swipeDirection;
     let currentActiveIdx = this.walkService.getStepIdxFromId(this.walkService.getActiveId());
@@ -270,6 +272,10 @@ export class MainScreenComponent implements OnInit, AfterViewInit, OnDestroy {
                   (((!this.onButtonTrigger && direction === 'prev') 
                   ||(this.onButtonTrigger && this.onButtonDirection === 'prev')) && (activeSwiperIdx !== currentActiveIdx - 1)) ?
                     currentActiveIdx - 1 : activeSwiperIdx;
+
+    let useStepIdx = (realIndex+1 !== this.walkService.getTotalSteps()) && (touchDif < 321);
+
+    stepIdx = this.onButtonTrigger || useStepIdx ? stepIdx : activeSwiperIdx;
 
     // sort navigation on custom walkthrough component
     let step = this.walkService.getSteps()[stepIdx];
