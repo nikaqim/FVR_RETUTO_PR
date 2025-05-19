@@ -97,30 +97,45 @@ export class MainScreenComponent implements OnInit, AfterViewInit, OnDestroy {
 
         let swiperEl = this.swiperContainer?.nativeElement.swiper;
         let realIndex = swiperEl.realIndex;
+        let snapLen = swiperEl.snapGrid.length;
         let useStepIdx = (realIndex+1 !== this.walkService.getTotalSteps());
-        let step = this.walkService.getCurrentStep();
+        let loca = this.walkService.getCurrentStep();
         let currentIdx = step ? this.walkService.getStepIdxFromId(step.id) : null;
         let toStep = this.walkService.getSteps()[panelIdx];
 
-
+        console.log("swiperEl:",swiperEl, realIndex);
         if(currentIdx !== null && (currentIdx !== panelIdx)){
           
           this.onButtonDirection = panelIdx > currentIdx ? "next" : "prev";
           this.onButtonTrigger = true;
 
-          let indexWOffset = panelIdx - 1;
+          let indexWOffset = (realIndex < snapLen-1) 
+            && (snapLen < this.walkService.getTotalSteps()-1) ? 
+              panelIdx : null;
+
+          console.log(
+            "isOnTriggerSwiper()", 
+            `realIndex ${realIndex}`, 
+            `snapLen ${snapLen}`, 
+            `indexWOffset ${indexWOffset}`, 
+            `panelIdx ${panelIdx}`, 
+            `currentIdx ${currentIdx}`,
+            `focusElementSelector ${toStep.focusElementSelector}`,
+            toStep
+          );
 
           if(toStep){
             this.walkService.setActiveId(toStep.id);
             this.setActiveBtn(toStep.focusElementSelector.replace('#', ''));
-            this.walkService.scrollIntoView(this.walkService.getScreenById(toStep.id));
+            // this.walkService.scrollIntoView(this.walkService.getScreenById(toStep.id));
           }
 
-          this.swiperContainer?.nativeElement.swiper.slideTo(indexWOffset, 10, false);
-          this.swiperContainer.nativeElement.swiper.update();
-
-          if(!useStepIdx){
-            
+          if(indexWOffset !== null){
+            console.log('slideto')
+            swiperEl.slideTo(indexWOffset, 10, false);
+            swiperEl.update();
+          } else {
+            console.log('scrolltoview', this.walkthroughActive)
           }
         }
       })
@@ -285,6 +300,15 @@ export class MainScreenComponent implements OnInit, AfterViewInit, OnDestroy {
     stepIdx = useStepIdx ? stepIdx : activeSwiperIdx;
     stepIdx = this.onButtonTrigger ? currentActiveIdx : stepIdx;
 
+    console.log(
+      "onslidechange()", 
+      `swiperEl`,swiperEl, 
+      `swiperEl.realIndex ${swiperEl.realIndex}`, 
+      `touchDif ${touchDif}`, 
+      `currentActiveIdx ${currentActiveIdx}`, 
+      `stepIdx ${stepIdx}`
+    )
+
     // sort navigation on custom walkthrough component
     let step = this.walkService.getSteps()[stepIdx];
 
@@ -352,8 +376,10 @@ export class MainScreenComponent implements OnInit, AfterViewInit, OnDestroy {
 
   isActiveScreen(panelId:string):boolean{
     
+    
     if(this.walkthroughActive !== '' && this.walkService.isActive()){
       let screenId = this.walkService.getScreenById(this.walkService.getActiveId());
+      console.log("isActiveScreen",screenId);
       return panelId === screenId
     }
     
