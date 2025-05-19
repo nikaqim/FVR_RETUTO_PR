@@ -7,7 +7,13 @@
     top: 0;
     left: 0;
     height: 100%;
-    width: 69%;
-    max-width: 200px;
+    width: 50%;
+    // max-width: 160px;
     padding: 64px 0px 0px 24px;
+}
+
+@media only screen and (max-width:791px){
+    .tutorial-container {
+        max-width: 200px;
+    }
 }

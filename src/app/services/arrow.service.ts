@@ -99,4 +99,5 @@ export class ArrowService {
     updateArrows() {
         this.lines.forEach(line => line.position());
     }
+
 }

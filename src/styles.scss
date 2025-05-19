@@ -13,6 +13,10 @@ body {
     --font-size-title: 10px !important;
 }
 
+// * {
+//   outline: 1px solid red;
+// }
+
 .lib-button-component button, 
 .lib-button-component button .btn-text {
     border-radius: 50% !important;
@@ -221,6 +225,13 @@ walkthrough-container {
     box-shadow:  none !important;
 }
 
+@media only screen and (max-width:791px){
+    .tutorial-container p:only-child {
+        height: 120px !important;
+        width: 160px !important;
+    }
+}
+
 .wkt-content p:first-child,
 .tutorial-container p:first-child{
     font-size: 16px;
@@ -266,6 +277,10 @@ walkthrough-container {
 
 .wkt-content-block.darken {
     background-color: transparent !important;
+}
+
+.leader-line {
+    z-index: 9999;
 }
 
 @media only screen and (max-width:791px){
