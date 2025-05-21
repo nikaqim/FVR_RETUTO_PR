@@ -65,7 +65,7 @@ export class CustomWalkthroughComponent implements
 
     this.subs.add(
       this.tutoService.onTutoNavigation()
-        .pipe(debounceTime(500))
+        .pipe(debounceTime(100))
         .subscribe((focusElementSelector:string)=>{
             
             if(this.isActive){
@@ -77,7 +77,15 @@ export class CustomWalkthroughComponent implements
               let step = this.tutoService.getCurrentStep();
               if(step){
                 this.activeScreenId.emit(this.tutoService.getScreenById(step.id));
-                this.drawArrow(step, focusElementSelector, this.panelId);
+
+                console.log("this.activeArrowId", this.activeArrowId);
+                if(this.activeArrowId !== '' && this.arrowService.isExist(this.activeArrowId)){
+                  console.log(`Arrow ${this.activeArrowId} already exists`);
+                  this.showArrow();
+                } else {
+                  this.drawArrow(step, focusElementSelector, this.panelId);
+                }
+                
               }
             } 
     }))
@@ -88,8 +96,9 @@ export class CustomWalkthroughComponent implements
             
           let step = this.tutoService.getCurrentStep();
           if(step && (step.id !== this.data[0].id)){
-            let arrowId = this.removeArrow()
-            this.arrowService.removeArrow(arrowId);
+            this.hideArrow();
+            // let arrowId = this.removeArrow()
+            // this.arrowService.removeArrow(arrowId);
           }
               
     }));
@@ -99,8 +108,9 @@ export class CustomWalkthroughComponent implements
       .subscribe((status:boolean)=>{
         
         if(this.isActive){
-          this.removeArrow();
-          this.arrowService.removeAll();
+          this.hideArrow();
+          // this.removeArrow();
+          // this.arrowService.removeAll();
         }
       })
     );
@@ -128,6 +138,37 @@ export class CustomWalkthroughComponent implements
             }
     }))
   }
+
+  private hideArrow(): string {
+    let element = document.querySelector(`.linecontainer-${this.activeArrowId}`);
+
+    if(element){
+      
+      if(!element.classList.contains('hidden')){
+        console.log(`hiding arrow ${this.activeArrowId}`);
+        element.classList.add('hidden');
+      }
+      
+    }
+
+    return this.activeArrowId;
+  }
+
+  private showArrow(): string {
+    let element = document.querySelector(`.linecontainer-${this.activeArrowId}`);
+
+    if(element){
+      
+      if(element.classList.contains('hidden')){
+        console.log(`showing arrow ${this.activeArrowId}`);
+        element.classList.remove('hidden');
+      }
+      
+    }
+
+    return this.activeArrowId;
+  }
+
 
   private removeArrow(): string {
     let elementSelector =  ('#' + this.panelId + this.data[0].focusElementId.replace('#','')).toLowerCase();

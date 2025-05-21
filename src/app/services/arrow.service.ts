@@ -76,6 +76,11 @@ export class ArrowService {
 
     }
 
+    // check if arrow with ID already existing
+    isExist(arrowId: string): boolean {
+        return this.lines.has(arrowId);
+    }
+
     // ✅ Remove an arrow by ID
     removeArrow(arrowId: string) {
         if (this.lines.has(arrowId)) {
@@ -86,11 +91,13 @@ export class ArrowService {
     }
 
     removeAll(){
-        // Array.from(this.lines.keys())
-        //     .forEach(el => {
-        //         this.lines.get(el)?.hide();
-        //         this.lines.get(el)?.remove();
-        // });
+        Array.from(this.lines.keys())
+            .forEach(el => {
+                let element = document.querySelector(`.linecontainer-${el}`);
+                if(element){
+                    element.remove();
+                }
+        });
 
         this.lines.clear();
     }
