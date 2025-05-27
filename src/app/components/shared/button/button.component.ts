@@ -28,7 +28,7 @@ import { Router } from '@angular/router';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ButtonComponent implements OnChanges {
-  @Input() btnSetting:Button;
+  @Input() btnSetting:Button = new Button("","","","", "",false);
   @Input() screenId:string = '';
 
   private buttonActions: { [key:string] : () => void } = {
@@ -42,18 +42,22 @@ export class ButtonComponent implements OnChanges {
     private walkService: WalkthroughConfigService,
     private translate: TranslateService
   ){
-    this.btnSetting = new Button("","","","", "",false)
+    // this.btnSetting = new Button("","","","", "",false)
   }
 
 
   ngOnChanges(changes: SimpleChanges): void {
     if(changes['btnSetting.id']){
+      console.log("ngOnChanges", this.btnSetting);
     }    
   }
 
 
   public buttonClicked(type: string): void{
+    console.log("btn clicked",this.btnSetting);
+    
     if (this.buttonActions[type]) {
+      
       this.buttonActions[type]();
     }
   }

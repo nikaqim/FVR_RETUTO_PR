@@ -20,7 +20,11 @@
                     "label": "Help",
                     "size": "md",
                     "action": "openHelp",
-                    "visible": true
+                    "visible": true,
+                    "offset": {
+                        "x": 20,
+                        "y": 0
+                    }
                 },
                 {
                     "id": "prep",

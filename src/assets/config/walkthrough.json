@@ -8,8 +8,6 @@
             "contentAlign": "left",
             "contentVertAlign": "top",
             "showArrow": true,
-            "closeAnywhere": false,
-            "showFinishBtn": true,
             "descr": [{
                 "text": "Lorem ipsum dolor sit amet, consectetur adipisizzle elit, sed do eiusmod tempor incididunt ut labore et dolore ##magna aliqua##. Ut enim ad minim veniam, quis nostrud exerc",
                 "style":{}
@@ -32,10 +30,8 @@
         "focusElementId": "#help",
         "focusBackdrop": true,
         "contentAlign": "left",
-        "contentVertAlign": "below",
+        "contentVertAlign": "center",
         "showArrow": true,
-        "closeAnywhere": false,
-        "showFinishBtn": true,
         "descr": [{
             "text": "Lorem ipsum dolor sit amet, consectetur adipisizzle elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercit"
         }]
@@ -50,8 +46,6 @@
         "contentAlign": "left",
         "contentVertAlign": "above",
         "showArrow": true,
-        "closeAnywhere": false,
-        "showFinishBtn": true,
         "descr": [{
             "text":"Lorem ipsum dolor sit amet, consectetur adipisizzle elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercit"
         }]
@@ -66,8 +60,6 @@
         "contentAlign": "center",
         "contentVertAlign": "above",
         "showArrow": true,
-        "closeAnywhere": false,
-        "showFinishBtn": true,
         "descr": [{
             "text": "Lorem ipsum dolor sit amet, consectetur adipisizzle elit, sed do"
         }]
@@ -82,8 +74,6 @@
             "contentAlign": "left",
             "contentVertAlign": "above",
             "showArrow": true,
-            "closeAnywhere": false,
-            "showFinishBtn": true,
             "descr": [{
                 "text": "Lorem ipsum dolor sit amet, consectetur adipisizzle elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequ",
                 "style":{}
@@ -100,8 +90,6 @@
             "contentAlign": "left",
             "contentVertAlign": "above",
             "showArrow": true,
-            "closeAnywhere": false,
-            "showFinishBtn": true,
             "descr": [{
                 "text": "Lorem ipsum dolor sit amet, consectetur adipisizzle elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in repre",
                 "style":{}
@@ -118,8 +106,6 @@
             "contentAlign": "left",
             "contentVertAlign": "top",
             "showArrow": true,
-            "closeAnywhere": false,
-            "showFinishBtn": true,
             "descr": [{
                 "text": "Lorem ipsum dolor sit amet, consectetur adip",
                 "style":{}
@@ -136,8 +122,6 @@
             "contentAlign": "left",
             "contentVertAlign": "top",
             "showArrow": true,
-            "closeAnywhere": false,
-            "showFinishBtn": true,
             "descr": [{
                 "text": "Lorem ipsum dolor sit amet, consectetur adip",
                 "style":{}
@@ -154,8 +138,6 @@
             "contentAlign": "left",
             "contentVertAlign": "top",
             "showArrow": true,
-            "closeAnywhere": false,
-            "showFinishBtn": true,
             "descr": [{
                 "text": "Lorem ipsum dolor sit amet, consectetur adipisizzle elit, sed do",
                 "style":{}
@@ -171,8 +153,6 @@
             "contentAlign": "left",
             "contentVertAlign": "top",
             "showArrow": true,
-            "closeAnywhere": false,
-            "showFinishBtn": true,
             "descr": [{
                 "text": "Lorem ipsum dolor sit amet, consecte",
                 "style":{}

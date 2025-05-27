@@ -67,7 +67,6 @@ export class BtnGroupComponent implements OnChanges, AfterViewInit, OnInit, OnDe
     if(btnId){
       const parentId = this.btnService.getScreenContainerId(btnId.replace(' ',''))
       this.walkService.scrollIntoView(parentId)
-      
     }
   });
  }

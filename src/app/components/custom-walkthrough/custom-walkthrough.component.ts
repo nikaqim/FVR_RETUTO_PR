@@ -12,7 +12,7 @@ import {
   ChangeDetectorRef
 } from '@angular/core';
 
-import { Subscription, debounceTime, fromEvent } from 'rxjs';
+import { Subscription, debounceTime, fromEvent, filter } from 'rxjs';
 import { CommonModule } from '@angular/common';
 
 import { CyranoTutorial } from '../../model/cyrano-walkthrough.model';
@@ -47,7 +47,7 @@ export class CustomWalkthroughComponent implements
   private subs = new Subscription(); 
   
   styleOptions: Object = {
-    // "display": "none"
+    "alignContent": "flex-start"
   }
 
   constructor( 
@@ -65,7 +65,8 @@ export class CustomWalkthroughComponent implements
 
     this.subs.add(
       this.tutoService.onTutoNavigation()
-        .pipe(debounceTime(100))
+        .pipe(
+          debounceTime(500))
         .subscribe((focusElementSelector:string)=>{
             
             if(this.isActive){
@@ -90,15 +91,16 @@ export class CustomWalkthroughComponent implements
             } 
     }))
 
+
     this.subs.add(
       this.tutoService.onTutoNavigation()
         .subscribe((focusElementSelector:string)=>{
             
           let step = this.tutoService.getCurrentStep();
           if(step && (step.id !== this.data[0].id)){
-            this.hideArrow();
-            // let arrowId = this.removeArrow()
-            // this.arrowService.removeArrow(arrowId);
+            // this.hideArrow();
+            let arrowId = this.removeArrow()
+            this.arrowService.removeArrow(arrowId);
           }
               
     }));

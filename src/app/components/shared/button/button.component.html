@@ -1,4 +1,11 @@
-<div [ngClass]="'custom-btn ' + btnSetting.size" (click)="buttonClicked(btnSetting.action)">
+<div 
+  [ngClass]="'custom-btn ' + btnSetting.size" 
+  (click)="buttonClicked(btnSetting.action)"
+  [ngStyle]="{
+    'position': 'relative',
+    'top': btnSetting.offset !== undefined? btnSetting.offset.y + 'px' : 'unset',
+    'right': btnSetting.offset !== undefined? btnSetting.offset.x + 'px' : 'unset',
+  }">
      <div class="btn-wrapper">
 
       <svg *ngIf="btnSetting.progress !== undefined && btnSetting.progress" class="ring" viewBox="0 0 100 100">
