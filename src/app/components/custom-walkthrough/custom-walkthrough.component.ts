@@ -80,12 +80,15 @@ export class CustomWalkthroughComponent implements
                 this.activeScreenId.emit(this.tutoService.getScreenById(step.id));
 
                 console.log("this.activeArrowId", this.activeArrowId);
-                if(this.activeArrowId !== '' && this.arrowService.isExist(this.activeArrowId)){
-                  console.log(`Arrow ${this.activeArrowId} already exists`);
-                  this.showArrow();
-                } else {
-                  this.drawArrow(step, focusElementSelector, this.panelId);
+                if(step.showArrow){
+                  if(this.activeArrowId !== '' && this.arrowService.isExist(this.activeArrowId)){
+                    console.log(`Arrow ${this.activeArrowId} already exists`);
+                    this.showArrow();
+                  } else {
+                    this.drawArrow(step, focusElementSelector, this.panelId);
+                  }
                 }
+                
                 
               }
             } 
@@ -129,11 +132,12 @@ export class CustomWalkthroughComponent implements
             if(this.isActive){
               let step = this.tutoService.getCurrentStep();
               
-              if(step){
+              if(step && step.showArrow){
                 this.activeScreenId.emit(this.tutoService.getScreenById(step.id));
                 let focusElementSelector = ('#' + this.panelId + step.focusElementId.replace('#','')).toLowerCase();
 
                 this.drawArrow(step, focusElementSelector, this.panelId);
+                              
               }
 
               
