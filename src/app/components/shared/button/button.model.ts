@@ -33,7 +33,6 @@ export class Button {
     }
 
     get isVisible(){
-        console.log("this.isVisible:",this.isVisible);
         return this.visible;
     }
 

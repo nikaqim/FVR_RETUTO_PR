@@ -104,7 +104,6 @@ export class MainScreenComponent implements OnInit, AfterViewInit, OnDestroy {
         let toStep = this.walkService.getSteps()[panelIdx];
         let toStepIdx = toStep ? this.walkService.getStepIdxFromId(toStep.id) : null;
 
-        console.log("swiperEl:",swiperEl, realIndex);
         if(currentIdx !== null && (currentIdx !== panelIdx)){
           
           this.onButtonDirection = panelIdx > currentIdx ? "next" : "prev";
@@ -116,28 +115,13 @@ export class MainScreenComponent implements OnInit, AfterViewInit, OnDestroy {
           if(toStep){
             this.walkService.setActiveId(toStep.id);
             this.setActiveBtn(toStep.focusElementSelector.replace('#', ''));
-            // this.walkService.scrollIntoView(this.walkService.getScreenById(toStep.id));
 
-            console.log(
-            "isOnTriggerSwiper()", 
-            `realIndex ${realIndex}`, 
-            `snapLen ${snapLen}`, 
-            `indexWOffset ${indexWOffset}`, 
-            `panelIdx ${panelIdx}`, 
-            `panel ${this.walkService.getScreenById(toStep.id)}`, 
-            `currentIdx ${currentIdx}`,
-            `toStepIdx ${toStepIdx}`,
-            `focusElementSelector ${toStep.focusElementSelector}`,
-            toStep
-          );
           }
 
           if(indexWOffset !== null){
-            console.log('slideto')
             swiperEl.slideTo(indexWOffset, 10, false);
             swiperEl.update();
           } else {
-            console.log('scrolltoview', this.walkthroughActive)
             this.walkService.notifyTutoNavigation(toStep);
             this.onButtonTrigger = false;
             this.onButtonDirection = "";
@@ -305,24 +289,12 @@ export class MainScreenComponent implements OnInit, AfterViewInit, OnDestroy {
     stepIdx = useStepIdx ? stepIdx : activeSwiperIdx;
     stepIdx = this.onButtonTrigger ? currentActiveIdx : stepIdx;
 
-    console.log(
-      "onslidechange()", 
-      `swiperEl`,swiperEl, 
-      `swiperEl.realIndex ${swiperEl.realIndex}`, 
-      `touchDif ${touchDif}`, 
-      `currentActiveIdx ${currentActiveIdx}`, 
-      `stepIdx ${stepIdx}`
-    )
-
     // sort navigation on custom walkthrough component
     let step = this.walkService.getSteps()[stepIdx];
 
     if(step && this.walkService.isActive()){
       this.walkService.setActiveId(step.id);
       this.setActiveBtn(step.focusElementSelector.replace('#',''));
-      // if(this.onButtonTrigger){
-      //   this.walkService.scrollIntoView(this.walkService.getScreenById(step.id));
-      // }
     }
   }
 
@@ -374,7 +346,6 @@ export class MainScreenComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     this.cd.markForCheck(); 
-    console.log("this.setActiveBtn markforcheck")
   }
 
   public setCurrentActiveScreen(screenId:string):void {

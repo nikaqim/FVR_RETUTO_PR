@@ -84,7 +84,6 @@ export class ArrowService {
     // ✅ Remove an arrow by ID
     removeArrow(arrowId: string) {
         if (this.lines.has(arrowId)) {
-            // this.lines.get(arrowId)?.remove();
             this.lines.delete(arrowId);
         }
 

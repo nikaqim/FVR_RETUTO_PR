@@ -19,8 +19,6 @@ import {
 
 import { Subscription, debounceTime, fromEvent } from 'rxjs';
 
-// import { WsService } from '../../services/ws.service';
-
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { WalkthroughModule } from 'angular-walkthrough';
@@ -70,7 +68,6 @@ export class CyranoWalkthroughComponent implements
     private activeArrowId: string = "";
 
     constructor( 
-      // private wsService:WsService,
       private tutoService: WalkthroughConfigService,
       private arrowService: ArrowService,
       private cd: ChangeDetectorRef
@@ -86,13 +83,6 @@ export class CyranoWalkthroughComponent implements
           this.onResizeFinished();
         })
       );
-
-      // rxjs observable
-      // this.subs.add(
-      //   this.wsService.listenWalkUpdate('walkJsonUpdate').subscribe((msg:CyranoTutorialConfig) => {
-      //     this.reset(msg)
-      //   })
-      // );
 
       this.subs.add(
         this.tutoService.onNotifyTextChange().subscribe((msg:CyranoTutorialConfig)=>{
@@ -152,8 +142,6 @@ export class CyranoWalkthroughComponent implements
           this.isOpen.emit(current?.focusElementSelector.replace(' ','').replace("#",''));
           
           if(current){
-            
-            // this.tutoService.notifyTutoNavigation(current)
 
             setTimeout(()=>{
               this.repositionTuto();
@@ -333,10 +321,6 @@ export class CyranoWalkthroughComponent implements
       }
     },100)    
   }
-
-  // triggerSlideFunction(): void {
-  //   this.tutoService.triggerSwiper(true);
-  // }
 
   navigateWalkThru(next:boolean=true): void{    
     const current = this.tutoService.getById(this.activeId);

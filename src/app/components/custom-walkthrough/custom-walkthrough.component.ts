@@ -16,9 +16,7 @@ import { Subscription, debounceTime, fromEvent, filter } from 'rxjs';
 import { CommonModule } from '@angular/common';
 
 import { CyranoTutorial } from '../../model/cyrano-walkthrough.model';
-import { CyranoTutorialConfig } from '../../model/cyrano-walkthrough-cfg.model';
 
-// import { ShepherdService } from 'angular-shepherd';
 import { WalkthroughConfigService } from '../../services/tuto.service';
 import { ArrowService } from 'src/app/services/arrow.service';
 import { BtnGroupService } from '../../services/btn.service';
@@ -70,19 +68,13 @@ export class CustomWalkthroughComponent implements
         .subscribe((focusElementSelector:string)=>{
             
             if(this.isActive){
-              console.log(
-                `onTutoNavigation: focusElementSelector= ${focusElementSelector}`,
-                `id: data= ${this.data[0].id}`,
-              )
 
               let step = this.tutoService.getCurrentStep();
               if(step){
                 this.activeScreenId.emit(this.tutoService.getScreenById(step.id));
 
-                console.log("this.activeArrowId", this.activeArrowId);
                 if(step.showArrow){
                   if(this.activeArrowId !== '' && this.arrowService.isExist(this.activeArrowId)){
-                    console.log(`Arrow ${this.activeArrowId} already exists`);
                     this.showArrow();
                   } else {
                     this.drawArrow(step, focusElementSelector, this.panelId);
@@ -101,7 +93,6 @@ export class CustomWalkthroughComponent implements
             
           let step = this.tutoService.getCurrentStep();
           if(step && (step.id !== this.data[0].id)){
-            // this.hideArrow();
             let arrowId = this.removeArrow()
             this.arrowService.removeArrow(arrowId);
           }
@@ -114,8 +105,6 @@ export class CustomWalkthroughComponent implements
         
         if(this.isActive){
           this.hideArrow();
-          // this.removeArrow();
-          // this.arrowService.removeAll();
         }
       })
     );
@@ -151,7 +140,6 @@ export class CustomWalkthroughComponent implements
     if(element){
       
       if(!element.classList.contains('hidden')){
-        console.log(`hiding arrow ${this.activeArrowId}`);
         element.classList.add('hidden');
       }
       
@@ -166,7 +154,6 @@ export class CustomWalkthroughComponent implements
     if(element){
       
       if(element.classList.contains('hidden')){
-        console.log(`showing arrow ${this.activeArrowId}`);
         element.classList.remove('hidden');
       }
       
@@ -182,7 +169,6 @@ export class CustomWalkthroughComponent implements
     let element = document.querySelector(`.linecontainer-${arrowId}`);
 
     if(element){
-      console.log(`removing arrow ${arrowId}`);
       element.remove();
     }
 

@@ -45,20 +45,14 @@ export class ButtonComponent implements OnChanges {
     private walkService: WalkthroughConfigService,
     private translate: TranslateService
   ){
-    // this.btnSetting = new Button("","","","", "",false)
   }
 
 
   ngOnChanges(changes: SimpleChanges): void {
-    if(changes['btnSetting.id']){
-      console.log("ngOnChanges", this.btnSetting);
-    }    
   }
 
 
   public buttonClicked(type: string): void{
-    console.log("btn clicked",this.btnSetting);
-    
     if (this.buttonActions[type]) {
       
       this.buttonActions[type]();

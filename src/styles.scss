@@ -8,14 +8,9 @@ body {
     font-size: 1rem;
     margin: 0;
     color: white;
-    // background: #161419;
     background: #171717;
     --font-size-title: 10px !important;
 }
-
-// * {
-//   outline: 1px solid red;
-// }
 
 .lib-button-component button, 
 .lib-button-component button .btn-text {
@@ -248,7 +243,6 @@ walkthrough-container {
     .wkt-content-block,
     .tutorial-container  {
         width: 50%;
-        // max-width: 200px;
         min-width: unset !important;
     }
 }
