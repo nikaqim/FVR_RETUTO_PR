@@ -17,7 +17,7 @@
                     "id": "help",
                     "maticon": "logout", 
                     "icon": "/assets/imgs/svg/help.svg",
-                    "label": "Help",
+                    "label": "Helping",
                     "size": "md",
                     "action": "openHelp",
                     "visible": true,
@@ -53,8 +53,7 @@
                     "action": "openChat",
                     "visible": true
                 }
-            ],
-            "visible": true
+            ]
         },
         {
             "id": "bottom",
@@ -119,8 +118,7 @@
                     "title": "-10m"
                 }
 
-            ],
-            "visible": true
+            ]
         }
     ]
 }

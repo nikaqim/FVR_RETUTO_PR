@@ -5,6 +5,7 @@ export interface ButtonOffset {
 
 export class Button {
     id: string = "";
+    maticon: string = "";
     icon: string = ""; // material icon
     label: string= ""; // i18n will be enabled if title is same with app.button
     size: string= ""; // xs, sm, md, lg, xl

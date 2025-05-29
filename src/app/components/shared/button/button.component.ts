@@ -10,6 +10,8 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { ButtonsModule } from 'nextsapien-component-lib';
 import { CommonModule } from '@angular/common';
 
+import { MatIconModule } from '@angular/material/icon';
+
 import { Button } from './button.model';
 import { WalkthroughConfigService } from '../../../services/tuto.service';
 import { BtnGroupService } from '../../../services/btn.service';
@@ -21,6 +23,7 @@ import { Router } from '@angular/router';
   templateUrl: './button.component.html',
   imports: [
     CommonModule,
+    MatIconModule,
     ButtonsModule,
     TranslateModule
   ],
