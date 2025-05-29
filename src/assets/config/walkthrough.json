@@ -6,6 +6,7 @@
             "focusElementId": "#forfeit",
             "focusBackdrop": false,
             "contentAlign": "left",
+            "showArrow": true,
             "contentVertAlign": "top",
             "descr": [{
                 "text": "Lorem ipsum dolor sit amet, consectetur adipisizzle elit, sed do eiusmod tempor incididunt ut labore et dolore ##magna aliqua##. Ut enim ad minim veniam, quis nostrud exerc",
