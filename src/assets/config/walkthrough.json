@@ -29,7 +29,7 @@
         "focusElementId": "#help",
         "focusBackdrop": true,
         "contentAlign": "left",
-        "contentVertAlign": "center",
+        "contentVertAlign": "top",
         "showArrow": true,
         "descr": [{
             "text": "Lorem ipsum dolor sit amet, consectetur adipisizzle elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercit"
@@ -43,7 +43,7 @@
         "focusElementId": "#selfie",
         "focusBackdrop": true,
         "contentAlign": "left",
-        "contentVertAlign": "above",
+        "contentVertAlign": "top",
         "showArrow": true,
         "descr": [{
             "text":"Lorem ipsum dolor sit amet, consectetur adipisizzle elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercit"
@@ -56,8 +56,8 @@
         "nextStepId":"walk5",
         "focusElementId": "#face",
         "focusBackdrop": true,
-        "contentAlign": "center",
-        "contentVertAlign": "above",
+        "contentAlign": "left",
+        "contentVertAlign": "top",
         "showArrow": true,
         "descr": [{
             "text": "Lorem ipsum dolor sit amet, consectetur adipisizzle elit, sed do"
@@ -71,7 +71,7 @@
             "focusElementId": "#video",
             "focusBackdrop": false,
             "contentAlign": "left",
-            "contentVertAlign": "above",
+            "contentVertAlign": "top",
             "showArrow": true,
             "descr": [{
                 "text": "Lorem ipsum dolor sit amet, consectetur adipisizzle elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequ",
@@ -87,7 +87,7 @@
             "focusElementId": "#outfit",
             "focusBackdrop": false,
             "contentAlign": "left",
-            "contentVertAlign": "above",
+            "contentVertAlign": "top",
             "showArrow": true,
             "descr": [{
                 "text": "Lorem ipsum dolor sit amet, consectetur adipisizzle elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in repre",
