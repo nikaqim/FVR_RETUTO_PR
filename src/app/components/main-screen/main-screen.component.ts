@@ -292,6 +292,18 @@ export class MainScreenComponent implements OnInit, AfterViewInit, OnDestroy {
     // sort navigation on custom walkthrough component
     let step = this.walkService.getSteps()[stepIdx];
 
+    let currentStep = this.walkService.getCurrentStep();
+
+    if(currentStep){
+      if(currentStep.nextStepId){
+        console.log(
+          "nextStepId",
+          currentStep.nextStepId,
+          this.walkService.getScreenById(currentStep.nextStepId))
+      }
+    }
+    
+
     if(step && this.walkService.isActive()){
       this.walkService.setActiveId(step.id);
       this.setActiveBtn(step.focusElementSelector.replace('#',''));
