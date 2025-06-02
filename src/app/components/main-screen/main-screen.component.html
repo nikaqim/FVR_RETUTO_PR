@@ -27,7 +27,7 @@
                         [screenId]="panel.replace(' ','')"
                         [activeId]="walkthroughActive"
                         [type]="btngrp.layout" 
-                        [buttons]="btngrp.buttons"
+                        [buttons]="filterInactiveBtn(btngrp.buttons)"
                         (ButtonGroupReady)="setBtnGroupReady($event)">
                     </app-btn-group>
                 </div>

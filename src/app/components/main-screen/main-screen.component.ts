@@ -35,6 +35,7 @@ import { CyranoTutorialConfig } from '../../model/cyrano-walkthrough-cfg.model';
 import { WalkthroughConfigService } from '../../services/tuto.service';
 
 import { transition } from '@angular/animations';
+import { Button } from '../shared/button/button.model';
 
 @Component({
   selector: 'app-main-screen',
@@ -88,6 +89,13 @@ export class MainScreenComponent implements OnInit, AfterViewInit, OnDestroy {
     this.initSubs();
   }
 
+  public filterInactiveBtn(buttons:Button[]): Button[] {
+    return buttons.filter((btn)=>{ 
+      return btn.visible === undefined || btn.visible
+    })
+    
+  }
+
   private initSubs(): void{
 
     // for navigation trigger swiper
@@ -132,13 +140,22 @@ export class MainScreenComponent implements OnInit, AfterViewInit, OnDestroy {
 
     this.subs.add(
       this.walkService.onMoveToSlide().subscribe((idx:number)=>{
-        this.swiperContainer?.nativeElement.swiper.slideTo(
-          idx,
-          10, 
-          false
-        );
+        if(this.swiperContainer?.nativeElement.swiper.activeIndex === idx){
+          this.walkService.triggerSwiper(0);
+          let step = this.walkService.getSteps()[0];
+          this.walkService.setActiveId(step.id);
+          this.setActiveBtn(step.focusElementSelector.replace('#',''));
+          this.walkService.notifyTutoNavigation(this.walkService.getSteps()[0]);
+        } else {
+          this.swiperContainer?.nativeElement.swiper.slideTo(
+            idx,
+            10, 
+            false
+          );
 
-        this.swiperContainer?.nativeElement.swiper.update();
+          this.swiperContainer?.nativeElement.swiper.update();
+        }
+        
         this.walkService.startTuto(this.walkService.getSteps()[0].id);
       })
     );
@@ -291,18 +308,6 @@ export class MainScreenComponent implements OnInit, AfterViewInit, OnDestroy {
 
     // sort navigation on custom walkthrough component
     let step = this.walkService.getSteps()[stepIdx];
-
-    let currentStep = this.walkService.getCurrentStep();
-
-    if(currentStep){
-      if(currentStep.nextStepId){
-        console.log(
-          "nextStepId",
-          currentStep.nextStepId,
-          this.walkService.getScreenById(currentStep.nextStepId))
-      }
-    }
-    
 
     if(step && this.walkService.isActive()){
       this.walkService.setActiveId(step.id);

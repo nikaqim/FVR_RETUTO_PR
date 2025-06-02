@@ -12,7 +12,10 @@ export class Button {
     action: string = "";
     main:boolean = false;
     title: string= "";
+    hideTitle: boolean = false;
     visible: boolean = true;
+    onNotification: boolean = false;
+    progressPercentage:number = 0;
     offset: ButtonOffset = {
         x:0,
         y:0

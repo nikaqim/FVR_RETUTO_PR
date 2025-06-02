@@ -10,12 +10,17 @@
 
       <svg *ngIf="btnSetting.progress !== undefined && btnSetting.progress" class="ring" viewBox="0 0 100 100">
         <defs>
+          <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+            <feDropShadow dx="0" dy="0" stdDeviation="2" flood-color="#000" flood-opacity="0.7"/>
+          </filter>
+
           <linearGradient id="ringGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="70%" stop-color="#E15561" stop-opacity="0.57"/>
+            <stop offset="70%" stop-color="#7b2f47" stop-opacity="0.57"/>
           </linearGradient>
 
           <linearGradient id="ringGradient2" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stop-color="#fe3c72" stop-opacity="1"/>
+            <stop offset="0%" stop-color="#f96c8f" stop-opacity="1"/>
+            <stop offset="30%" stop-color="#fd487b" stop-opacity="1"/>
           </linearGradient>
         </defs>
       
@@ -29,6 +34,7 @@
           stroke-width="8"
         />
         
+        <!-- backgroun empty -->
         <circle
           class="ring-progress"
           cx="50"
@@ -37,26 +43,31 @@
           fill="none"
           stroke="url(#ringGradient)"
           stroke-width="8"
-          stroke-dasharray="280" 
-          stroke-dashoffset="70"    
+          stroke-dasharray="100" 
+          stroke-dashoffset="00" 
+          pathLength="100"   
           stroke-linecap="round"
+          filter="url(#glow)"
         />
 
+        <!-- progress -->
         <circle
           class="ring-progress"
           cx="50"
           cy="50"
           r="45"
           fill="none"
+          pathLength="100"
           stroke="url(#ringGradient2)"
           stroke-width="8"
-          stroke-dasharray="230" 
-          stroke-dashoffset="70"    
+          stroke-dasharray="100" 
+          [attr.stroke-dashoffset]="getProgressOffset(btnSetting.progressPercentage)"    
           stroke-linecap="round"
         />
       </svg>
       
         <div class="button-content">
+            <div *ngIf="btnSetting.onNotification" class="notification-flag"></div>
             <lib-bubble-btn 
                 [id]="screenId !== 'mob' ? (screenId.replace(' ','') + btnSetting.id).toLowerCase() : btnSetting.id" 
                 variant='primary'>
@@ -69,6 +80,8 @@
         </div>
     </div>
      
-     <span>{{ getTranslatedLabel(btnSetting.label) }}</span>
+    <span *ngIf="!btnSetting.hideTitle">
+      {{ getTranslatedLabel(btnSetting.label) }}
+    </span>
 </div>
 

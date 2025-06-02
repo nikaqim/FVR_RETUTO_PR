@@ -12,6 +12,21 @@ body {
     --font-size-title: 10px !important;
 }
 
+
+.page > .content {
+    height: 100% !important;
+    overflow: hidden;
+}
+
+div::-webkit-scrollbar {
+    display: none;
+}
+
+div {    
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+}
+
 .lib-button-component button, 
 .lib-button-component button .btn-text {
     border-radius: 50% !important;
@@ -26,6 +41,19 @@ lib-bubble-btn button .mat-icon {
     font-size: 20px;
     margin-top: 0.1em;
 
+}
+
+.button-content .notification-flag {
+    position: absolute;
+    display: block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: linear-gradient(45deg, #f96c8f, #fd487b);
+    filter: drop-shadow(0 0 4px #ff6a81);
+    border: 0.1px solid #bbbbbb;
+    right: 12%;
+    z-index: 10;
 }
 
 

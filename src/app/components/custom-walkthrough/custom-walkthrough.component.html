@@ -1,10 +1,10 @@
 <div #tutorWrapper 
     class="tutorial-container {{ isActive ? '' : 'hide' }}" 
     [ngStyle]="{
-        'alignItems': (data[0].contentVertAlign === 'top' || data[0].contentVertAlign === 'above') ?
+        'justifyContent': (data[0].contentVertAlign === 'top' || data[0].contentVertAlign === 'above') ?
             'flex-start' : (data[0].contentVertAlign === 'bottom' || data[0].contentVertAlign === 'below')  ? 'flex-end' 
             :'center',
-        'justifyContent': data[0].contentAlign === 'center' ?
+        'alignItems': data[0].contentAlign === 'center' ?
             'center' : data[0].contentAlign === 'right' ? 'flex-end' 
             :'flex-start'
         

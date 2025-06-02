@@ -49,14 +49,25 @@ export class ButtonComponent implements OnChanges {
 
 
   ngOnChanges(changes: SimpleChanges): void {
+    
   }
 
 
   public buttonClicked(type: string): void{
-    if (this.buttonActions[type]) {
-      
+    console.log("this.btnSetting:",this.btnSetting);
+
+    if (this.buttonActions[type]) {  
       this.buttonActions[type]();
     }
+  }
+
+  public applyTitle(btnSetting:Button):boolean {
+    if(!btnSetting.title || btnSetting.hideTitle){
+      console.log("hideTitle:",btnSetting.title, btnSetting.hideTitle);
+      return false;
+    }
+
+    return true;
   }
 
   public getTranslatedLabel(label: string): string {
@@ -68,11 +79,17 @@ export class ButtonComponent implements OnChanges {
   private openTutorial(): void {
     this.walkService.closeTuto();
 
+    console.log("openTutorial...");
+
     setTimeout(()=>{
       this.walkService.setWalkStatus(true);
       this.walkService.moveToSlide(0);
     },100)
     
+  }
+
+  public getProgressOffset(progress: number, totalLength: number = 100):number {
+    return 100 - progress
   }
 
   private  exitTutorial(): void {

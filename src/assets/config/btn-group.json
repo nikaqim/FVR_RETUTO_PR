@@ -17,7 +17,10 @@
                     "id": "help",
                     "maticon": "logout", 
                     "icon": "/assets/imgs/svg/help.svg",
-                    "label": "Helping",
+                    "label": "Help",
+                    "hideTitle": false,
+
+                    "onNotification": true,
                     "size": "md",
                     "action": "openHelp",
                     "visible": true,
@@ -29,11 +32,12 @@
                 {
                     "id": "prep",
                     "maticon": "logout", 
+                    
                     "icon": "/assets/imgs/svg/prep.svg",
                     "label": "Prep",
                     "size": "md",
                     "action": "prepExec",
-                    "visible": true
+                    "visible": false
                 },
                 {
                     "id": "location",
@@ -113,6 +117,7 @@
                     "size": "lg",
                     "action": "openSelfieVideo",
                     "progress": true,
+                    "progressPercentage": 70,
                     "visible": true,
                     "main": true,
                     "title": "-10m"
