@@ -56,6 +56,7 @@ Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The appli
 | `visible` | `boolean` | show or hide button |
 | `main` | `boolean` | set the button as main/center button in type 'arc' button group. (p.s only the first main assignment will be taken) |
 | `progress` | `boolean` | display progress bar on button |
+| `progressPercentage` | `number` | *required* when progress is true. map the progress bar ui to percentage |
 | `offset.x` | `number` | horizontal offset of button |
 | `offset.y` | `number` | vertical offset of button |
 
