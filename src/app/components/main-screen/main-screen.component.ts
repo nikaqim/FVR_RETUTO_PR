@@ -29,13 +29,13 @@ import { ButtonGroup } from '../shared/btn-group/btn-group.model';
 import { BtnGroupService } from '../../services/btn.service';
 import { IBtnGroupConfig } from '../shared/btn-group/btn-group-config.model';
 
-// import { WsService } from '../../services/ws.service';
-
 import { CyranoTutorialConfig } from '../../model/cyrano-walkthrough-cfg.model';
 import { WalkthroughConfigService } from '../../services/tuto.service';
 
 import { transition } from '@angular/animations';
 import { Button } from '../shared/button/button.model';
+import { CyranoTutorial } from '../../model/cyrano-walkthrough.model';
+import { Swiper } from 'swiper/types';
 
 @Component({
   selector: 'app-main-screen',
@@ -103,27 +103,24 @@ export class MainScreenComponent implements OnInit, AfterViewInit, OnDestroy {
       this.walkService.isOnTriggerSwiper()
       .pipe(debounceTime(100)).subscribe((panelIdx:number) => {
 
-        let swiperEl = this.swiperContainer?.nativeElement.swiper;
-        let realIndex = swiperEl.realIndex;
-        let snapLen = swiperEl.snapGrid.length;
-        let useStepIdx = (realIndex+1 !== this.walkService.getTotalSteps());
-        let step = this.walkService.getCurrentStep();
-        let currentIdx = step ? this.walkService.getStepIdxFromId(step.id) : null;
-        let toStep = this.walkService.getSteps()[panelIdx];
-        let toStepIdx = toStep ? this.walkService.getStepIdxFromId(toStep.id) : null;
+        let swiperEl: Swiper = this.swiperContainer?.nativeElement.swiper;
+        let snapLen: number = swiperEl.snapGrid.length;
+        let step: CyranoTutorial | null = this.walkService.getCurrentStep();
+        let currentIdx: number | null = step ? this.walkService.getStepIdxFromId(step.id) : null;
+        let toStep: CyranoTutorial = this.walkService.getSteps()[panelIdx];
+        let toStepIdx: number | null = toStep ? this.walkService.getStepIdxFromId(toStep.id) : null;
 
         if(currentIdx !== null && (currentIdx !== panelIdx)){
           
           this.onButtonDirection = panelIdx > currentIdx ? "next" : "prev";
           this.onButtonTrigger = true;
 
-          let indexWOffset = ((toStepIdx !== null) 
+          let indexWOffset: number | null = ((toStepIdx !== null) 
             && toStepIdx < snapLen) ? panelIdx : null;
 
           if(toStep){
             this.walkService.setActiveId(toStep.id);
             this.setActiveBtn(toStep.focusElementSelector.replace('#', ''));
-
           }
 
           if(indexWOffset !== null){
@@ -141,12 +138,15 @@ export class MainScreenComponent implements OnInit, AfterViewInit, OnDestroy {
     this.subs.add(
       this.walkService.onMoveToSlide().subscribe((idx:number)=>{
         if(this.swiperContainer?.nativeElement.swiper.activeIndex === idx){
+
           this.walkService.triggerSwiper(0);
           let step = this.walkService.getSteps()[0];
           this.walkService.setActiveId(step.id);
           this.setActiveBtn(step.focusElementSelector.replace('#',''));
           this.walkService.notifyTutoNavigation(this.walkService.getSteps()[0]);
+
         } else {
+
           this.swiperContainer?.nativeElement.swiper.slideTo(
             idx,
             10, 
@@ -224,12 +224,12 @@ export class MainScreenComponent implements OnInit, AfterViewInit, OnDestroy {
   public onSwiperMove(event:any){
     if(this.walkService.isActive() && !SwiperConfig.centeredSlides){
       if(window.innerWidth > 641){
-        let direction = this.swiperContainer?.nativeElement.swiper.swipeDirection;
-        let isEnd = this.swiperContainer?.nativeElement.swiper.isEnd;
-        let isBeginning = this.swiperContainer?.nativeElement.swiper.isBeginning;
-        // let activeIndex = event["detail"][0].activeIndex;
-        let currentStepIdx = this.walkService.getStepIdxFromId(this.walkService.getActiveId());
-        let totalSteps = this.walkService.getSteps().length;
+
+        let direction: string = this.swiperContainer?.nativeElement.swiper.swipeDirection;
+        let isEnd: boolean = this.swiperContainer?.nativeElement.swiper.isEnd;
+        let isBeginning: boolean = this.swiperContainer?.nativeElement.swiper.isBeginning;
+        let currentStepIdx: number = this.walkService.getStepIdxFromId(this.walkService.getActiveId());
+        let totalSteps: number = this.walkService.getSteps().length;
 
         if((
           (isEnd && (currentStepIdx < totalSteps && direction === 'next')) || 
@@ -253,7 +253,6 @@ export class MainScreenComponent implements OnInit, AfterViewInit, OnDestroy {
               if(step){
                 this.walkService.setActiveId(step.id);
                 this.setActiveBtn(step.focusElementSelector.replace('#', ''));
-                // this.walkService.scrollIntoView(this.walkService.getScreenById(step.id));
               }
             }
             
@@ -276,7 +275,6 @@ export class MainScreenComponent implements OnInit, AfterViewInit, OnDestroy {
               if(step){
                 this.walkService.setActiveId(step.id);
                 this.setActiveBtn(step.focusElementSelector.replace(' ','').replace('#', ''));
-                // this.walkService.scrollIntoView(this.walkService.getScreenById(step.id));
               }
       
             }
@@ -288,26 +286,25 @@ export class MainScreenComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   public onSlideChange(event:any){
-    let swiperEl = this.swiperContainer?.nativeElement.swiper;
-    let activeSwiperIdx = swiperEl.activeIndex;
-    let snapLen = swiperEl.snapGrid.length;
-    let touchDif = Math.abs(swiperEl.touches.diff);
-    // let direction = this.swiperContainer?.nativeElement.swiper.swipeDirection;
-    let direction = event.detail[0].swipeDirection;
-    let currentActiveIdx = this.walkService.getStepIdxFromId(this.walkService.getActiveId());
+    let swiperEl: Swiper = this.swiperContainer?.nativeElement.swiper;
+    let activeSwiperIdx: number = swiperEl.activeIndex;
+    let snapLen: number = swiperEl.snapGrid.length;
+    let touchDif: number = Math.abs(swiperEl.touches.diff);
+    let direction: string = event.detail[0].swipeDirection;
+    let currentActiveIdx: number = this.walkService.getStepIdxFromId(this.walkService.getActiveId());
 
-    let stepIdx = ((!this.onButtonTrigger && direction === 'next') && (activeSwiperIdx !== currentActiveIdx + 1)) ? 
+    let stepIdx: number = ((!this.onButtonTrigger && direction === 'next') && (activeSwiperIdx !== currentActiveIdx + 1)) ? 
                     currentActiveIdx + 1 : 
                   ((!this.onButtonTrigger && direction === 'prev') && (activeSwiperIdx !== currentActiveIdx - 1)) ?
                     currentActiveIdx - 1 : activeSwiperIdx;
 
-    let useStepIdx = (snapLen+1 !== this.walkService.getTotalSteps()) && (touchDif < 321);
+    let useStepIdx: boolean = (snapLen+1 !== this.walkService.getTotalSteps()) && (touchDif < 321);
 
     stepIdx = useStepIdx ? stepIdx : activeSwiperIdx;
     stepIdx = this.onButtonTrigger ? currentActiveIdx : stepIdx;
 
     // sort navigation on custom walkthrough component
-    let step = this.walkService.getSteps()[stepIdx];
+    let step: CyranoTutorial = this.walkService.getSteps()[stepIdx];
 
     if(step && this.walkService.isActive()){
       this.walkService.setActiveId(step.id);
@@ -371,10 +368,10 @@ export class MainScreenComponent implements OnInit, AfterViewInit, OnDestroy {
 
   isActiveScreen(panelId:string):boolean{
     if(this.walkthroughActive !== '' && this.walkService.isActive()){
-      let currentStepIdx = this.walkService.getCurrentStep()?.id
+      let currentStepIdx: string | undefined = this.walkService.getCurrentStep()?.id
 
       if(currentStepIdx){
-        let screenId = this.walkService.getScreenById(currentStepIdx);
+        let screenId: string = this.walkService.getScreenById(currentStepIdx);
         return panelId === screenId
       }
     }
@@ -384,7 +381,7 @@ export class MainScreenComponent implements OnInit, AfterViewInit, OnDestroy {
 
 
   public highlightAll(screenIsActive:boolean): boolean{
-    let step = this.walkService.getCurrentStep();
+    let step:CyranoTutorial | null = this.walkService.getCurrentStep();
 
     if(step){
       return  screenIsActive && !step.focusBackdrop;

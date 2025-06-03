@@ -50,7 +50,7 @@ Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The appli
 | `icon` | `string` | (optional) path to button icon image - find this icon value first by default |
 | `maticon` | `string` | (optional) icon name using material-icon  |
 | `label` | `string` | default label and i18n key name in app.button |
-| `hideTitle` | `boolean` | hide button title |
+| `hideTitle` | `boolean` | hide button title, default is false |
 | `size` | `string` | button size with the following options 'xs', 'sm', 'md', 'lg', 'xl', 'xxl' |
 | `action` | `string` | name for action/function that will be executed on btn click |
 | `visible` | `boolean` | show or hide button |

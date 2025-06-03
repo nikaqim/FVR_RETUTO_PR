@@ -54,8 +54,6 @@ export class ButtonComponent implements OnChanges {
 
 
   public buttonClicked(type: string): void{
-    console.log("this.btnSetting:",this.btnSetting);
-
     if (this.buttonActions[type]) {  
       this.buttonActions[type]();
     }
@@ -63,7 +61,6 @@ export class ButtonComponent implements OnChanges {
 
   public applyTitle(btnSetting:Button):boolean {
     if(!btnSetting.title || btnSetting.hideTitle){
-      console.log("hideTitle:",btnSetting.title, btnSetting.hideTitle);
       return false;
     }
 
@@ -78,8 +75,6 @@ export class ButtonComponent implements OnChanges {
 
   private openTutorial(): void {
     this.walkService.closeTuto();
-
-    console.log("openTutorial...");
 
     setTimeout(()=>{
       this.walkService.setWalkStatus(true);
