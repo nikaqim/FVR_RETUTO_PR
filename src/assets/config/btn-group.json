@@ -23,11 +23,7 @@
                     "onNotification": true,
                     "size": "md",
                     "action": "openHelp",
-                    "visible": true,
-                    "offset": {
-                        "x": 20,
-                        "y": 0
-                    }
+                    "visible": true
                 },
                 {
                     "id": "prep",

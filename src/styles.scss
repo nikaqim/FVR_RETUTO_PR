@@ -27,6 +27,64 @@ div {
     scrollbar-width: none;  /* Firefox */
 }
 
+.lib-button-component button {
+    border: none !important;
+    background: (
+        linear-gradient(180deg, rgba(62, 64, 69, .9) 0%, rgba(62, 64, 69, 9) 8.33%), 
+        radial-gradient(170.95% 118.01% at 8.39% 32.81%, rgba(67, 64, 70, .9) 0%, 
+        rgba(41, 37, 45, .9) 28.24%, 
+        rgba(10, 10, 11, .9) 100%)) !important;
+}
+
+.btn-wrapper {
+    border-radius: 50%;
+    position: relative;
+    z-index: 2;
+    width: fit-content;
+    height: fit-content;
+    box-sizing: border-box;
+    $border: 2px;
+    color: #FFF;
+    background-clip: padding-box; /* !importanté */
+    border: solid $border transparent;
+
+    &:before {
+        content: '';
+        position: absolute;
+        top: 0; right: 0; bottom: 0; left: 0;
+        z-index: -1;
+        margin: -$border; /* !importanté */
+        border-radius: inherit; /* !importanté */
+        background: radial-gradient(#434343 50%, #797979 60%);
+    }
+}
+
+
+app-button .lib-button-component button span.text {
+    width: 80%;
+    height: 80%;
+    background: radial-gradient(
+      74.89% 66.89% at 39.63% 61.91%,
+      rgba(245, 247, 247, 0) 69.64%,
+      rgba(255, 255, 255, 0.37) 87.75%,
+      rgba(247, 247, 247, 0) 111%) !important;
+
+    border-radius: 50%;
+
+    .ellipse4 {
+        display:  none !important;
+    }
+}
+
+
+.lib-button-component button::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  pointer-events: none;
+}
+
 .lib-button-component button, 
 .lib-button-component button .btn-text {
     border-radius: 50% !important;
@@ -69,20 +127,6 @@ lib-bubble-btn button .mat-icon {
 .btn-container.onwalk .app-btn.active {
     box-shadow: 0px 0px 48px -10px #fff;
     border-radius: 50%;
-}
-
-lib-bubble-btn button {
-    border: none !important;
-    background: var(--lib-button-background, linear-gradient(
-        180deg, 
-        rgba(62, 64, 69, .5) 0%, 
-        rgba(62, 64, 69, 0) 8.33%), 
-        radial-gradient(
-            170.95% 118.01% at 8.39% 32.81%, 
-            rgba(67, 64, 70, .5) 0%, 
-            rgba(41, 37, 45, .5) 28.24%,
-            rgba(10, 10, 11, .5) 100%)
-    ) !important;
 }
 
 .hidden {
@@ -129,10 +173,6 @@ body::-webkit-scrollbar,
     margin-bottom: 16px;
 }
 
-.btn-wrapper {
-    width: fit-content;
-    height: fit-content;
-}
 
 .btn.white, input {
     background-color: white;
@@ -205,7 +245,7 @@ app-navigation .swiper-nav {
         gap: 45px;
         overflow-x: auto;
         white-space: nowrap;
-        padding: 0 16px; // Or less extreme padding
+        padding: 0 16px; 
         width: 100%;
         scroll-behavior: smooth;
     }

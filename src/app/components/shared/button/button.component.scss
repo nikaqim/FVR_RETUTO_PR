@@ -1,6 +1,6 @@
 .custom-btn {
     z-index: 1;
-    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.2), -5px -5px 10px rgba(255, 255, 255, 0.05);
+    border-radius: 50%;
     position: relative;
     display: flex;
     width: 38px;
@@ -11,7 +11,6 @@
     text-align: center;
     align-items: center;
     height: 38px;
-    border-radius: 19px;
 
     .ring {
         z-index: 10;
@@ -20,7 +19,6 @@
         left: 0;
         height: 95%;
         transform: rotate(87deg) scale(1.2);
-        // transform: rotate(133deg) scale(1.2);
         shape-rendering: geometricPrecision; // 🟢 For anti-aliasing
         filter: drop-shadow(0 0 0px rgb(255, 129, 162)); // 🟢 Soft glow
         top: 2px;
@@ -32,6 +30,10 @@
     .ring-progress {
         transition: stroke-dashoffset 0.4s ease-in-out;
         stroke-linecap: round;
+    }
+
+    .icon {
+        width: 14px !important;
     }
 }
 
@@ -100,6 +102,11 @@
     height: 4px;
     object-fit: contain;
 }
+
+.button-content {
+
+}
+
 .button-content .title {
     font-size: 12px;
 }

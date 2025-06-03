@@ -67,6 +67,7 @@
       </svg>
       
         <div class="button-content">
+            <div class="highlight-overlay"></div>
             <div *ngIf="btnSetting.onNotification" class="notification-flag"></div>
             <lib-bubble-btn 
                 [id]="screenId !== 'mob' ? (screenId.replace(' ','') + btnSetting.id).toLowerCase() : btnSetting.id" 
