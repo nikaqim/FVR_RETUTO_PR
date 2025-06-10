@@ -17,7 +17,7 @@ import { CommonModule } from '@angular/common';
 
 import { CyranoTutorial } from '../../model/cyrano-walkthrough.model';
 
-import { WalkthroughConfigService } from '../../services/tuto.service';
+import { TutoService } from '../../services/tuto.service';
 import { ArrowService } from 'src/app/services/arrow.service';
 import { BtnGroupService } from '../../services/btn.service';
 
@@ -50,7 +50,7 @@ export class CustomWalkthroughComponent implements
 
   constructor( 
     private btnService:BtnGroupService,
-    private tutoService: WalkthroughConfigService,
+    private tutoService: TutoService,
     private arrowService: ArrowService,
     private cd: ChangeDetectorRef
   ){}

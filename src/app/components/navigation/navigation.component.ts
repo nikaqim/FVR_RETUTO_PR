@@ -11,7 +11,7 @@ import {
 
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { WalkthroughConfigService } from '../../services/tuto.service';
+import { TutoService } from '../../services/tuto.service';
 
 @Component({
   selector: 'app-navigation',
@@ -30,7 +30,7 @@ export class NavigationComponent implements OnInit, OnChanges{
   @ViewChildren('navigations') navElements!: QueryList<ElementRef>;
 
   constructor(
-    private tutoService: WalkthroughConfigService,
+    private tutoService: TutoService,
   ){}
 
   ngOnInit(): void {

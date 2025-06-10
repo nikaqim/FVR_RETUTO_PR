@@ -18,7 +18,7 @@ import { TranslateModule } from '@ngx-translate/core';
 
 import { BtnGroupService } from '../../../services/btn.service';
 import { Button } from '../button/button.model';
-import { WalkthroughConfigService } from '../../../services/tuto.service';
+import { TutoService } from '../../../services/tuto.service';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -56,7 +56,7 @@ export class BtnGroupComponent implements OnChanges, AfterViewInit, OnInit, OnDe
 
  constructor(
     private btnService: BtnGroupService,
-    private walkService: WalkthroughConfigService
+    private walkService: TutoService
   ){
     this.initSubs();
  }

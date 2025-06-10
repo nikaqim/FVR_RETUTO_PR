@@ -14,7 +14,7 @@ import { TranslateModule } from '@ngx-translate/core';
 
 import { Subscription } from 'rxjs';
 
-import { WalkthroughConfigService } from '../../services/tuto.service';
+import { TutoService } from '../../services/tuto.service';
 import { CyranoTutorialConfig } from '../../model/cyrano-walkthrough-cfg.model';
 import { WalkDescrMap } from '../../model/cyrano-walkthrough-screenmap.model';
 @Component({
@@ -36,7 +36,7 @@ export class StartScreenComponent implements OnInit {
   @ViewChildren('inputDescr') inputElements!: QueryList<ElementRef>;
 
   constructor(
-    private walkService:WalkthroughConfigService
+    private walkService:TutoService
   ){}
 
   ngOnInit(): void {

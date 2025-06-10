@@ -29,7 +29,7 @@ import { BtnGroupService } from '../../services/btn.service';
 import { IBtnGroupConfig } from '../shared/btn-group/btn-group-config.model';
 
 import { CyranoTutorialConfig } from '../../model/cyrano-walkthrough-cfg.model';
-import { WalkthroughConfigService } from '../../services/tuto.service';
+import { TutoService } from '../../services/tuto.service';
 
 import { transition } from '@angular/animations';
 import { Button } from '../shared/button/button.model';
@@ -74,7 +74,7 @@ export class MainScreenComponent implements OnInit, AfterViewInit, OnDestroy {
   constructor(
     private zone: NgZone,
     private btnGroupService: BtnGroupService,
-    private walkService: WalkthroughConfigService,
+    private walkService: TutoService,
     private cd: ChangeDetectorRef
   ){
 

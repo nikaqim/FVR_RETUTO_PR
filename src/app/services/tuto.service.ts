@@ -13,7 +13,7 @@ import { WalkthroughComponent } from 'angular-walkthrough';
 
 @Injectable({
   providedIn: 'root'
-}) export class WalkthroughConfigService {
+}) export class TutoService {
 
   private walkthroughs = new Map<string, WalkthroughComponent>();
   private tutorNavigateSubject = new Subject<string>();

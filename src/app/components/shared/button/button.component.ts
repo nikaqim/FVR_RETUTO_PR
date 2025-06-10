@@ -13,7 +13,7 @@ import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 
 import { Button } from './button.model';
-import { WalkthroughConfigService } from '../../../services/tuto.service';
+import { TutoService } from '../../../services/tuto.service';
 import { BtnGroupService } from '../../../services/btn.service';
 import { Router } from '@angular/router';
 
@@ -42,7 +42,7 @@ export class ButtonComponent implements OnChanges {
   constructor(
     private router: Router,
     private btnService: BtnGroupService,
-    private walkService: WalkthroughConfigService,
+    private walkService: TutoService,
     private translate: TranslateService
   ){
   }
