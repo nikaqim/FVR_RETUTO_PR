@@ -23,7 +23,7 @@ import { TutoService } from '../../services/tuto.service';
   templateUrl: './navigation.component.html',
   styleUrl: './navigation.component.scss'
 })
-export class NavigationComponent implements OnInit, OnChanges{
+export class NavigationComponent implements OnChanges{
   @Input() panels:string[] = [];
   @Input() activeScreenId:string = ""; 
 
@@ -32,9 +32,6 @@ export class NavigationComponent implements OnInit, OnChanges{
   constructor(
     private tutoService: TutoService,
   ){}
-
-  ngOnInit(): void {
-  }
 
   ngOnChanges(changes: SimpleChanges): void {
     if(changes['activeScreenId']){
