@@ -307,11 +307,14 @@ import { WalkthroughComponent } from 'angular-walkthrough';
 
   private isStorageConfigValid(confData:CyranoTutorialConfig, inLocalStorage:CyranoTutorialConfig): boolean {
 
-    if(Object.keys(confData).length !== Object.keys(inLocalStorage).length){
+    const confKeys = Object.keys(confData);
+    const storageKeys = Object.keys(inLocalStorage);
+
+    if(confKeys.length !== storageKeys.length){
       return false;
     } else {
-      for(let i=0; i < Object.keys(confData).length; i++){
-        if(Object.keys(confData)[i] !== Object.keys(inLocalStorage)[i]){
+      for(let i=0; i < confKeys.length; i++){
+        if(confKeys[i] !== storageKeys[i]){
           return false;
         }
       }
