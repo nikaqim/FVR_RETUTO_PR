@@ -410,7 +410,4 @@ export class MainScreenComponent implements OnInit, AfterViewInit, OnDestroy {
     this.swiperContainer?.nativeElement.swiper.destroy();
     this.subs.unsubscribe(); // ✅ Unsubscribe from all subscriptions
   }
-
-
-  
 }
