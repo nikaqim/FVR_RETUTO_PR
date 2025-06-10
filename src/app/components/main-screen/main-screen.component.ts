@@ -13,7 +13,6 @@ import {
 
 import { ButtonsModule } from 'nextsapien-component-lib';
 import { CommonModule } from '@angular/common';
-import { CyranoWalkthroughComponent } from '../cyrano-walkthrough/cyrano-walkthrough.component';
 import { CustomWalkthroughComponent } from '../custom-walkthrough/custom-walkthrough.component';
 import { NavigationComponent } from '../navigation/navigation.component';
 import { BtnGroupComponent } from '../shared/btn-group/btn-group.component';
@@ -46,7 +45,6 @@ import { Swiper } from 'swiper/types';
     ButtonsModule,
     BtnGroupComponent,
     LanguageSelectorComponent,
-    CyranoWalkthroughComponent,
     CustomWalkthroughComponent,
     NavigationComponent
   ],
