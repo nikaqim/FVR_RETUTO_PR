@@ -3,6 +3,7 @@ import {
   HostListener,
   ElementRef,
   OnInit,
+  OnDestroy,
   QueryList,
   ViewChildren
 } from '@angular/core';
@@ -29,7 +30,7 @@ import { WalkDescrMap } from '../../model/cyrano-walkthrough-screenmap.model';
   templateUrl: './start-screen.component.html',
   styleUrl: './start-screen.component.scss'
 })
-export class StartScreenComponent implements OnInit {
+export class StartScreenComponent implements OnInit, OnDestroy {
   private subs = new Subscription(); 
 
   steps:WalkDescrMap = {};
@@ -68,6 +69,10 @@ export class StartScreenComponent implements OnInit {
 
   private reverseMarkup(descr:string): string {
     return this.walkService.reverseMarkUp(descr);
+  }
+  
+  ngOnDestroy(): void {
+    this.subs.unsubscribe(); // ✅ Unsubscribe from all subscriptions
   }
 
 
