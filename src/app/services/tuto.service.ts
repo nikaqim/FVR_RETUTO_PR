@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 
 import { LocalStorageService } from './local-storage.service';
-import { StorageId } from '../enums/localstorageData.enum';
+import { StorageId } from '../enums/storageId.enum';
 
 import { CyranoTutorial } from '../model/cyrano-walkthrough.model';
 import { CyranoTutorialConfig } from '../model/cyrano-walkthrough-cfg.model';

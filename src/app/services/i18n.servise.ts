@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { StorageId } from '../enums/localstorageData.enum';
+import { StorageId } from '../enums/StorageId.enum';
 import { LocalStorageService } from './local-storage.service';
 
 import { AvailableLanguages } from '../config/i18n';
