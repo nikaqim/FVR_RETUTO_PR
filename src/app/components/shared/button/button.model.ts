@@ -1,8 +1,4 @@
-export interface ButtonOffset {
-  x: number;
-  y: number;
-}
-
+import { ButtonOffset } from "./button-offset.model";
 export class Button {
     id: string = "";
     maticon: string = "";
