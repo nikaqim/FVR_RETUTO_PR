@@ -30,7 +30,7 @@ import { Router } from '@angular/router';
   styleUrl: './button.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ButtonComponent implements OnChanges {
+export class ButtonComponent {
   @Input() btnSetting:Button = new Button("","","","", "",false);
   @Input() screenId:string = '';
 
@@ -45,13 +45,8 @@ export class ButtonComponent implements OnChanges {
     private walkService: TutoService,
     private translate: TranslateService
   ){
+
   }
-
-
-  ngOnChanges(changes: SimpleChanges): void {
-    
-  }
-
 
   public buttonClicked(type: string): void{
     if (this.buttonActions[type]) {  
