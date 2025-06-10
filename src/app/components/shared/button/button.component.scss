@@ -12,6 +12,17 @@
     align-items: center;
     height: 38px;
 
+    > span {
+        display: block;
+        z-index: 10;
+        font-size: 9px;
+        line-height: 12px;
+        margin-top: -7px;
+        opacity: .5;
+        width: 100%;
+        text-align: center
+    }
+
     .ring {
         z-index: 10;
         position: absolute;
@@ -37,20 +48,6 @@
     }
 }
 
-.custom-btn > span {
-    display: block;
-    z-index: 10;
-    font-size: 9px;
-    line-height: 12px;
-    margin-top: -7px;
-    opacity: .5;
-    width: 100%;
-    text-align: center
-}
-
-.custom-btn.xl > span {
-    width: 80% !important;
-}
 
 .custom-btn.xs {
     width: 16px;
@@ -103,10 +100,6 @@
     object-fit: contain;
 }
 
-.button-content {
-
-}
-
 .button-content .title {
     font-size: 12px;
 }
@@ -120,6 +113,10 @@
 
     --lib-icon-button-height: 56px;
     --lib-icon-button-container-height:56px;    
+
+    > span {
+        width: 80% !important;
+    }
 }
 
 .custom-btn.xxl {
@@ -131,17 +128,4 @@
 
     --lib-icon-button-height: 70px;
     --lib-icon-button-container-height:70px;    
-}
-
-.lib-button-component button {
-    width: 100% ;
-}
-.lib-button-component button span.text,
-.lib-button-component button .btn-text {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: center;
-    height: 100% !important;
-    width: 100% !important;
 }

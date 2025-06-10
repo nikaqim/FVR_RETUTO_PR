@@ -12,10 +12,10 @@
     height: 100%;
     width: 100%;
     padding: 64px 0px 0px 24px;
-}
 
-.tutorial-container > p {
-    max-width: 55%;
+    > p {
+        max-width: 55%;
+    }
 }
 
 @media only screen and (max-width:791px){

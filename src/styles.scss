@@ -4,18 +4,16 @@
 html {
     font-size: 24px;
 }
+
+html, body { height: 100%; }
+
 body {
     font-size: 1rem;
+    font-family: Roboto, "Helvetica Neue", sans-serif; 
     margin: 0;
     color: white;
     background: #171717;
     --font-size-title: 10px !important;
-}
-
-
-.page > .content {
-    height: 100% !important;
-    overflow: hidden;
 }
 
 div::-webkit-scrollbar {
@@ -27,13 +25,29 @@ div {
     scrollbar-width: none;  /* Firefox */
 }
 
-.lib-button-component button {
-    border: none !important;
-    background: (
-        linear-gradient(180deg, rgba(62, 64, 69, .9) 0%, rgba(62, 64, 69, 9) 8.33%), 
-        radial-gradient(170.95% 118.01% at 8.39% 32.81%, rgba(67, 64, 70, .9) 0%, 
-        rgba(41, 37, 45, .9) 28.24%, 
-        rgba(10, 10, 11, .9) 100%)) !important;
+.page {
+    min-width: 100%;
+    width: 100vw;
+    height: 100vh;
+    padding: 12px;
+
+    > div {
+        width: 100%;
+        height: 100%;
+    }
+
+    > .content {
+        height: 100% !important;
+        overflow: hidden;
+
+        .row {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+    }
+
 }
 
 .btn-wrapper {
@@ -60,45 +74,54 @@ div {
 }
 
 
-app-button .lib-button-component button span.text {
-    width: 80%;
-    height: 80%;
-    background: radial-gradient(
-      74.89% 66.89% at 39.63% 61.91%,
-      rgba(245, 247, 247, 0) 69.64%,
-      rgba(255, 255, 255, 0.37) 87.75%,
-      rgba(247, 247, 247, 0) 111%) !important;
+.lib-button-component {
+    button {
+    border: none !important;
+    background: (
+        linear-gradient(180deg, rgba(62, 64, 69, .9) 0%, rgba(62, 64, 69, 9) 8.33%), 
+        radial-gradient(170.95% 118.01% at 8.39% 32.81%, rgba(67, 64, 70, .9) 0%, 
+        rgba(41, 37, 45, .9) 28.24%, 
+        rgba(10, 10, 11, .9) 100%)) !important;
 
-    border-radius: 50%;
+        span.text {
+            width: 80%;
+            height: 80%;
+            background: radial-gradient(
+            74.89% 66.89% at 39.63% 61.91%,
+            rgba(245, 247, 247, 0) 69.64%,
+            rgba(255, 255, 255, 0.37) 87.75%,
+            rgba(247, 247, 247, 0) 111%) !important;
 
-    .ellipse4 {
-        display:  none !important;
+            border-radius: 50%;
+
+            .ellipse4 {
+                display:  none !important;
+            }
+        }
     }
-}
 
+    button, 
+    button .btn-text {
+        border-radius: 50% !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        flex-direction: column !important;
+        padding: 0px;
+    }
 
-.lib-button-component button::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  border-radius: 50%;
-  pointer-events: none;
-}
-
-.lib-button-component button, 
-.lib-button-component button .btn-text {
-    border-radius: 50% !important;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    flex-direction: column !important;
-    padding: 0px;
+    button::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        border-radius: 50%;
+        pointer-events: none;
+    }
 }
 
 lib-bubble-btn button .mat-icon {
     font-size: 20px;
     margin-top: 0.1em;
-
 }
 
 .button-content .notification-flag {
@@ -154,25 +177,6 @@ body::-webkit-scrollbar,
     display: none;
 }
 
-.page {
-    min-width: 100%;
-    width: 100vw;
-    height: 100vh;
-    padding: 12px;
-}
-
-.page > div {
-    width: 100%;
-    height: 100%;
-}
-
-.content .row {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    margin-bottom: 16px;
-}
-
 
 .btn.white, input {
     background-color: white;
@@ -180,84 +184,82 @@ body::-webkit-scrollbar,
     padding: 8px 12px;
     font-family: 'Gilroy-Regular';
 }
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 app-navigation {
     display: flex;
     align-items: center;
     padding: 36px 0px;
-}
 
-app-navigation .swiper-nav {
-    display: flex;
-    align-items: center;
-    position: fixed;
-    height: 80px;
-    z-index: 10;
-    width: 100vw;
-    bottom: 0px;
-    left: 0;
-    right: 0;
-    margin: 0 auto;
-    overflow-y: clip;
-
-    .nav-container {
-        width: 100%;
-        height: 60px;
-        position: absolute;
-        bottom: 16px;
+    .swiper-nav {
+        display: flex;
+        align-items: center;
+        position: fixed;
+        height: 80px;
+        z-index: 10;
+        width: 100vw;
+        bottom: 0px;
         left: 0;
         right: 0;
         margin: 0 auto;
-        display: flex;
-        justify-content: space-between;
+        overflow-y: clip;
 
-        ul::-webkit-scrollbar {
-            display: none;
-        }
-
-        ul {
-            justify-content: left;
-            align-items: center;
-            list-style: none;
-            display: flex;
-            gap: 5%;
-            font-size: 52px;
-            font-family: "Gilroy-Regular";
+        .nav-container {
             width: 100%;
-            height: fit-content;
-            padding: 16px 64px;
-            overflow-x: scroll;
-            margin-block: 0px;
-            
-            > li {
-                font-size: 2.1rem;
-                cursor: pointer;
-                min-width: fit-content;
-                text-align: center;
+            height: 60px;
+            position: absolute;
+            bottom: 16px;
+            left: 0;
+            right: 0;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+
+            ul::-webkit-scrollbar {
+                display: none;
+            }
+
+            ul {
+                justify-content: left;
+                align-items: center;
+                list-style: none;
+                display: flex;
+                gap: 5%;
+                font-size: 52px;
+                font-family: "Gilroy-Regular";
+                width: 100%;
+                height: fit-content;
+                padding: 16px 64px;
+                overflow-x: scroll;
+                margin-block: 0px;
+                
+                > li {
+                    font-size: 2.1rem;
+                    cursor: pointer;
+                    min-width: fit-content;
+                    text-align: center;
+                }
             }
         }
-    }
-    
-    ul {
-        display: flex;
-        gap: 45px;
-        overflow-x: auto;
-        white-space: nowrap;
-        padding: 0 16px; 
-        width: 100%;
-        scroll-behavior: smooth;
-    }
+        
+        ul {
+            display: flex;
+            gap: 45px;
+            overflow-x: auto;
+            white-space: nowrap;
+            padding: 0 16px; 
+            width: 100%;
+            scroll-behavior: smooth;
+        }
 
-    li.active {
-        opacity: 1;
-        font-weight: bold;
-    }
+        li.active {
+            opacity: 1;
+            font-weight: bold;
+        }
 
-    li {
-        height: fit-content;
-        opacity: 0.57;
+        li {
+            height: fit-content;
+            opacity: 0.57;
+        }
     }
 }
 
@@ -288,9 +290,6 @@ walkthrough-container {
     z-index: -1 !important;
 }
 
-.wkt-zone.backdrop {
-    box-shadow:  none !important;
-}
 
 @media only screen and (max-width:791px){
     .tutorial-container p:only-child {
@@ -299,31 +298,11 @@ walkthrough-container {
     }
 }
 
-.wkt-content p:first-child,
-.tutorial-container p:first-child{
-    font-size: 16px;
-    font-family: 'Gilroy-Regular';
-    line-height: 160%;
-    text-shadow: 0px 0px 5.74px rgba(255, 255, 255, 1);
-}
-
 @media only screen and (min-width:792px){
-    .wkt-content-block,
     .tutorial-container  {
         width: 50%;
         min-width: unset !important;
     }
-}
-
-.wkt-content {
-    text-align: left;
-    background: transparent;
-}
-
-.wkt-navigate .wkt-finish-link,
-.wkt-navigate .wkt-next-link,
-.wkt-navigate .wkt-previous-link {
-    display: none;
 }
 
 .lib-button-container {
@@ -334,15 +313,17 @@ walkthrough-container {
     position: absolute;
     left: 8px;
     top: -48px;
-}
 
-.wlk-paragraph {
-    padding-top: 28px;
-    padding-bottom: 20px;
-}
-
-.wkt-content-block.darken {
-    background-color: transparent !important;
+    .lib-button-component button {
+        width: 35px !important;
+        height: 35px !important;
+        background: transparent !important;
+    }
+    .lib-button-component button span.text {
+        display: contents !important;
+        width: 100% !important;
+        height: 100% !important;
+    }
 }
 
 .leader-line {
@@ -367,10 +348,5 @@ walkthrough-container {
         z-index: -1 !important;
     }
 
-    .wkt-content-block {
-        margin: 0 !important;
-        max-width: 50%;
-        min-width: unset !important;
-    }
     
 }

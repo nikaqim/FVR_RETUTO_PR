@@ -1,52 +1,64 @@
-.content .left {
-    width: 172px;
-    height: 100%;
-    display: block;
+.page.start-page {
+    > div {
+        width: max-content;
+        height: max-content;
+        max-height: 100vh;
+        margin: auto;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        position: absolute;
+        right: 0;
+        padding: 12px 0px;
+    }
+
+    .content {
+        .left {
+            width: 172px;
+            height: 100%;
+            display: block;
+        }
+
+        .right {
+            width: calc(100% - 172px);
+            overflow: clip;
+        }
+    }
 }
+    
 
 @media only screen and (max-width:550px){
-    .content .left {
-        width: 112px !important;
-    }   
-    .content .right {
-        width: calc(100% - 112px) !important;
-    }
-    .page.start-page > div {
-        width: 90% !important;
-        padding: 12px 0px 24px !important;
-        overflow-y: scroll;
-        margin: 0 auto;
-        height: 100vh !important;
-        -ms-overflow-style: none;  /* IE and Edge */
-        scrollbar-width: none;  /* Firefox */
+    .page.start-page {
+        > div::-webkit-scrollbar {
+            display: none;
+        }
+
+        > div {
+            width: 90% !important;
+            padding: 12px 0px 24px !important;
+            overflow-y: scroll;
+            margin: 0 auto;
+            height: 100vh !important;
+            -ms-overflow-style: none;  /* IE and Edge */
+            scrollbar-width: none;  /* Firefox */
+        }
+        
+        .content {
+            .left {
+                width: 112px !important;
+            }   
+
+            .right {
+                width: calc(100% - 112px) !important;
+            }
+
+            .start-button {
+                position: sticky;
+                top: -12px;
+                padding: 24px 0px;
+                background: #161419;
+            }
+        } 
     }
 
-    .page.start-page .start-button {
-        position: sticky;
-        top: -12px;
-        padding: 24px 0px;
-        background: #161419;
-    }
-
-    .page.start-page > div::-webkit-scrollbar {
-        display: none;
-    }
-}
-
-.content .right {
-    width: calc(100% - 172px);
-    overflow: clip;
-}
-
-.page.start-page > div {
-    width: max-content;
-    height: max-content;
-    max-height: 100vh;
-    margin: auto;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    position: absolute;
-    right: 0;
-    padding: 12px 0px;
 }
