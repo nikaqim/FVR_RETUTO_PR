@@ -113,7 +113,7 @@
                     "size": "lg",
                     "action": "openSelfieVideo",
                     "progress": true,
-                    "progressPercentage": 10,
+                    "progressPercentage": 70,
                     "visible": true,
                     "main": true,
                     "title": "-10m"

@@ -48,6 +48,12 @@ export class BtnGroupComponent implements OnChanges, AfterViewInit, OnInit, OnDe
   public arcButtons: Button[] = [];
   public baseButtons: Button[] = [];
 
+  public buttonStyles: { [id: string]: Object } = {};
+  public buttonClasses: { [id: string]: string } = {};
+  public baseButtonClasses: { [id: string]: string } = {};
+
+  public screenIdNormalized: string = '';
+
   private buttonIds:string[] = [];
 
   @Output() ButtonGroupReady = new EventEmitter<string>();
@@ -93,30 +99,63 @@ export class BtnGroupComponent implements OnChanges, AfterViewInit, OnInit, OnDe
         this.buttonIds.push(btn.id);
       });
      }
+
+     if (changes['buttons'] || changes['type']) {
+      if (this.type === 'arc') {
+        this.arcButtons = this.buttons.filter(btn => !btn.main);
+        this.baseButtons = this.buttons.filter(btn => btn.main);
+
+        // Precompute styles
+        this.buttonStyles = {};
+        const total = this.arcButtons.length;
+        const radius = 50 + (total * 3);
+        const startAngle = Math.PI / 2;
+        const endAngle = (3 * Math.PI) / 2;
+
+        for (let i = 0; i < total; i++) {
+          const reversedIndex = total - 1 - i;
+          const angle = startAngle + ((endAngle - startAngle) / (total - 1)) * reversedIndex;
+          const x = radius * Math.cos(angle);
+          const y = radius * Math.sin(angle);
+          this.buttonStyles[this.arcButtons[i].id] = {
+            transform: `translate(${x}px, ${y}px)`
+          };
+        }
+      }
+    }
+
+    if (changes['id'] || changes['screenId'] || changes['activeId'] || changes['buttons']) {
+      this.screenIdNormalized = this.screenId.toLowerCase().replace(' ', '');
+      this.isTypeVertical = this.type === 'vert';
+      this.computeButtonClasses();
+    }
  }
+
+ private computeButtonClasses(): void {
+  this.buttonClasses = {};
+  this.baseButtonClasses = {};
+  const normalizedActiveId = this.activeId.replace(this.screenIdNormalized, '');
+
+  const resolveClass = (btn: Button): string => {
+    if (btn.main) return 'app-btn hide';
+    return btn.id === normalizedActiveId ? 'app-btn active' : `app-btn ${this.activeId}`;
+  };
+
+  // Combine all for arc + vertical
+  [...this.buttons, ...this.arcButtons].forEach((btn) => {
+    this.buttonClasses[btn.id] = resolveClass(btn);
+  });
+
+  // Separate class map for baseButtons
+  this.baseButtons.forEach((btn) => {
+    const isActive = btn.id === this.activeId.replace(this.screenIdNormalized, '');
+    this.baseButtonClasses[btn.id] = isActive ? 'app-btn active' : `app-btn ${this.activeId}`;
+  });
+}
 
  ngAfterViewInit(){
   this.ButtonGroupReady.emit(this.buttonIds.join())
 }
-
-  public getButtonPosition(index: number, total: number): Object {
-
-    const radius = 50 + (total * 3); // Dynamically increase arc size
-    const startAngle = Math.PI / 2; // Start at 180 degrees (semi-circle)
-    const endAngle = (3 * Math.PI)/2; // End at 360 degrees
-
-    // 🔄 Reverse the order by inverting the index
-    const reversedIndex = total - 1 - index;
-
-    const angle = startAngle + ((endAngle - startAngle) / (total - 1)) * reversedIndex; // Distribute buttons evenly
-
-    const x = radius * Math.cos(angle);
-    const y = radius * Math.sin(angle);
-
-    return {
-      transform: `translate(${x}px, ${y}px)`
-    };
-  }
 
   public assignMain(btn:Button): string{
     if(btn.main && this.mainAssigned === ''){
