@@ -1,12 +1,12 @@
 import { 
   ChangeDetectionStrategy,
   Component, 
-  Input,
-  OnChanges,
-  SimpleChanges
+  Input
 } from '@angular/core';
 
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { ProgressOffsetPipe } from '../../../pipe/progress-offset.pipe';
+import { FallbackTranslatePipe } from '../../../pipe/fallback-translate.pipe';
 import { ButtonsModule } from 'nextsapien-component-lib';
 import { CommonModule } from '@angular/common';
 
@@ -25,7 +25,9 @@ import { Router } from '@angular/router';
     CommonModule,
     MatIconModule,
     ButtonsModule,
-    TranslateModule
+    TranslateModule,
+    ProgressOffsetPipe,
+    FallbackTranslatePipe
   ],
   styleUrl: './button.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
