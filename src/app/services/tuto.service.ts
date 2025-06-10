@@ -248,7 +248,7 @@ import { WalkthroughComponent } from 'angular-walkthrough';
     return this.steps.length;
   }
   
-  getStepIdxFromId(id:string){
+  getStepIdxFromId(id:string): number {
     let idx = 0
     idx = this.steps.findIndex(item => item.id === id);
     
