@@ -1,12 +1,9 @@
 import { 
-  ChangeDetectionStrategy,
   Component,
   Input,
   OnDestroy,
   OnInit,
   AfterViewInit,
-  OnChanges,
-  SimpleChanges,
   Output,
   EventEmitter,
   ChangeDetectorRef
@@ -31,7 +28,7 @@ import { BtnGroupService } from '../../services/btn.service';
   styleUrl: './custom-walkthrough.component.scss'
 })
 export class CustomWalkthroughComponent implements 
-  OnInit, OnChanges, AfterViewInit, OnDestroy {
+  OnInit, AfterViewInit, OnDestroy {
   @Input() data:any = [];
   @Input() panelId:any = [];
   @Input() isActive:any = [];
@@ -108,9 +105,6 @@ export class CustomWalkthroughComponent implements
         }
       })
     );
-  }
-
-  ngOnChanges(changes: SimpleChanges): void {
   }
 
   ngAfterViewInit():void {
