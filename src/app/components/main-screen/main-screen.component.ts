@@ -57,19 +57,21 @@ export class MainScreenComponent implements OnInit, AfterViewInit, OnDestroy {
   private subs = new Subscription();  
   @ViewChild('allScreenView', { static: false }) swiperContainer!: ElementRef<SwiperContainer>;
 
-  buttonGroup :ButtonGroup[] = [];
-  tutoData:CyranoTutorialConfig = {};
+  public buttonGroup :ButtonGroup[] = [];
+  public tutoData:CyranoTutorialConfig = {};
 
-  onSwiping: boolean = false;
+  private onSwiping: boolean = false;
 
-  panels:string[] = [];
-  activeScreen:string = "";
+  public panels:string[] = [];
+  public activeScreen:string = "";
 
-  walkthroughActive:string = '';
-  walkthroughActiveStepsIdx: number = 0;
+  public walkthroughActive:string = '';
 
-  onButtonTrigger:boolean = false
-  onButtonDirection:string = "next";
+  private onButtonTrigger:boolean = false
+  
+  public activeScreenMap: Record<string,boolean> = {};
+  public highlightMap: Record<string, boolean | null > = {};
+  public panelsSanitized: { original: string; id: string }[] = [];
 
   constructor(
     private zone: NgZone,
@@ -79,7 +81,13 @@ export class MainScreenComponent implements OnInit, AfterViewInit, OnDestroy {
   ){
 
     this.btnGroupService.getButtonConfig().subscribe((data:IBtnGroupConfig) => {
-      this.buttonGroup = data['btngroup'];
+      
+      data['btngroup'].forEach(group => {
+        group.buttons = this.filterInactiveBtn(group.buttons);
+        this.buttonGroup.push(group);
+      });
+
+
     });
   }
 
@@ -110,7 +118,6 @@ export class MainScreenComponent implements OnInit, AfterViewInit, OnDestroy {
 
         if(currentIdx !== null && (currentIdx !== panelIdx)){
           
-          this.onButtonDirection = panelIdx > currentIdx ? "next" : "prev";
           this.onButtonTrigger = true;
 
           let indexWOffset: number | null = ((toStepIdx !== null) 
@@ -127,7 +134,6 @@ export class MainScreenComponent implements OnInit, AfterViewInit, OnDestroy {
           } else {
             this.walkService.notifyTutoNavigation(toStep);
             this.onButtonTrigger = false;
-            this.onButtonDirection = "";
           }
         }
       })
@@ -166,6 +172,11 @@ export class MainScreenComponent implements OnInit, AfterViewInit, OnDestroy {
         this.tutoData = { ...this.walkService.getConfig()};    
         this.panels = Object.keys(this.tutoData);
 
+        this.panelsSanitized = this.panels.map(panel => ({
+          original: panel,
+          id: panel.replace(' ', '')
+        }));
+
         if(this.panels.length > 0){
           const swiperElement = this.swiperContainer?.nativeElement;
 
@@ -179,10 +190,25 @@ export class MainScreenComponent implements OnInit, AfterViewInit, OnDestroy {
             let focusElementSelector = ('#' + activePanel + activeWalkThru.focusElementId.replace('#','')).toLowerCase();
 
             this.walkService.setActiveId(activeWalkThru.id);
-            this.walkthroughActiveStepsIdx = 0;
             this.setActiveBtn(focusElementSelector.replace('#',''));
 
           }
+
+          // for (const panel of this.panelsSanitized) {
+          //   for (const btngrp of this.buttonGroup) {
+
+          //     const filteredBtns = btngrp.buttons.filter(
+          //       btn => btn.visible === undefined || btn.visible
+          //     );
+
+          //     this.filteredButtonGroups.push({
+          //       panelId: panel.id,
+          //       btnGroupId: panel.original + btngrp.id, // same as `[id]` binding
+          //       layout: btngrp.layout,
+          //       buttons: filteredBtns
+          //     });
+          //   }
+          // }
           
         }
       })
@@ -202,7 +228,6 @@ export class MainScreenComponent implements OnInit, AfterViewInit, OnDestroy {
             this.onSwiping = false;
             this.walkService.setSwiping(false);
             this.onButtonTrigger = false;
-            this.onButtonDirection = "";
 
             if(this.walkService.isActive()){
               let step =this.walkService.getCurrentStep();
@@ -357,6 +382,7 @@ export class MainScreenComponent implements OnInit, AfterViewInit, OnDestroy {
       this.walkthroughActive = '';
     }
 
+    this.updateActiveScreenMap();
     this.cd.markForCheck(); 
   }
 
@@ -364,7 +390,29 @@ export class MainScreenComponent implements OnInit, AfterViewInit, OnDestroy {
     this.activeScreen = screenId;
   }
 
-  isActiveScreen(panelId:string):boolean{
+  private updateActiveScreenMap(): void {
+    this.activeScreenMap = {};
+    this.highlightMap = {};
+
+    if (this.walkthroughActive !== '' && this.walkService.isActive()) {
+      const currentStepId = this.walkService.getCurrentStep()?.id;
+      if (currentStepId) {
+        const screenId = this.walkService.getScreenById(currentStepId);
+
+        this.panelsSanitized.forEach(panel => {
+          const isActive = panel.id === screenId;
+          this.activeScreenMap[panel.original] = isActive;
+
+          const step = this.walkService.getCurrentStep();
+          const shouldHighlight = isActive && step && !step.focusBackdrop;
+
+          this.highlightMap[panel.original] = shouldHighlight;
+        });
+      }
+    }
+  }
+
+  public isActiveScreen(panelId:string): boolean{
     if(this.walkthroughActive !== '' && this.walkService.isActive()){
       let currentStepIdx: string | undefined = this.walkService.getCurrentStep()?.id
 

@@ -1,13 +1,15 @@
 <div class="swiper-nav">
     <div class="nav-container">
         <ul>
-            <li 
-                [ngClass]="{ 'active': panel.replace(' ','') === activeScreenId.replace(' ','') }" 
-                #navigations 
-                (click)="triggerSlideFunction(panel)"
-                *ngFor="let panel of panels" [id]="panel.replace(' ','')">
-                {{ panel }}
-            </li>
+            @for(panel of panels; track $index){
+                <li 
+                    [ngClass]="{ 'active': panelIds[$index] === activeScreenIdCleaned }" 
+                    #navigations 
+                    (click)="triggerSlideFunction(panel)">
+                        {{ panel }}
+                </li>
+            }
+            
         </ul>
     </div>
 </div>

@@ -9,10 +9,13 @@
             :'flex-start'
         
     }">
-    <p 
-        [id]="'descr-' + data[0].id" 
-        *ngFor="let descr of data[0].descr" 
+
+    @for (descr of data[0].descr; track $index) {
+      <p
+        [id]="'descr-' + data[0].id"
         [innerHTML]="descr.text"
-        [ngStyle]="descr.style ? descr.style : {}">
-    </p>
+        [ngStyle]="descr.style ?? {}"
+      ></p>
+    }
+
 </div>

@@ -1,5 +1,6 @@
 import { 
   Component,
+  AfterViewInit,
   OnInit,
   Input,
   OnChanges,
@@ -23,17 +24,33 @@ import { TutoService } from '../../services/tuto.service';
   templateUrl: './navigation.component.html',
   styleUrl: './navigation.component.scss'
 })
-export class NavigationComponent implements OnChanges{
+export class NavigationComponent implements OnChanges, AfterViewInit {
   @Input() panels:string[] = [];
   @Input() activeScreenId:string = ""; 
 
   @ViewChildren('navigations') navElements!: QueryList<ElementRef>;
 
+  public panelIds: string[] = [];
+  public activeScreenIdCleaned = '';
+
   constructor(
     private tutoService: TutoService,
   ){}
 
+  ngAfterViewInit(): void {
+    setTimeout(()=>{
+      this.panelIds = this.panels.map(panel => this.cleanId(panel));
+    }, 100)
+      
+  }
+
+  public cleanId(value: string): string {
+    return value.replace(/\s+/g, '');
+  }
+
   ngOnChanges(changes: SimpleChanges): void {
+    this.activeScreenIdCleaned = this.cleanId(this.activeScreenId);
+
     if(changes['activeScreenId']){
       this.scrollToPanel(this.activeScreenId);
     }

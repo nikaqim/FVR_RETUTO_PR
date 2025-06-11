@@ -1,36 +1,52 @@
-<div class="top vertbtn-container" *ngIf="isTypeVertical">
-   <div [class]="buttonClasses[btn.id]" *ngFor="let btn of buttons">
-      <app-button 
-         *ngIf="btn.visible === undefined || btn.visible" 
-         [btnSetting]="btn" 
-         [screenId]="screenIdNormalized"></app-button>
-   </div>
-</div>
-
-<!-- to be made into a component -->
-<div class="bottom cirbtn-container" *ngIf="!isTypeVertical">
-   <div class="arc-container">
-         <div 
-            [class]="buttonClasses[btn.id]" 
-            *ngFor="let btn of arcButtons; let i = index"
-            [ngStyle]="buttonStyles[btn.id]">
+@if(isTypeVertical){
+   <div class="top vertbtn-container">
+      @for(btn of buttons; track $index){
+         <div [class]="buttonClasses[btn.id]">
+            @if(btn.visible === undefined || btn.visible){
                <app-button 
-                  *ngIf="(btn.visible === undefined || btn.visible) && !btn.main" 
                   [btnSetting]="btn" 
-                  [screenId]="screenId">
+                  [screenId]="screenIdNormalized">
                </app-button>
+            }
          </div>
+      }
    </div>
-   <div class="base-container">
-      <div 
-         [class]="baseButtonClasses[btn.id]" 
-         *ngFor="let btn of baseButtons">
-            <app-button 
-               *ngIf="(btn.visible === undefined || btn.visible) && assignMain(btn) === btn.id" 
-               [btnSetting]="btn" 
-               [screenId]="screenId">
-            </app-button>
+}
+
+@if(!isTypeVertical){
+   <div class="bottom cirbtn-container">
+      <div class="arc-container">
+            @for(btn of arcButtons; track $index){
+               <div 
+                  [class]="buttonClasses[btn.id]" 
+                  [ngStyle]="buttonStyles[btn.id]">
+
+                  @if((btn.visible === undefined || btn.visible) && !btn.main){
+                     <app-button 
+                        [btnSetting]="btn" 
+                        [screenId]="screenId">
+                     </app-button>
+                  }
+
+               </div>
+            }
+            
+      </div>
+      <div class="base-container">
+         @for(btn of baseButtons; track $index){
+            <div 
+               [class]="baseButtonClasses[btn.id]">
+               @if((btn.visible === undefined || btn.visible) && assignMain(btn) === btn.id){
+                  <app-button 
+                     [btnSetting]="btn" 
+                     [screenId]="screenId">
+                  </app-button>
+               }
+            </div>
+         }
+         
       </div>
    </div>
-</div>
+}
+
 

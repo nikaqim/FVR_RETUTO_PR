@@ -33,8 +33,23 @@ import { Router } from '@angular/router';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ButtonComponent {
+  private _screenId: string = '';
+  public sanitizedScreenId: string = '';
+  public sanitizedLowercaseScreenId: string = '';
+
   @Input() btnSetting:Button = new Button("","","","", "",false);
-  @Input() screenId:string = '';
+
+  @Input() 
+  set screenId(value:string) {
+    this._screenId = value;
+    const sanitized = value.replace(/\s+/g, '');
+    this.sanitizedScreenId = sanitized;
+    this.sanitizedLowercaseScreenId = sanitized.toLowerCase(); // 🔽 this handles both
+  }
+
+  get screenId(): string {
+    return this._screenId;
+  }
 
   private buttonActions: { [key:string] : () => void } = {
     "openHelp": () => this.openTutorial(),
@@ -43,7 +58,6 @@ export class ButtonComponent {
 
   constructor(
     private router: Router,
-    private btnService: BtnGroupService,
     private walkService: TutoService,
     private translate: TranslateService
   ){
