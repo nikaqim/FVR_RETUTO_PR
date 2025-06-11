@@ -2,7 +2,6 @@
 
 Node Version - v22.14.0
 Angular version - v17.3.12.
-https://chatgpt.com/
 
 Package                            Version
 ------------------------------------------------------------
