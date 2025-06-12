@@ -1,131 +1,129 @@
 .custom-btn {
-    z-index: 1;
-    border-radius: 50%;
-    position: relative;
-    display: flex;
-    width: 38px;
-    row-gap: 1px;
-    flex-wrap: nowrap;
-    flex-direction: column;
-    overflow: visible;
+  z-index: 1;
+  border-radius: 50%;
+  position: relative;
+  display: flex;
+  width: 38px;
+  row-gap: 1px;
+  flex-wrap: nowrap;
+  flex-direction: column;
+  overflow: visible;
+  text-align: center;
+  align-items: center;
+  height: 38px;
+
+  > span {
+    display: block;
+    z-index: 10;
+    font-size: 9px;
+    line-height: 12px;
+    margin-top: -7px;
+    opacity: 0.5;
+    width: 100%;
     text-align: center;
-    align-items: center;
-    height: 38px;
+  }
 
-    > span {
-        display: block;
-        z-index: 10;
-        font-size: 9px;
-        line-height: 12px;
-        margin-top: -7px;
-        opacity: .5;
-        width: 100%;
-        text-align: center
-    }
+  .ring {
+    z-index: 10;
+    position: absolute;
+    width: 100%;
+    left: 0;
+    height: 95%;
+    transform: rotate(87deg) scale(1.2);
+    shape-rendering: geometricPrecision; // 🟢 For anti-aliasing
+    filter: drop-shadow(0 0 0px rgb(255, 129, 162)); // 🟢 Soft glow
+    top: 2px;
+    display: block;
+    right: 0;
+    margin: 0 auto;
+  }
 
-    .ring {
-        z-index: 10;
-        position: absolute;
-        width: 100%;
-        left: 0;
-        height: 95%;
-        transform: rotate(87deg) scale(1.2);
-        shape-rendering: geometricPrecision; // 🟢 For anti-aliasing
-        filter: drop-shadow(0 0 0px rgb(255, 129, 162)); // 🟢 Soft glow
-        top: 2px;
-        display: block;
-        right: 0;
-        margin: 0 auto;
-    }
+  .ring-progress {
+    transition: stroke-dashoffset 0.4s ease-in-out;
+    stroke-linecap: round;
+  }
 
-    .ring-progress {
-        transition: stroke-dashoffset 0.4s ease-in-out;
-        stroke-linecap: round;
-    }
-
-    .icon {
-        width: 14px !important;
-    }
+  .icon {
+    width: 14px !important;
+  }
 }
 
-
 .custom-btn.xs {
-    width: 16px;
-    height: 15px;
-    --lib-icon-button-width: 16px;
-    --lib-icon-button-container-width: 16px;
-    --lib-bubble-btn-diameter: 16px;
+  width: 16px;
+  height: 15px;
+  --lib-icon-button-width: 16px;
+  --lib-icon-button-container-width: 16px;
+  --lib-bubble-btn-diameter: 16px;
 
-    --lib-icon-button-height: 15px;
-    --lib-icon-button-container-height: 15px;
-    
+  --lib-icon-button-height: 15px;
+  --lib-icon-button-container-height: 15px;
 }
 
 .custom-btn.sm {
-    width: 29px;
-    height: 29px;
-    --lib-icon-button-width: 29px;
-    --lib-icon-button-container-width: 29px;
-    --lib-bubble-btn-diameter: 29px;
+  width: 29px;
+  height: 29px;
+  --lib-icon-button-width: 29px;
+  --lib-icon-button-container-width: 29px;
+  --lib-bubble-btn-diameter: 29px;
 
-    --lib-icon-button-height: 29px;
-    --lib-icon-button-container-height: 29px;
+  --lib-icon-button-height: 29px;
+  --lib-icon-button-container-height: 29px;
 }
 
 .custom-btn.md {
-    width: 36px;
-    height: 36px;
-    --lib-icon-button-width: 36px;
-    --lib-icon-button-container-width:36px;
-    --lib-bubble-btn-diameter: 36px;
+  width: 36px;
+  height: 36px;
+  --lib-icon-button-width: 36px;
+  --lib-icon-button-container-width: 36px;
+  --lib-bubble-btn-diameter: 36px;
 
-    --lib-icon-button-height: 36px;
-    --lib-icon-button-container-height:36px;
+  --lib-icon-button-height: 36px;
+  --lib-icon-button-container-height: 36px;
 }
 
 .custom-btn.lg {
-    width: 46px;
-    height: 46px;
-    --lib-icon-button-width: 46px;
-    --lib-icon-button-container-width:46px;
-    --lib-bubble-btn-diameter: 46px;
+  width: 46px;
+  height: 46px;
+  --lib-icon-button-width: 46px;
+  --lib-icon-button-container-width: 46px;
+  --lib-bubble-btn-diameter: 46px;
 
-    --lib-icon-button-height: 46px;
-    --lib-icon-button-container-height:46px;
+  --lib-icon-button-height: 46px;
+  --lib-icon-button-container-height: 46px;
 }
 
 .base-container .button-content .icon {
-    width: 4px;
-    height: 4px;
-    object-fit: contain;
+  width: 4px;
+  height: 4px;
+  object-fit: contain;
 }
 
 .button-content .title {
-    font-size: 12px;
+  font-size: 12px;
 }
 
 .custom-btn.xl {
-    width: 56px;
-    height: 56px;
-    --lib-icon-button-width: 56px;
-    --lib-icon-button-container-width:56px;
-    --lib-bubble-btn-diameter: 56px;
+  width: 56px;
+  height: 56px;
+  --lib-icon-button-width: 56px;
+  --lib-icon-button-container-width: 56px;
+  --lib-bubble-btn-diameter: 56px;
 
-    --lib-icon-button-height: 56px;
-    --lib-icon-button-container-height:56px;    
+  --lib-icon-button-height: 56px;
+  --lib-icon-button-container-height: 56px;
 
-    > span {
-        width: 80% !important;
-    }
+  > span {
+    width: 80% !important;
+  }
 }
 
 .custom-btn.xxl {
-    width: 70px;
-    height: 70px;
-    --lib-icon-button-width: 70px;
-    --lib-icon-button-container-width:70px;
-    --lib-bubble-btn-diameter: 70px;
+  width: 70px;
+  height: 70px;
+  --lib-icon-button-width: 70px;
+  --lib-icon-button-container-width: 70px;
+  --lib-bubble-btn-diameter: 70px;
 
-    --lib-icon-button-height: 70px;
-    --lib-icon-button-container-height:70px;    
+  --lib-icon-button-height: 70px;
+  --lib-icon-button-container-height: 70px;
 }

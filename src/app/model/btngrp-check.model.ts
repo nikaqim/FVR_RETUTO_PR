@@ -1,3 +1,3 @@
 export interface ImainAssigned {
-    [key:string] : string
+  [key: string]: string;
 }

@@ -1,62 +1,53 @@
 <div class="page main-page">
-    <div class="content">
-        <div class="langSelect-Container">
-            <app-language-selector></app-language-selector>
-        </div>
-
-        <swiper-container 
-            #allScreenView
-            class="desktop screen-panel" 
-            init="false"
-            (swiperslidermove)="onSwiperMove($event)"
-            (swiperslidechange)="onSlideChange($event)"
-            (swiperslidenexttransitionstart)="onBeforeSlideChange($event)"
-            (swiperslidenexttransitionend)="onSlideChangeEnd($event)"
-            (swiperslideprevtransitionend)="onSlidePrevEnd($event)">
-
-            @for(panel of panels; track $index){
-                <swiper-slide 
-                    class="screen-container" 
-                    [class.onwalk]="activeScreenMap[panel]"
-                    [id]="panel">
-                        <lib-icon-btn class="closebtn" (click)="closeWalkthrough()">
-                            <img src="/assets/imgs/closebtn.png" />
-                        </lib-icon-btn>
-
-                        <div 
-                            class="btn-container" 
-                            [class.highlightall]="highlightMap[panel]"
-                            [class.onwalk]="!!walkthroughActive">
-                            
-                            <app-btn-group 
-                                *ngFor="let btngrp of buttonGroup"
-                                [id]="panel + btngrp.id" 
-                                [screenId]="this.panelsSanitized[$index].id"
-                                [activeId]="walkthroughActive"
-                                [type]="btngrp.layout" 
-                                [buttons]="btngrp.buttons"
-                                (ButtonGroupReady)="setBtnGroupReady($event)">
-                            </app-btn-group>
-                            
-                        </div>
-
-                        <app-custom-walkthrough
-                            [data]="tutoData[panel]" 
-                            [panelId]="panel"
-                            [isActive]="activeScreenMap[panel]"
-                            (activeScreenId)="setCurrentActiveScreen($event)"
-                            >
-                        </app-custom-walkthrough>
-                </swiper-slide>
-            }
-            
-        </swiper-container>
-
-        <app-navigation
-            [panels]="panels"
-            [activeScreenId]="activeScreen">            
-        </app-navigation>
-        
+  <div class="content">
+    <div class="langSelect-Container">
+      <app-language-selector></app-language-selector>
     </div>
-    
+
+    <swiper-container
+      #allScreenView
+      class="desktop screen-panel"
+      init="false"
+      (swiperslidermove)="onSwiperMove($event)"
+      (swiperslidechange)="onSlideChange($event)"
+      (swiperslidenexttransitionstart)="onBeforeSlideChange($event)"
+      (swiperslidenexttransitionend)="onSlideChangeEnd($event)"
+      (swiperslideprevtransitionend)="onSlidePrevEnd()">
+      @for (panel of panels; track $index) {
+        <swiper-slide
+          class="screen-container"
+          [class.onwalk]="activeScreenMap[panel]"
+          [id]="panel">
+          <lib-icon-btn class="closebtn" (click)="closeWalkthrough()">
+            <img src="/assets/imgs/closebtn.png" alt="close button" />
+          </lib-icon-btn>
+
+          <div
+            class="btn-container"
+            [class.highlightall]="highlightMap[panel]"
+            [class.onwalk]="!!walkthroughActive">
+            <app-btn-group
+              *ngFor="let btngrp of buttonGroup"
+              [id]="panel + btngrp.id"
+              [screenId]="this.panelsSanitized[$index].id"
+              [activeId]="walkthroughActive"
+              [type]="btngrp.layout"
+              [buttons]="btngrp.buttons"
+              (ButtonGroupReady)="setBtnGroupReady($event)">
+            </app-btn-group>
+          </div>
+
+          <app-custom-walkthrough
+            [data]="tutoData[panel]"
+            [panelId]="panel"
+            [isActive]="activeScreenMap[panel]"
+            (activeScreenId)="setCurrentActiveScreen($event)">
+          </app-custom-walkthrough>
+        </swiper-slide>
+      }
+    </swiper-container>
+
+    <app-navigation [panels]="panels" [activeScreenId]="activeScreen">
+    </app-navigation>
+  </div>
 </div>

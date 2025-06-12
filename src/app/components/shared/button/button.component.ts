@@ -1,7 +1,8 @@
-import { 
+import {
   ChangeDetectionStrategy,
-  Component, 
-  Input
+  Component,
+  Input,
+  inject,
 } from '@angular/core';
 
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
@@ -14,7 +15,6 @@ import { MatIconModule } from '@angular/material/icon';
 
 import { Button } from './button.model';
 import { TutoService } from '../../../services/tuto.service';
-import { BtnGroupService } from '../../../services/btn.service';
 import { Router } from '@angular/router';
 
 @Component({
@@ -27,20 +27,20 @@ import { Router } from '@angular/router';
     ButtonsModule,
     TranslateModule,
     ProgressOffsetPipe,
-    FallbackTranslatePipe
+    FallbackTranslatePipe,
   ],
   styleUrl: './button.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ButtonComponent {
   private _screenId: string = '';
   public sanitizedScreenId: string = '';
   public sanitizedLowercaseScreenId: string = '';
 
-  @Input() btnSetting:Button = new Button("","","","", "",false);
+  @Input() btnSetting: Button = new Button('', '', '', '', '', false);
 
-  @Input() 
-  set screenId(value:string) {
+  @Input()
+  set screenId(value: string) {
     this._screenId = value;
     const sanitized = value.replace(/\s+/g, '');
     this.sanitizedScreenId = sanitized;
@@ -51,27 +51,24 @@ export class ButtonComponent {
     return this._screenId;
   }
 
-  private buttonActions: { [key:string] : () => void } = {
-    "openHelp": () => this.openTutorial(),
-    "exitTutorial": () => this.exitTutorial()
-  }
+  private buttonActions: { [key: string]: () => void } = {
+    openHelp: () => this.openTutorial(),
+    exitTutorial: () => this.exitTutorial(),
+  };
 
-  constructor(
-    private router: Router,
-    private walkService: TutoService,
-    private translate: TranslateService
-  ){
+  private router = inject(Router);
+  private walkService = inject(TutoService);
+  private translate = inject(TranslateService);
+  constructor() {}
 
-  }
-
-  public buttonClicked(type: string): void{
-    if (this.buttonActions[type]) {  
+  public buttonClicked(type: string): void {
+    if (this.buttonActions[type]) {
       this.buttonActions[type]();
     }
   }
 
-  public applyTitle(btnSetting:Button):boolean {
-    if(!btnSetting.title || btnSetting.hideTitle){
+  public applyTitle(btnSetting: Button): boolean {
+    if (!btnSetting.title || btnSetting.hideTitle) {
       return false;
     }
 
@@ -87,18 +84,13 @@ export class ButtonComponent {
   private openTutorial(): void {
     this.walkService.closeTuto();
 
-    setTimeout(()=>{
+    setTimeout(() => {
       this.walkService.setWalkStatus(true);
       this.walkService.moveToSlide(0);
-    },100)
-    
+    }, 100);
   }
 
-  public getProgressOffset(progress: number, totalLength: number = 100):number {
-    return 100 - progress
-  }
-
-  private  exitTutorial(): void {
+  private exitTutorial(): void {
     this.router.navigate(['/']);
   }
 }

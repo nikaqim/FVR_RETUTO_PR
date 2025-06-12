@@ -1,4 +1,4 @@
-import { Component, HostListener } from '@angular/core';
+import { Component, HostListener, inject } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 
 import { RouterModule } from '@angular/router';
@@ -11,22 +11,24 @@ import { RouterModule } from '@angular/router';
   styleUrl: './app.component.scss',
 })
 export class AppComponent {
-  constructor(translate: TranslateService) {
-    translate.setDefaultLang('en');
-    translate.use('es');
+  private translate = inject(TranslateService);
+
+  constructor() {
+    this.translate.setDefaultLang('en');
+    this.translate.use('en');
   }
 
-    // Prevent Ctrl + Scroll
-    @HostListener('window:wheel', ['$event'])
-    onWheel(event: WheelEvent) {
-      if (event.ctrlKey) {
-        event.preventDefault();
-      }
-    }
-  
-    // Prevent double-click
-    @HostListener('window:dblclick', ['$event'])
-    onDoubleClick(event: MouseEvent) {
+  // Prevent Ctrl + Scroll
+  @HostListener('window:wheel', ['$event'])
+  onWheel(event: WheelEvent) {
+    if (event.ctrlKey) {
       event.preventDefault();
     }
+  }
+
+  // Prevent double-click
+  @HostListener('window:dblclick', ['$event'])
+  onDoubleClick(event: MouseEvent) {
+    event.preventDefault();
+  }
 }

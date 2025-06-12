@@ -1,12 +1,13 @@
 <div class="language-selector">
-    @for(lang of i18nService.availableLanguages; track $index){
-        <label>
-            <input type="radio"
-                name="language"
-                [value]="lang.code"
-                [(ngModel)]="selectedLanguage"
-                (change)="onLanguageChange(lang.code)">
-            {{ lang.label }}
-        </label>
-    }
+  @for (lang of i18nService.availableLanguages; track $index) {
+    <label>
+      <input
+        type="radio"
+        name="language"
+        [value]="lang.code"
+        [(ngModel)]="selectedLanguage"
+        (change)="onLanguageChange(lang.code)" />
+      {{ lang.label }}
+    </label>
+  }
 </div>

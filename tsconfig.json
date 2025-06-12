@@ -11,9 +11,7 @@
     "noFallthroughCasesInSwitch": true,
     "skipLibCheck": true,
     "paths": {
-      "ngTutorial": [
-        "./dist/ng-tutorial"
-      ]
+      "ngTutorial": ["./dist/ng-tutorial"]
     },
     "esModuleInterop": true,
     "sourceMap": true,
@@ -24,10 +22,7 @@
     "target": "ES2022",
     "module": "ES2022",
     "useDefineForClassFields": false,
-    "lib": [
-      "ES2022",
-      "dom"
-    ]
+    "lib": ["ES2022", "dom"]
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,
@@ -35,7 +30,5 @@
     "strictInputAccessModifiers": true,
     "strictTemplates": true
   },
-  "files": [
-    "src/types/leader-line.d.ts"
-  ]
+  "files": ["src/types/leader-line.d.ts"]
 }

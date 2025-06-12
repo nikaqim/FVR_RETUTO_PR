@@ -1,25 +1,25 @@
 .hide {
-    display: none !important;
+  display: none !important;
 }
 
 .tutorial-container {
-    display: flex;
-    flex-direction: column;
-    align-content: flex-start;
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 100%;
-    width: 100%;
-    padding: 64px 0px 0px 24px;
+  display: flex;
+  flex-direction: column;
+  align-content: flex-start;
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  padding: 64px 0px 0px 24px;
 
-    > p {
-        max-width: 55%;
-    }
+  > p {
+    max-width: 55%;
+  }
 }
 
-@media only screen and (max-width:791px){
-    .tutorial-container {
-        max-width: 275px;
-    }
+@media only screen and (max-width: 791px) {
+  .tutorial-container {
+    max-width: 275px;
+  }
 }

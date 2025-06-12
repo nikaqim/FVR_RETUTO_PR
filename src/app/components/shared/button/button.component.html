@@ -1,106 +1,117 @@
-<div 
-  [ngClass]="'custom-btn ' + btnSetting.size" 
+<div
+  tabindex="0"
+  [ngClass]="'custom-btn ' + btnSetting.size"
   (click)="buttonClicked(btnSetting.action)"
+  (keydown.enter)="buttonClicked(btnSetting.action)"
   [ngStyle]="{
-    'position': 'relative',
-    'top': btnSetting.offset !== undefined? btnSetting.offset.y + 'px' : 'unset',
-    'right': btnSetting.offset !== undefined? btnSetting.offset.x + 'px' : 'unset',
+    position: 'relative',
+    top: btnSetting.offset !== undefined ? btnSetting.offset.y + 'px' : 'unset',
+    right:
+      btnSetting.offset !== undefined ? btnSetting.offset.x + 'px' : 'unset',
   }">
-     <div class="btn-wrapper">
+  <div class="btn-wrapper">
+    @if (btnSetting.progress !== undefined && btnSetting.progress) {
+      <svg class="ring" viewBox="0 0 100 100">
+        <defs>
+          <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+            <feDropShadow
+              dx="0"
+              dy="0"
+              stdDeviation="2"
+              flood-color="#000"
+              flood-opacity="0.7" />
+          </filter>
 
-      @if(btnSetting.progress !== undefined && btnSetting.progress){
-        <svg class="ring" viewBox="0 0 100 100">
-          <defs>
-            <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
-              <feDropShadow dx="0" dy="0" stdDeviation="2" flood-color="#000" flood-opacity="0.7"/>
-            </filter>
+          <linearGradient id="ringGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="70%" stop-color="#7b2f47" stop-opacity="0.57" />
+          </linearGradient>
 
-            <linearGradient id="ringGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="70%" stop-color="#7b2f47" stop-opacity="0.57"/>
-            </linearGradient>
+          <linearGradient
+            id="ringGradient2"
+            x1="0%"
+            y1="0%"
+            x2="100%"
+            y2="100%">
+            <stop offset="0%" stop-color="#f96c8f" stop-opacity="1" />
+            <stop offset="30%" stop-color="#fd487b" stop-opacity="1" />
+          </linearGradient>
+        </defs>
 
-            <linearGradient id="ringGradient2" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stop-color="#f96c8f" stop-opacity="1"/>
-              <stop offset="30%" stop-color="#fd487b" stop-opacity="1"/>
-            </linearGradient>
-          </defs>
-        
-          <circle
-            class="ring-bg"
-            cx="50"
-            cy="50"
-            r="45"
-            fill="none"
-            stroke="rgba(255, 255, 255, 0.1)"
-            stroke-width="8"
-          />
-          
-          <!-- backgroun empty -->
-          <circle
-            class="ring-progress"
-            cx="50"
-            cy="50"
-            r="45"
-            fill="none"
-            stroke="url(#ringGradient)"
-            stroke-width="8"
-            stroke-dasharray="100" 
-            stroke-dashoffset="00" 
-            pathLength="100"   
-            stroke-linecap="round"
-            filter="url(#glow)"
-          />
+        <circle
+          class="ring-bg"
+          cx="50"
+          cy="50"
+          r="45"
+          fill="none"
+          stroke="rgba(255, 255, 255, 0.1)"
+          stroke-width="8" />
 
-          <!-- progress -->
-          <circle
-            class="ring-progress"
-            cx="50"
-            cy="50"
-            r="45"
-            fill="none"
-            pathLength="100"
-            stroke="url(#ringGradient2)"
-            stroke-width="8"
-            stroke-dasharray="100" 
-            [attr.stroke-dashoffset]="btnSetting.progressPercentage | progressOffset "    
-            stroke-linecap="round"
-          />
-        </svg>
-      }
-      
-        <div class="button-content">
-            <div class="highlight-overlay"></div>
-            @if(btnSetting.onNotification){
-              <div class="notification-flag"></div>
-            }
-            
-            <lib-bubble-btn 
-                [id]="screenId !== 'mob' ? (sanitizedLowercaseScreenId + btnSetting.id) : btnSetting.id" 
-                variant='primary'>
+        <!-- backgroun empty -->
+        <circle
+          class="ring-progress"
+          cx="50"
+          cy="50"
+          r="45"
+          fill="none"
+          stroke="url(#ringGradient)"
+          stroke-width="8"
+          stroke-dasharray="100"
+          stroke-dashoffset="00"
+          pathLength="100"
+          stroke-linecap="round"
+          filter="url(#glow)" />
 
-                @if(btnSetting.maticon && !btnSetting.icon){
-                  <mat-icon>{{btnSetting.maticon}}</mat-icon>
-                }
-
-                @if(btnSetting.icon){
-                  <img class="icon" [src]="btnSetting.icon" alt="icon" />
-                }
-                
-                @if(btnSetting.title){
-                  <span class="title">
-                    {{ btnSetting.title}}
-                  </span>
-                }
-                
-            </lib-bubble-btn> 
-        </div>
-    </div>
-    
-    @if(!btnSetting.hideTitle){
-      <span>
-        {{ btnSetting.label | fallbackTranslate }}
-      </span>
+        <!-- progress -->
+        <circle
+          class="ring-progress"
+          cx="50"
+          cy="50"
+          r="45"
+          fill="none"
+          pathLength="100"
+          stroke="url(#ringGradient2)"
+          stroke-width="8"
+          stroke-dasharray="100"
+          [attr.stroke-dashoffset]="
+            btnSetting.progressPercentage | progressOffset
+          "
+          stroke-linecap="round" />
+      </svg>
     }
-    
-</div>
 
+    <div class="button-content">
+      <div class="highlight-overlay"></div>
+      @if (btnSetting.onNotification) {
+        <div class="notification-flag"></div>
+      }
+
+      <lib-bubble-btn
+        [id]="
+          screenId !== 'mob'
+            ? sanitizedLowercaseScreenId + btnSetting.id
+            : btnSetting.id
+        "
+        variant="primary">
+        @if (btnSetting.maticon && !btnSetting.icon) {
+          <mat-icon>{{ btnSetting.maticon }}</mat-icon>
+        }
+
+        @if (btnSetting.icon) {
+          <img class="icon" [src]="btnSetting.icon" alt="icon" />
+        }
+
+        @if (btnSetting.title) {
+          <span class="title">
+            {{ btnSetting.title }}
+          </span>
+        }
+      </lib-bubble-btn>
+    </div>
+  </div>
+
+  @if (!btnSetting.hideTitle) {
+    <span>
+      {{ btnSetting.label | fallbackTranslate }}
+    </span>
+  }
+</div>

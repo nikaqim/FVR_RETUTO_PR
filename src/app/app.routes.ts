@@ -2,21 +2,22 @@ import { Routes } from '@angular/router';
 
 export const routes: Routes = [
   {
-    path:'',
+    path: '',
     redirectTo: 'start',
-    pathMatch: 'full'
+    pathMatch: 'full',
   },
   {
-      path: 'start',
-      loadComponent: ()=> import('./components/start-screen/start-screen.component').then(
+    path: 'start',
+    loadComponent: () =>
+      import('./components/start-screen/start-screen.component').then(
         m => m.StartScreenComponent
-      )
+      ),
   },
   {
     path: 'main',
-    loadComponent: ()=> import('./components/main-screen/main-screen.component').then(
-      m => m.MainScreenComponent
-    )
-},
-
+    loadComponent: () =>
+      import('./components/main-screen/main-screen.component').then(
+        m => m.MainScreenComponent
+      ),
+  },
 ];

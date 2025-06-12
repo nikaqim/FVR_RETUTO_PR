@@ -8,10 +8,9 @@ describe('CustomWalkthroughComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [CustomWalkthroughComponent]
-    })
-    .compileComponents();
-    
+      imports: [CustomWalkthroughComponent],
+    }).compileComponents();
+
     fixture = TestBed.createComponent(CustomWalkthroughComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

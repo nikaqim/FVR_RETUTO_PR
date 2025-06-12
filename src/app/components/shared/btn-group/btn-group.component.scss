@@ -1,67 +1,63 @@
-
-
 .vertbtn-container {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-    align-items: flex-end;
-
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  align-items: flex-end;
 }
 
 .cirbtn-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  top: -20px;
+  right: 0px;
+
+  .arc-container {
+    z-index: 10;
     display: flex;
-    justify-content: center;
-    align-items: center;
+    gap: 4px;
+    flex-direction: column;
+  }
+
+  .arc-container {
     position: relative;
-    top: -20px;
-    right: 0px;
-    
-    .arc-container {
-        z-index: 10;
-        display: flex;
-        gap: 4px;
-        flex-direction: column;
+    width: 50px;
+    height: 250px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+
+    .app-btn.hide {
+      display: none !important;
     }
 
-    .arc-container {
-        position: relative;
-        width: 50px;
-        height: 250px;
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        position: relative;
-
-        .app-btn.hide {
-            display:  none !important;
-        }
-        
-        .app-btn {
-            position: absolute;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            transition: all 0.3s ease-in-out;
-        }
+    .app-btn {
+      position: absolute;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      transition: all 0.3s ease-in-out;
     }
+  }
 
-    .base-container { 
-        position: absolute;
-        left: 0px;
-        padding-right: 0px;
-        margin-top: -10px;
-        width: 46px;
-        height: 46px;
-        border-radius: 50%;
-        --lib-icon-button-width: 46px;
-        --lib-icon-button-height: 46px;
-        --lib-bubble-btn-diameter: 46px;
-        --font-size-title: 10px;
-    }
+  .base-container {
+    position: absolute;
+    left: 0px;
+    padding-right: 0px;
+    margin-top: -10px;
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    --lib-icon-button-width: 46px;
+    --lib-icon-button-height: 46px;
+    --lib-bubble-btn-diameter: 46px;
+    --font-size-title: 10px;
+  }
 
-    .main {
-        width: 120px;
-    }
-
+  .main {
+    width: 120px;
+  }
 }

@@ -1,5 +1,5 @@
-import { CyranoTutorial } from "./cyrano-walkthrough.model";
+import { CyranoTutorial } from './cyrano-walkthrough.model';
 
 export interface CyranoTutorialConfig {
-    [key: string]: CyranoTutorial[];
+  [key: string]: CyranoTutorial[];
 }

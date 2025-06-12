@@ -1,14 +1,15 @@
-import { 
+import {
   ChangeDetectionStrategy,
-  Component, 
-  EventEmitter, 
+  Component,
+  EventEmitter,
   Input,
   OnChanges,
   Output,
   SimpleChanges,
   AfterViewInit,
   OnInit,
-  OnDestroy
+  OnDestroy,
+  inject,
 } from '@angular/core';
 
 import { Subscription } from 'rxjs';
@@ -24,83 +25,80 @@ import { CommonModule } from '@angular/common';
 @Component({
   selector: 'app-btn-group',
   standalone: true,
-  imports: [
-    CommonModule,
-    ButtonComponent,
-    TranslateModule
-  ],
+  imports: [CommonModule, ButtonComponent, TranslateModule],
   templateUrl: './btn-group.component.html',
   styleUrl: './btn-group.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
+export class BtnGroupComponent
+  implements OnChanges, AfterViewInit, OnInit, OnDestroy
+{
+  @Input() id: string = '';
+  @Input() type: string = 'vert';
+  @Input() buttons: Button[] = [];
+  @Input() screenId: string = '';
+  @Input() activeId: string = '';
 
-export class BtnGroupComponent implements OnChanges, AfterViewInit, OnInit, OnDestroy {
+  private subs = new Subscription();
 
-  @Input() id:string = '';
-  @Input() type:string = 'vert';
-  @Input() buttons:Button[] = [];
-  @Input() screenId:string = '';
-  @Input() activeId:string = '';
-
-  private subs = new Subscription();  
-
-  private mainAssigned:string = '';
+  private mainAssigned: string = '';
   public arcButtons: Button[] = [];
   public baseButtons: Button[] = [];
 
-  public buttonStyles: { [id: string]: Object } = {};
+  public buttonStyles: { [id: string]: Partial<CSSStyleDeclaration> } = {};
   public buttonClasses: { [id: string]: string } = {};
   public baseButtonClasses: { [id: string]: string } = {};
 
   public screenIdNormalized: string = '';
 
-  private buttonIds:string[] = [];
+  private buttonIds: string[] = [];
 
   @Output() ButtonGroupReady = new EventEmitter<string>();
 
   public isTypeVertical = false;
 
- constructor(
-    private btnService: BtnGroupService,
-    private walkService: TutoService
-  ){
+  private btnService = inject(BtnGroupService);
+  private walkService = inject(TutoService);
+
+  constructor() {
     this.initSubs();
- }
+  }
 
- private initSubs(): void {
-  // on walkthru navigate next focus nextElement/btn 
-  this.walkService.onTutoNavigation().subscribe((btnId:string)=>{
-    if(btnId){
-      const parentId = this.btnService.getScreenContainerId(btnId.replace(' ',''))
-      this.walkService.scrollIntoView(parentId)
-    }
-  });
- }
-
- ngOnInit():void {
-  // to seperate button in arc or main
-  if(this.type === 'arc'){
-    this.arcButtons = this.buttons.filter((btn) => {
-      return !btn.main
-    });
-
-    this.baseButtons = this.buttons.filter((btn) => {
-      return  btn.main
+  private initSubs(): void {
+    // on walkthru navigate next focus nextElement/btn
+    this.walkService.onTutoNavigation().subscribe((btnId: string) => {
+      if (btnId) {
+        const parentId = this.btnService.getScreenContainerId(
+          btnId.replace(' ', '')
+        );
+        this.walkService.scrollIntoView(parentId);
+      }
     });
   }
 
- }
+  ngOnInit(): void {
+    // to seperate button in arc or main
+    if (this.type === 'arc') {
+      this.arcButtons = this.buttons.filter(btn => {
+        return !btn.main;
+      });
 
- ngOnChanges(changes: SimpleChanges): void {
-     if(changes['id']){
+      this.baseButtons = this.buttons.filter(btn => {
+        return btn.main;
+      });
+    }
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['id']) {
       this.isTypeVertical = this.type === 'vert';
-      
+
       this.buttons.forEach(btn => {
         this.buttonIds.push(btn.id);
       });
-     }
+    }
 
-     if (changes['buttons'] || changes['type']) {
+    if (changes['buttons'] || changes['type']) {
       if (this.type === 'arc') {
         this.arcButtons = this.buttons.filter(btn => !btn.main);
         this.baseButtons = this.buttons.filter(btn => btn.main);
@@ -108,67 +106,79 @@ export class BtnGroupComponent implements OnChanges, AfterViewInit, OnInit, OnDe
         // Precompute styles
         this.buttonStyles = {};
         const total = this.arcButtons.length;
-        const radius = 50 + (total * 3);
+        const radius = 50 + total * 3;
         const startAngle = Math.PI / 2;
         const endAngle = (3 * Math.PI) / 2;
 
         for (let i = 0; i < total; i++) {
           const reversedIndex = total - 1 - i;
-          const angle = startAngle + ((endAngle - startAngle) / (total - 1)) * reversedIndex;
+          const angle =
+            startAngle +
+            ((endAngle - startAngle) / (total - 1)) * reversedIndex;
           const x = radius * Math.cos(angle);
           const y = radius * Math.sin(angle);
           this.buttonStyles[this.arcButtons[i].id] = {
-            transform: `translate(${x}px, ${y}px)`
+            transform: `translate(${x}px, ${y}px)`,
           };
         }
       }
     }
 
-    if (changes['id'] || changes['screenId'] || changes['activeId'] || changes['buttons']) {
+    if (
+      changes['id'] ||
+      changes['screenId'] ||
+      changes['activeId'] ||
+      changes['buttons']
+    ) {
       this.screenIdNormalized = this.screenId.toLowerCase().replace(' ', '');
       this.isTypeVertical = this.type === 'vert';
       this.computeButtonClasses();
     }
- }
+  }
 
- private computeButtonClasses(): void {
-  this.buttonClasses = {};
-  this.baseButtonClasses = {};
-  const normalizedActiveId = this.activeId.replace(this.screenIdNormalized, '');
+  private computeButtonClasses(): void {
+    this.buttonClasses = {};
+    this.baseButtonClasses = {};
+    const normalizedActiveId = this.activeId.replace(
+      this.screenIdNormalized,
+      ''
+    );
 
-  const resolveClass = (btn: Button): string => {
-    if (btn.main) return 'app-btn hide';
-    return btn.id === normalizedActiveId ? 'app-btn active' : `app-btn ${this.activeId}`;
-  };
+    const resolveClass = (btn: Button): string => {
+      if (btn.main) return 'app-btn hide';
+      return btn.id === normalizedActiveId
+        ? 'app-btn active'
+        : `app-btn ${this.activeId}`;
+    };
 
-  // Combine all for arc + vertical
-  [...this.buttons, ...this.arcButtons].forEach((btn) => {
-    this.buttonClasses[btn.id] = resolveClass(btn);
-  });
+    // Combine all for arc + vertical
+    [...this.buttons, ...this.arcButtons].forEach(btn => {
+      this.buttonClasses[btn.id] = resolveClass(btn);
+    });
 
-  // Separate class map for baseButtons
-  this.baseButtons.forEach((btn) => {
-    const isActive = btn.id === this.activeId.replace(this.screenIdNormalized, '');
-    this.baseButtonClasses[btn.id] = isActive ? 'app-btn active' : `app-btn ${this.activeId}`;
-  });
-}
+    // Separate class map for baseButtons
+    this.baseButtons.forEach(btn => {
+      const isActive =
+        btn.id === this.activeId.replace(this.screenIdNormalized, '');
+      this.baseButtonClasses[btn.id] = isActive
+        ? 'app-btn active'
+        : `app-btn ${this.activeId}`;
+    });
+  }
 
- ngAfterViewInit(){
-  this.ButtonGroupReady.emit(this.buttonIds.join())
-}
+  ngAfterViewInit() {
+    this.ButtonGroupReady.emit(this.buttonIds.join());
+  }
 
-  public assignMain(btn:Button): string{
-    if(btn.main && this.mainAssigned === ''){
+  public assignMain(btn: Button): string {
+    if (btn.main && this.mainAssigned === '') {
       this.mainAssigned = btn.id;
-    } 
-    
-    return this.mainAssigned;
+    }
 
+    return this.mainAssigned;
   }
 
   ngOnDestroy(): void {
     this.subs.unsubscribe(); // ✅ Unsubscribe from all subscriptions
   }
-
-  
 }

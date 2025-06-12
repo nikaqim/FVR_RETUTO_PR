@@ -1,31 +1,30 @@
-import { Button } from "../button/button.model";
+import { Button } from '../button/button.model';
 
 export interface ImainAssigned {
-    [key:string] : string
+  [key: string]: string;
 }
 export class ButtonGroup {
-    id: string;
-    layout: string;
-    buttons: Button[];
-    visible: boolean = true;
+  id: string;
+  layout: string;
+  buttons: Button[];
+  visible: boolean = true;
 
-    constructor(id: string, layout: string, buttons: Button[], visible:boolean) {
-        this.id = id;
-        this.layout = layout;
-        this.buttons = buttons;
-        this.visible = visible;
-    }
+  constructor(id: string, layout: string, buttons: Button[], visible: boolean) {
+    this.id = id;
+    this.layout = layout;
+    this.buttons = buttons;
+    this.visible = visible;
+  }
 
-    assign(jsonObj: object){
-        Object.assign(this, jsonObj);
-    }
+  assign(jsonObj: object) {
+    Object.assign(this, jsonObj);
+  }
 
-    get isVisible(){
-        return this.visible;
-    }
+  get isVisible() {
+    return this.visible;
+  }
 
-    get isTypeVertical() {
-        return this.layout === 'vert';
-    }
-
+  get isTypeVertical() {
+    return this.layout === 'vert';
+  }
 }

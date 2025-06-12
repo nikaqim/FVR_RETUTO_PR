@@ -1,15 +1,17 @@
 <div class="swiper-nav">
-    <div class="nav-container">
-        <ul>
-            @for(panel of panels; track $index){
-                <li 
-                    [ngClass]="{ 'active': panelIds[$index] === activeScreenIdCleaned }" 
-                    #navigations 
-                    (click)="triggerSlideFunction(panel)">
-                        {{ panel }}
-                </li>
-            }
-            
-        </ul>
-    </div>
+  <div class="nav-container">
+    <ul>
+      @for (panel of panels; track $index) {
+        <li
+          role="button"
+          tabindex="0"
+          [ngClass]="{ active: panelIds[$index] === activeScreenIdCleaned }"
+          #navigations
+          (click)="triggerSlideFunction(panel)"
+          (keydown.enter)="triggerSlideFunction(panel)">
+          {{ panel }}
+        </li>
+      }
+    </ul>
+  </div>
 </div>

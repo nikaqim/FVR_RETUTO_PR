@@ -1,21 +1,25 @@
-<div #tutorWrapper 
-    class="tutorial-container {{ isActive ? '' : 'hide' }}" 
-    [ngStyle]="{
-        'justifyContent': (data[0].contentVertAlign === 'top' || data[0].contentVertAlign === 'above') ?
-            'flex-start' : (data[0].contentVertAlign === 'bottom' || data[0].contentVertAlign === 'below')  ? 'flex-end' 
-            :'center',
-        'alignItems': data[0].contentAlign === 'center' ?
-            'center' : data[0].contentAlign === 'right' ? 'flex-end' 
-            :'flex-start'
-        
-    }">
-
-    @for (descr of data[0].descr; track $index) {
-      <p
-        [id]="'descr-' + data[0].id"
-        [innerHTML]="descr.text"
-        [ngStyle]="descr.style ?? {}"
-      ></p>
-    }
-
+<div
+  #tutorWrapper
+  class="tutorial-container {{ isActive ? '' : 'hide' }}"
+  [ngStyle]="{
+    justifyContent:
+      data[0].contentVertAlign === 'top' || data[0].contentVertAlign === 'above'
+        ? 'flex-start'
+        : data[0].contentVertAlign === 'bottom' ||
+            data[0].contentVertAlign === 'below'
+          ? 'flex-end'
+          : 'center',
+    alignItems:
+      data[0].contentAlign === 'center'
+        ? 'center'
+        : data[0].contentAlign === 'right'
+          ? 'flex-end'
+          : 'flex-start',
+  }">
+  @for (descr of data[0].descr; track $index) {
+    <p
+      [id]="'descr-' + data[0].id"
+      [innerHTML]="descr.text"
+      [ngStyle]="descr.style ?? {}"></p>
+  }
 </div>
