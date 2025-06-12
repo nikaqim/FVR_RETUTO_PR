@@ -14,7 +14,7 @@ import { CommonModule } from '@angular/common';
 
 import { CyranoTutorial } from '../../model/cyrano-walkthrough.model';
 
-import { TutoService } from '../../services/tuto.service';
+import { TutorialService } from '../../services/tuto.service';
 import { ArrowService } from 'src/app/services/arrow.service';
 
 @Component({
@@ -39,10 +39,8 @@ export class CustomWalkthroughComponent
 
   private subs = new Subscription();
 
-  private tutoService = inject(TutoService);
+  private tutoService = inject(TutorialService);
   private arrowService = inject(ArrowService);
-
-  constructor() {}
 
   ngOnInit(): void {
     this.initSubs();

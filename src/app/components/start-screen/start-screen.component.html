@@ -32,7 +32,7 @@
             type="text"
             [name]="step.key"
             [(ngModel)]="step.value"
-            (input)="onInputChange(step.key, $event)" />
+            (ngModelChange)="onInputChange(step.key, $event)" />
         </div>
       </div>
     </div>

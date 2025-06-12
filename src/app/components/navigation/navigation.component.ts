@@ -12,7 +12,7 @@ import {
 
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { TutoService } from '../../services/tuto.service';
+import { TutorialService } from '../../services/tuto.service';
 
 @Component({
   selector: 'app-navigation',
@@ -30,18 +30,12 @@ export class NavigationComponent implements OnChanges, AfterViewInit {
   public panelIds: string[] = [];
   public activeScreenIdCleaned = '';
 
-  private tutoService = inject(TutoService);
-
-  constructor() {}
+  private tutoService = inject(TutorialService);
 
   ngAfterViewInit(): void {
     setTimeout(() => {
       this.panelIds = this.panels.map(panel => this.cleanId(panel));
     }, 100);
-  }
-
-  public cleanId(value: string): string {
-    return value.replace(/\s+/g, '');
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -52,7 +46,11 @@ export class NavigationComponent implements OnChanges, AfterViewInit {
     }
   }
 
-  triggerSlideFunction(panelClick: string): void {
+  public cleanId(value: string): string {
+    return value.replace(/\s+/g, '');
+  }
+
+  public triggerSlideFunction(panelClick: string): void {
     const panelIdx = this.panels.indexOf(panelClick);
     this.tutoService.triggerSwiper(panelIdx);
   }

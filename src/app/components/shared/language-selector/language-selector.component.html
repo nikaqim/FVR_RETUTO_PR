@@ -6,7 +6,7 @@
         name="language"
         [value]="lang.code"
         [(ngModel)]="selectedLanguage"
-        (change)="onLanguageChange(lang.code)" />
+        (ngModelChange)="onLanguageChange(lang.code)" />
       {{ lang.label }}
     </label>
   }

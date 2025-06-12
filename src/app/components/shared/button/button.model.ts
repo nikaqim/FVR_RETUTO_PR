@@ -1,4 +1,5 @@
-import { ButtonOffset } from './button-offset.model';
+import { ButtonOffset } from "../../../interfaces/button-offset.interface";
+
 export class Button {
   id: string = '';
   maticon: string = '';

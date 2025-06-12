@@ -7,18 +7,18 @@ import { StorageId } from '../enums/storageId.enum';
 
 import { CyranoTutorial } from '../model/cyrano-walkthrough.model';
 import { CyranoTutorialConfig } from '../model/cyrano-walkthrough-cfg.model';
-import {
-  WalkStepMap,
-  WalkDescrMap,
-  WalkDescr,
-} from '../model/cyrano-walkthrough-screenmap.model';
+
+import { WalkthroughStepMap } from '../interfaces/walkthrough-step-map.interface';
+import { WalkthroughDescriptionMap } from '../interfaces/walkthrough-description-map.interface';
+
+import { WalkthroughDescription } from '../interfaces/walkthrough-description.interface';
 
 import { WalkthroughComponent } from 'angular-walkthrough';
 
 @Injectable({
   providedIn: 'root',
 })
-export class TutoService {
+export class TutorialService {
   private walkthroughs = new Map<string, WalkthroughComponent>();
   private tutorNavigateSubject = new Subject<string>();
   private startTutoSubject = new BehaviorSubject<string>('');
@@ -36,8 +36,8 @@ export class TutoService {
   );
 
   private steps: CyranoTutorial[] = [];
-  private descrList: WalkDescrMap = {};
-  private step2screen: WalkStepMap = {};
+  private descrList: WalkthroughDescriptionMap = {};
+  private step2screen: WalkthroughStepMap = {};
   private restartTabulatedIds: boolean = false;
   private walkthroughLoaded: boolean = false;
   private walkthroughIsActive: boolean = false;
@@ -80,82 +80,15 @@ export class TutoService {
     this.walkthroughIsActive = status;
   }
 
-  /**
-   * Loading Walkthrough Configuration Object
-   */
-  private loadWalkthrough(): void {
-    const walkthruInStorage = this.localStorage.getData(StorageId.WalkConfig);
-
-    const walkthruInStorageObj =
-      walkthruInStorage !== undefined && walkthruInStorage !== ''
-        ? typeof walkthruInStorage === 'string'
-          ? JSON.parse(walkthruInStorage)
-          : walkthruInStorage
-        : {};
-
-    this.walkthroughIsActive = true;
-
-    this.getWalkhroughData().subscribe((data: CyranoTutorialConfig) => {
-      const needReload = !this.isStorageConfigValid(data, walkthruInStorageObj);
-
-      if (needReload) {
-        this.steps = this.tabulateStep(data);
-        this.descrList = this.tabulateDescr(this.steps);
-        this.walkconfig = data;
-
-        this.localStorage.setData(
-          StorageId.WalkConfig,
-          JSON.stringify(this.steps)
-        );
-
-        this.walkConfigSubject.next(data);
-      } else {
-        this.steps = this.tabulateStep(walkthruInStorageObj);
-        this.descrList = this.tabulateDescr(this.steps);
-        this.walkconfig = walkthruInStorageObj;
-        this.walkConfigSubject.next(walkthruInStorageObj);
-      }
-    });
-  }
-
   public getConfig(): CyranoTutorialConfig {
     return this.walkconfig;
-  }
-
-  private implementArrMarkup(descr: WalkDescr[]): WalkDescr[] {
-    const rtnMarkups: WalkDescr[] = [];
-
-    descr.forEach(data => {
-      data.text = data.text.replace(/##\s*(.*?)\s*##/g, '<b>$1</b>');
-      rtnMarkups.push(data);
-    });
-
-    return rtnMarkups;
-  }
-
-  private implementMarkUp(descr: string): string {
-    return descr.replace(/##\s*(.*?)\s*##/g, '<b>$1</b>');
-  }
-
-  private reverseArrMarkup(descr: WalkDescr[]): WalkDescr[] {
-    const rtnMarkups: WalkDescr[] = [];
-
-    descr.forEach(data => {
-      data.text = data.text.replace(/<b>\s*(.*?)\s*<\/b>/g, '## $1 ##');
-      rtnMarkups.push(data);
-    });
-
-    return rtnMarkups;
   }
 
   public reverseMarkUp(descr: string): string {
     return descr.replace(/<b>\s*(.*?)\s*<\/b>/g, '## $1 ##');
   }
 
-  private resetWalkthrough(): void {
-    this.localStorage.setData(StorageId.WalkConfig, '');
-  }
-
+  
   public onFinishLoadWalkThru(): Observable<CyranoTutorialConfig> {
     return this.walkConfigSubject.asObservable();
   }
@@ -312,26 +245,6 @@ export class TutoService {
     this.restartTabulatedIds = true;
   }
 
-  private isStorageConfigValid(
-    confData: CyranoTutorialConfig,
-    inLocalStorage: CyranoTutorialConfig
-  ): boolean {
-    const confKeys = Object.keys(confData);
-    const storageKeys = Object.keys(inLocalStorage);
-
-    if (confKeys.length !== storageKeys.length) {
-      return false;
-    } else {
-      for (let i = 0; i < confKeys.length; i++) {
-        if (confKeys[i] !== storageKeys[i]) {
-          return false;
-        }
-      }
-    }
-
-    return true;
-  }
-
   public tabulateStep(confData: CyranoTutorialConfig): CyranoTutorial[] {
     if (this.restartTabulatedIds) {
       this.tabulatedId = [];
@@ -381,18 +294,7 @@ export class TutoService {
     return this.steps;
   }
 
-  private tabulateDescr(steps: CyranoTutorial[]): WalkDescrMap {
-    const alldescr: WalkDescrMap = {};
-    steps.forEach(step => {
-      step.descr.forEach((descr, idx) => {
-        alldescr[step.id + '_' + idx] = descr.text;
-      });
-    });
-
-    return alldescr;
-  }
-
-  public getAllDescr(): WalkDescrMap {
+  public getAllDescr(): WalkthroughDescriptionMap {
     return this.descrList;
   }
 
@@ -457,5 +359,104 @@ export class TutoService {
         inline: 'center',
       });
     }
+  }
+
+  /**
+   * Loading Walkthrough Configuration Object
+   */
+  private loadWalkthrough(): void {
+    const walkthruInStorage = this.localStorage.getData(StorageId.WalkConfig);
+
+    const walkthruInStorageObj =
+      walkthruInStorage !== undefined && walkthruInStorage !== ''
+        ? typeof walkthruInStorage === 'string'
+          ? JSON.parse(walkthruInStorage)
+          : walkthruInStorage
+        : {};
+
+    this.walkthroughIsActive = true;
+
+    this.getWalkhroughData().subscribe((data: CyranoTutorialConfig) => {
+      const needReload = !this.isStorageConfigValid(data, walkthruInStorageObj);
+
+      if (needReload) {
+        this.steps = this.tabulateStep(data);
+        this.descrList = this.tabulateDescr(this.steps);
+        this.walkconfig = data;
+
+        this.localStorage.setData(
+          StorageId.WalkConfig,
+          JSON.stringify(this.steps)
+        );
+
+        this.walkConfigSubject.next(data);
+      } else {
+        this.steps = this.tabulateStep(walkthruInStorageObj);
+        this.descrList = this.tabulateDescr(this.steps);
+        this.walkconfig = walkthruInStorageObj;
+        this.walkConfigSubject.next(walkthruInStorageObj);
+      }
+    });
+  }
+
+  private implementArrMarkup(descr: WalkthroughDescription[]): WalkthroughDescription[] {
+    const rtnMarkups: WalkthroughDescription[] = [];
+
+    descr.forEach(data => {
+      data.text = data.text.replace(/##\s*(.*?)\s*##/g, '<b>$1</b>');
+      rtnMarkups.push(data);
+    });
+
+    return rtnMarkups;
+  }
+
+  private implementMarkUp(descr: string): string {
+    return descr.replace(/##\s*(.*?)\s*##/g, '<b>$1</b>');
+  }
+
+  private reverseArrMarkup(descr: WalkthroughDescription[]): WalkthroughDescription[] {
+    const rtnMarkups: WalkthroughDescription[] = [];
+
+    descr.forEach(data => {
+      data.text = data.text.replace(/<b>\s*(.*?)\s*<\/b>/g, '## $1 ##');
+      rtnMarkups.push(data);
+    });
+
+    return rtnMarkups;
+  }
+
+  private resetWalkthrough(): void {
+    this.localStorage.setData(StorageId.WalkConfig, '');
+  }
+
+  private isStorageConfigValid(
+    confData: CyranoTutorialConfig,
+    inLocalStorage: CyranoTutorialConfig
+  ): boolean {
+    const confKeys = Object.keys(confData);
+    const storageKeys = Object.keys(inLocalStorage);
+
+    if (confKeys.length !== storageKeys.length) {
+      return false;
+    } else {
+      for (let i = 0; i < confKeys.length; i++) {
+        if (confKeys[i] !== storageKeys[i]) {
+          return false;
+        }
+      }
+    }
+
+    return true;
+  }
+
+  private tabulateDescr(steps: CyranoTutorial[]): WalkthroughDescriptionMap {
+    const alldescr: WalkthroughDescriptionMap = {};
+    steps.forEach(step => {
+      step.descr.forEach((descr, idx) => {
+        alldescr[step.id + '_' + idx] = descr.text;
+      });
+    });
+
+    return alldescr;
   }
 }

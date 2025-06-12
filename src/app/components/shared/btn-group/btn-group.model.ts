@@ -1,8 +1,5 @@
 import { Button } from '../button/button.model';
 
-export interface ImainAssigned {
-  [key: string]: string;
-}
 export class ButtonGroup {
   id: string;
   layout: string;

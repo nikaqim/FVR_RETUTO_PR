@@ -24,8 +24,6 @@ export class LanguageSelectorComponent implements OnInit {
 
   public i18nService = inject(I18nService);
 
-  constructor() {}
-
   ngOnInit(): void {
     this.selectedLanguage = this.i18nService.getCurrentLanguage();
   }

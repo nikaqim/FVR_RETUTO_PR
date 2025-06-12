@@ -14,7 +14,7 @@ import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 
 import { Button } from './button.model';
-import { TutoService } from '../../../services/tuto.service';
+import { TutorialService } from '../../../services/tuto.service';
 import { Router } from '@angular/router';
 
 @Component({
@@ -57,9 +57,8 @@ export class ButtonComponent {
   };
 
   private router = inject(Router);
-  private walkService = inject(TutoService);
+  private walkService = inject(TutorialService);
   private translate = inject(TranslateService);
-  constructor() {}
 
   public buttonClicked(type: string): void {
     if (this.buttonActions[type]) {

@@ -19,7 +19,7 @@ import { TranslateModule } from '@ngx-translate/core';
 
 import { BtnGroupService } from '../../../services/btn.service';
 import { Button } from '../button/button.model';
-import { TutoService } from '../../../services/tuto.service';
+import { TutorialService } from '../../../services/tuto.service';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -39,9 +39,6 @@ export class BtnGroupComponent
   @Input() screenId: string = '';
   @Input() activeId: string = '';
 
-  private subs = new Subscription();
-
-  private mainAssigned: string = '';
   public arcButtons: Button[] = [];
   public baseButtons: Button[] = [];
 
@@ -52,31 +49,19 @@ export class BtnGroupComponent
   public screenIdNormalized: string = '';
 
   private buttonIds: string[] = [];
+  private subs = new Subscription();
+  private mainAssigned: string = '';
 
   @Output() ButtonGroupReady = new EventEmitter<string>();
 
   public isTypeVertical = false;
 
   private btnService = inject(BtnGroupService);
-  private walkService = inject(TutoService);
-
-  constructor() {
-    this.initSubs();
-  }
-
-  private initSubs(): void {
-    // on walkthru navigate next focus nextElement/btn
-    this.walkService.onTutoNavigation().subscribe((btnId: string) => {
-      if (btnId) {
-        const parentId = this.btnService.getScreenContainerId(
-          btnId.replace(' ', '')
-        );
-        this.walkService.scrollIntoView(parentId);
-      }
-    });
-  }
+  private walkService = inject(TutorialService);
 
   ngOnInit(): void {
+    this.initSubs();
+
     // to seperate button in arc or main
     if (this.type === 'arc') {
       this.arcButtons = this.buttons.filter(btn => {
@@ -136,6 +121,34 @@ export class BtnGroupComponent
     }
   }
 
+  ngAfterViewInit() {
+    this.ButtonGroupReady.emit(this.buttonIds.join());
+  }
+
+  ngOnDestroy(): void {
+    this.subs.unsubscribe(); // ✅ Unsubscribe from all subscriptions
+  }
+
+  public assignMain(btn: Button): string {
+    if (btn.main && this.mainAssigned === '') {
+      this.mainAssigned = btn.id;
+    }
+
+    return this.mainAssigned;
+  }
+
+  private initSubs(): void {
+    // on walkthru navigate next focus nextElement/btn
+    this.walkService.onTutoNavigation().subscribe((btnId: string) => {
+      if (btnId) {
+        const parentId = this.btnService.getScreenContainerId(
+          btnId.replace(' ', '')
+        );
+        this.walkService.scrollIntoView(parentId);
+      }
+    });
+  }
+
   private computeButtonClasses(): void {
     this.buttonClasses = {};
     this.baseButtonClasses = {};
@@ -166,19 +179,4 @@ export class BtnGroupComponent
     });
   }
 
-  ngAfterViewInit() {
-    this.ButtonGroupReady.emit(this.buttonIds.join());
-  }
-
-  public assignMain(btn: Button): string {
-    if (btn.main && this.mainAssigned === '') {
-      this.mainAssigned = btn.id;
-    }
-
-    return this.mainAssigned;
-  }
-
-  ngOnDestroy(): void {
-    this.subs.unsubscribe(); // ✅ Unsubscribe from all subscriptions
-  }
 }

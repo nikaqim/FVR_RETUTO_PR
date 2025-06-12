@@ -23,14 +23,14 @@ import { LanguageSelectorComponent } from '../shared/language-selector/language-
 import { SwiperConfig } from '../../config/swiper';
 import { SwiperContainer } from 'swiper/element';
 
-import { Subscription, debounceTime } from 'rxjs';
+import { Subscription, debounceTime, take } from 'rxjs';
 
 import { ButtonGroup } from '../shared/btn-group/btn-group.model';
 import { BtnGroupService } from '../../services/btn.service';
 import { IBtnGroupConfig } from '../shared/btn-group/btn-group-config.model';
 
 import { CyranoTutorialConfig } from '../../model/cyrano-walkthrough-cfg.model';
-import { TutoService } from '../../services/tuto.service';
+import { TutorialService } from '../../services/tuto.service';
 
 import { Button } from '../shared/button/button.model';
 import { CyranoTutorial } from '../../model/cyrano-walkthrough.model';
@@ -76,21 +76,23 @@ export class MainScreenComponent implements OnInit, AfterViewInit, OnDestroy {
 
   private zone = inject(NgZone);
   private btnGroupService = inject(BtnGroupService);
-  private walkService = inject(TutoService);
+  private walkService = inject(TutorialService);
   private cd = inject(ChangeDetectorRef);
 
   constructor() {
+  }
+
+  ngOnInit(): void {
     this.btnGroupService
       .getButtonConfig()
+      .pipe(take(1))
       .subscribe((data: IBtnGroupConfig) => {
         data['btngroup'].forEach(group => {
           group.buttons = this.filterInactiveBtn(group.buttons);
           this.buttonGroup.push(group);
         });
       });
-  }
 
-  ngOnInit(): void {
     this.initSubs();
   }
 

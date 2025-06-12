@@ -15,8 +15,10 @@ import { TranslateModule } from '@ngx-translate/core';
 
 import { Subscription } from 'rxjs';
 
-import { TutoService } from '../../services/tuto.service';
-import { WalkDescrMap } from '../../model/cyrano-walkthrough-screenmap.model';
+import { TutorialService } from '../../services/tuto.service';
+
+import { WalkthroughDescriptionMap } from '../../interfaces/walkthrough-description-map.interface';
+
 @Component({
   selector: 'app-start-screen',
   standalone: true,
@@ -27,12 +29,10 @@ import { WalkDescrMap } from '../../model/cyrano-walkthrough-screenmap.model';
 export class StartScreenComponent implements OnInit, OnDestroy {
   private subs = new Subscription();
 
-  steps: WalkDescrMap = {};
+  public steps: WalkthroughDescriptionMap = {};
   @ViewChildren('inputDescr') inputElements!: QueryList<ElementRef>;
 
-  private walkService = inject(TutoService);
-
-  constructor() {}
+  private walkService = inject(TutorialService);
 
   ngOnInit(): void {
     this.subs.add(
@@ -50,11 +50,8 @@ export class StartScreenComponent implements OnInit, OnDestroy {
     );
   }
 
-  public onInputChange(key: string, event: Event): void {
-    const inputElement = event.target as HTMLInputElement;
-    const text = inputElement.value;
-
-    this.walkService.updateText(key, text);
+  public onInputChange(key: string, value: string): void {
+    this.walkService.updateText(key, value);
   }
 
   private reverseMarkup(descr: string): string {
